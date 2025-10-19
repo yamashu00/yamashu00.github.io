@@ -194,6 +194,8 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid var(--base-blue);
             text-align: left; /* テキストを左揃えに */
+            display: flex; /* Flexboxに変更 */
+            flex-direction: column; /* 子要素を縦に並べる */
         }
         .core-cell:hover {
             transform: translateY(-10px);
@@ -231,7 +233,27 @@
             font-family: 'Courier New', Courier, monospace;
             white-space: pre-wrap;
             word-wrap: break-word;
+            font-size: 0.9rem;
         }
+        /* ★ここから追加★ */
+        .reference-section {
+            margin-top: auto; /* この要素をカードの下部に固定 */
+            padding-top: 20px;
+            border-top: 1px solid var(--steel-gray);
+        }
+        .reference-link {
+            display: block;
+            margin-top: 10px;
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .reference-link:hover {
+            color: var(--accent-white);
+        }
+        /* ★ここまで追加★ */
+
 
         /* Schedule Section */
         .schedule-section { background: var(--base-black); }
@@ -323,14 +345,11 @@
                     <h3 class="core-title">数列 × レベルアップ</h3>
                 </div>
                 <p>経験値の増加パターンを数学で設計！等比数列の漸化式を使って、成長スピードを調整します。</p>
-                <p class="math-subtitle">🛠 Step by Step</p>
-                <ul class="step-by-step">
-                    <li><b>Step 1:</b> Lv1→Lv2の経験値を決める (例: a₁ = 100)</li>
-                    <li><b>Step 2:</b> 経験値の増加率(公比)を設定 (例: r = 1.5)</li>
-                    <li><b>Step 3:</b> 次のレベルの経験値を計算 (a₂=150, a₃=225...)</li>
-                    <li><b>Step 4:</b> Unityで実装！</li>
-                </ul>
-                <div class="code-snippet">float nextExp = 100f * Mathf.Pow(1.5f, level - 1);</div>
+                <p class="math-subtitle">💡 発展：AnimationCurveで感覚的に調整</p>
+                <p>コードで公比を調整するだけでなく、Unityの`AnimationCurve`を使えば、グラフを直接編集して「レベルが上がるほど、次のレベルまでが急に大変になる」といった経験値カーブを感覚的に作ることもできます。</p>
+                <div class="reference-section">
+                    <a href="https://learning.unity3d.jp/3238/" target="_blank" class="reference-link">参考：Unityで学ぶ数学 - グラフと曲線</a>
+                </div>
             </div>
             
             <div class="core-cell">
@@ -339,14 +358,11 @@
                     <h3 class="core-title">確率 × ガチャ</h3>
                 </div>
                 <p>レアアイテムが出る確率を制御！乱数を使い、確率的な処理をゲームに導入します。</p>
-                <p class="math-subtitle">🛠 Step by Step</p>
-                <ul class="step-by-step">
-                    <li><b>Step 1:</b> レア確率を設定 (例: 30% → 0.3)</li>
-                    <li><b>Step 2:</b> Unityで0.0～1.0の乱数を生成</li>
-                    <li><b>Step 3:</b> 条件分岐で確率を再現</li>
-                    <li><b>Step 4:</b> 数学との繋がりを実感！</li>
-                </ul>
-                <div class="code-snippet">if (Random.Range(0f, 1f) &lt;= 0.3f) { // Get Item }</div>
+                <p class="math-subtitle">💡 発展：重み付き抽選（Loot Table）</p>
+                <p>「ノーマル70%、レア25%、激レア5%」のように、複数のアイテムに異なる確率を設定するにはどうすれば良いでしょう？全確率の合計値までの乱数を生成し、どの範囲に入ったかでアイテムを決める「重み付き抽選」が一般的な手法です。</p>
+                 <div class="reference-section">
+                    <a href="https://learning.unity3d.jp/3219/" target="_blank" class="reference-link">参考：Unityで学ぶ数学 - 確率と乱数</a>
+                </div>
             </div>
             
             <div class="core-cell">
@@ -355,14 +371,16 @@
                     <h3 class="core-title">ベクトル × 敵の追尾</h3>
                 </div>
                 <p>敵をプレイヤーに向かって動かすロジックを設計！位置ベクトルや正規化を活用します。</p>
-                <p class="math-subtitle">🛠 Step by Step</p>
-                <ul class="step-by-step">
-                    <li><b>Step 1:</b> プレイヤーと敵の座標を設定</li>
-                    <li><b>Step 2:</b> 差ベクトルで「進むべき方向」を計算</li>
-                    <li><b>Step 3:</b> 正規化して「方向だけ」を取り出す</li>
-                    <li><b>Step 4:</b> 速さをかけて移動させる</li>
+                <p class="math-subtitle">💡 発展：ベクトルの応用</p>
+                 <ul class="step-by-step">
+                    <li><b>差ベクトル:</b> `目標位置 - 現在位置` で「向かうべき方向と距離」がわかる。これが追尾の基本！</li>
+                    <li><b>正規化:</b> `.normalized` でベクトルの長さを「1」に揃えること。これにより、純粋な「方向」だけを取り出せる。</li>
+                    <li><b>内積:</b> `Vector3.Dot()` を使うと「敵がプレイヤーの前方・後方のどちらにいるか」を角度で判定できる。索敵範囲の実装に応用可能。</li>
                 </ul>
-                <div class="code-snippet">Vector3 dir = (playerPos - enemyPos).normalized;</div>
+                <div class="reference-section">
+                    <a href="https://youtu.be/aUrS2Wqo7-8?si=S_8KavdalBgzx1_o" target="_blank" class="reference-link">参考動画：Unity Physicsで使えるベクトル</a>
+                    <a href="https://learning.unity3d.jp/3120/" target="_blank" class="reference-link">参考記事：Unityで学ぶ数学 - ベクトル</a>
+                </div>
             </div>
 
         </div>
@@ -383,7 +401,7 @@
                     <div class="core-icon">概要</div>
                     <h3 class="core-title">実施概要</h3>
                 </div>
-                <p>対象は希望選抜生。2025年10月～11月にかけて、全10コマの授業を実施。対面を基本とし、最終回には外部講評者を招いた成果発表会を行います。</p>
+                <p>対象は高２GIC。2025年10月～11月にかけて、全10コマの授業を実施。対面を基本とし、最終回には外部講評者を招いた成果発表会を行います。</p>
             </div>
             <div class="core-cell">
                 <div class="core-cell-header">
@@ -487,7 +505,7 @@
             <div class="citadel-tower">
                 <h3 class="tower-title">お問い合わせ</h3>
                 <ul class="tower-links">
-                    <li><a href="#" class="tower-link">山本 周 先生</a></li>
+                    <li><a href="#" class="tower-link">山本周</a></li>
                 </ul>
             </div>
         </div>
@@ -526,3 +544,4 @@
     </script>
 </body>
 </html>
+
