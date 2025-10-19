@@ -235,7 +235,6 @@
             word-wrap: break-word;
             font-size: 0.9rem;
         }
-        /* ★ここから追加★ */
         .reference-section {
             margin-top: auto; /* この要素をカードの下部に固定 */
             padding-top: 20px;
@@ -251,6 +250,15 @@
         }
         .reference-link:hover {
             color: var(--accent-white);
+        }
+
+        /* ★ここから追加★ */
+        .help-link-section {
+            background: var(--blue-flame-core);
+        }
+        .help-cell {
+            border-color: var(--accent-gold); /* 枠線をゴールドに */
+            background: rgba(13, 13, 13, 0.5);
         }
         /* ★ここまで追加★ */
 
@@ -315,6 +323,7 @@
         <div class="header-structure">
             <div class="fortress-brand">MATH|UNITY</div>
             <nav class="rampart-nav">
+                <a href="#help-links" class="rampart-link"><span>Help</span></a>
                 <a href="#themes" class="rampart-link"><span>Themes</span></a>
                 <a href="#overview" class="rampart-link"><span>Overview</span></a>
                 <a href="#schedule" class="rampart-link"><span>Schedule</span></a>
@@ -334,6 +343,44 @@
             <div class="power-indicator">産学連携プロジェクト</div>
         </div>
     </section>
+
+    <!-- ★ここから追加★ -->
+    <section class="content-section help-link-section" id="help-links">
+        <h2>お助けリンク</h2>
+        <div class="core-grid">
+            <div class="core-cell help-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">🚀</div>
+                    <h3 class="core-title">Unity開発の基本</h3>
+                </div>
+                <p>Unityのインストールやプロジェクト作成で困ったら、まずはこちらの記事を確認しましょう。画像付きで丁寧に解説されています。</p>
+                <div class="reference-section">
+                     <a href="https://note.com/schoomy/n/n18d261804e89" target="_blank" class="reference-link">Schoomy開発者の知見 on note</a>
+                </div>
+            </div>
+            <div class="core-cell help-cell">
+                 <div class="core-cell-header">
+                    <div class="core-icon">🎨</div>
+                    <h3 class="core-title">LOTTEキャラクター素材</h3>
+                </div>
+                <p>この授業で使用できるLOTTE提供の公式キャラクター素材です。ここからダウンロードして、自分のゲームに登場させましょう。</p>
+                 <div class="reference-section">
+                     <a href="https://drive.google.com/drive/folders/1QBlIiFDMRzqVpPwk6aTZ7pUFpJEw-VWD?hl=ja" target="_blank" class="reference-link">Google Driveで素材を確認</a>
+                </div>
+            </div>
+            <div class="core-cell help-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">📖</div>
+                    <h3 class="core-title">スクーミー情報誌</h3>
+                </div>
+                <p>スクーミーが発行している情報誌です。開発のヒントや、他の人の作品からインスピレーションを得ることができます。</p>
+                <div class="reference-section">
+                     <a href="https://schoomy-files.s3.ap-northeast-1.amazonaws.com/%E7%89%B9%E5%88%A5%E5%8F%B77%E6%9C%88%E5%88%8A%E8%A1%8C_%E3%81%99%E3%81%84%E3%81%8B%E3%81%B0%E3%83%9E%E3%83%B3%E6%83%85%E5%A0%B1%E2%85%A1.pdf" target="_blank" class="reference-link">PDFで情報誌を読む</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ★ここまで追加★ -->
 
     <section class="dual-core-section content-section" id="themes">
         <h2>数学B × ゲーム開発テーマ</h2>
@@ -488,6 +535,7 @@
             <div class="citadel-tower">
                 <h3 class="tower-title">Links</h3>
                 <ul class="tower-links">
+                    <li><a href="#help-links" class="tower-link">Help</a></li>
                     <li><a href="#themes" class="tower-link">Themes</a></li>
                     <li><a href="#overview" class="tower-link">Overview</a></li>
                     <li><a href="#schedule" class="tower-link">Schedule</a></li>
