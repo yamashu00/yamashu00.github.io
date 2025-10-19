@@ -23,6 +23,10 @@
             --platinum: #E5E4E2;
         }
 
+        html {
+            scroll-behavior: smooth; /* ページ内リンクをスムーズに */
+        }
+
         body {
             font-family: 'Montserrat', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background: var(--base-black);
@@ -35,7 +39,8 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: var(--base-black);
+            background: rgba(13, 13, 13, 0.8); /* 少し透明に */
+            backdrop-filter: blur(5px); /* 背景をぼかす */
             z-index: 1000;
             border-bottom: 4px solid var(--accent-gold);
             clip-path: polygon(
@@ -56,7 +61,7 @@
         }
 
         .fortress-brand {
-            font-size: 2.5rem;
+            font-size: clamp(1.5rem, 4vw, 2.5rem); /* サイズを調整 */
             font-weight: 900;
             color: var(--base-blue);
             text-transform: uppercase;
@@ -75,258 +80,39 @@
         .rampart-link {
             color: var(--accent-white);
             text-decoration: none;
-            padding: 15px 30px;
+            padding: 15px 25px; /* パディングを調整 */
             background: var(--base-blue);
             clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
             margin-left: -15px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 700;
+            font-size: 0.9rem; /* 文字サイズを調整 */
             text-transform: uppercase;
             letter-spacing: 0.05em;
             position: relative;
             overflow: hidden;
         }
 
-        .rampart-link:first-child {
-            margin-left: 0;
-        }
-
+        .rampart-link:first-child { margin-left: 0; }
         .rampart-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--accent-gold);
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%; background: var(--accent-gold);
             transition: left 0.3s ease;
         }
-
         .rampart-link:hover {
-            color: var(--base-black);
-            z-index: 1;
-            transform: translateY(-3px);
+            color: var(--base-black); z-index: 1; transform: translateY(-3px);
         }
+        .rampart-link:hover::before { left: 0; }
+        .rampart-link span { position: relative; z-index: 1; }
 
-        .rampart-link:hover::before {
-            left: 0;
-        }
-
-        .rampart-link span {
+        /* General Section Styling */
+        .content-section {
+            padding: 120px 5%;
             position: relative;
-            z-index: 1;
-        }
-
-        /* Blue Flame Core Hero */
-        .flame-core-hero {
-            margin-top: 100px;
-            height: 100vh;
-            background: var(--base-black);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
         }
-
-        .flame-geometry {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns: repeat(20, 1fr);
-            grid-template-rows: repeat(10, 1fr);
-            opacity: 0.2;
-        }
-
-        .flame-shard {
-            background: linear-gradient(180deg, transparent, var(--blue-flame-hot));
-            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-            animation: shardPulse 3s ease-in-out infinite;
-        }
-
-        .flame-shard:nth-child(odd) {
-            animation-delay: 0.5s;
-            background: linear-gradient(180deg, transparent, var(--blue-flame-light));
-        }
-
-        .flame-shard:nth-child(even) {
-            animation-delay: 1s;
-            transform: rotate(180deg);
-        }
-
-        @keyframes shardPulse {
-            0%, 100% { 
-                opacity: 0.1;
-                transform: translateY(0) scale(1);
-            }
-            50% { 
-                opacity: 0.3;
-                transform: translateY(-10px) scale(1.1);
-            }
-        }
-
-        .hero-fortress {
-            text-align: center;
-            z-index: 10;
-            position: relative;
-        }
-
-        .fortress-title {
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.05em;
-            line-height: 1;
-        }
-
-        .title-line-1 {
-            color: var(--base-blue);
-            display: block;
-            transform: skewY(-3deg);
-            text-shadow: 
-                5px 5px 0 var(--base-black),
-                10px 10px 0 var(--blue-flame-core);
-        }
-
-        .title-line-2 {
-            color: var(--base-black);
-            display: block;
-            transform: skewY(3deg);
-            -webkit-text-stroke: 2px var(--accent-gold);
-            text-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
-            margin-top: -10px;
-        }
-
-        .power-indicator {
-            margin-top: 30px;
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, var(--base-blue), var(--base-black));
-            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
-            font-weight: bold;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            animation: powerPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes powerPulse {
-            0%, 100% { 
-                box-shadow: 0 0 20px rgba(0, 61, 165, 0.5);
-            }
-            50% { 
-                box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
-            }
-        }
-
-        /* Dual Core Grid System */
-        .dual-core-section {
-            padding: 150px 5%;
-            background: linear-gradient(180deg, var(--base-black) 0%, var(--base-blue) 100%);
-            position: relative;
-        }
-
-        .core-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .core-cell {
-            background: var(--base-black);
-            padding: 60px 40px;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            clip-path: none;
-            margin-top: 0 !important;
-            z-index: 1 !important;
-            border: 2px solid var(--base-blue);
-        }
-
-        .core-cell:nth-child(odd) {
-             background: var(--base-blue);
-             clip-path: none;
-             border: 2px solid var(--accent-gold);
-        }
-        
-        .core-cell:nth-child(even) {
-            background: var(--base-black);
-            clip-path: none;
-            border: 2px solid var(--blue-flame-light);
-        }
-
-        .core-cell::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .core-cell:hover::before {
-            opacity: 0.1;
-        }
-
-        .core-cell:hover {
-            transform: translateZ(30px) scale(1.02);
-            z-index: 10 !important;
-            box-shadow: 0 0 30px var(--accent-gold);
-        }
-
-        .core-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--accent-gold);
-            margin: 0 auto 20px;
-            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--base-black);
-        }
-
-        .core-title {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--accent-white);
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-        }
-        
-        .core-cell p {
-            font-size: 1rem;
-            color: var(--platinum);
-            line-height: 1.6;
-        }
-
-        .core-cell:nth-child(odd) .core-title {
-            color: var(--accent-gold);
-        }
-        
-        .core-cell:nth-child(odd) p {
-            color: var(--accent-white);
-        }
-        
-        /* * ★ここから追加★ 
-         * スケジュールセクションのスタイル
-         */
-        .schedule-section {
-            padding: 100px 5%;
-            background: var(--base-black); /* 背景は黒 */
-            color: var(--platinum);
-        }
-        .schedule-section h2 {
-            font-size: 3rem;
+        .content-section h2 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
             font-weight: 900;
             color: var(--accent-gold);
             text-align: center;
@@ -334,226 +120,171 @@
             text-transform: uppercase;
             text-shadow: 2px 2px 0 var(--base-blue);
         }
-        .schedule-section .section-description {
-            font-size: 1.2rem;
-            line-height: 1.7;
-            max-width: 900px;
-            margin: 0 auto 40px;
-            text-align: center;
+
+        /* Blue Flame Core Hero */
+        .flame-core-hero {
+            padding-top: 120px; /* ヘッダー分を確保 */
+            height: 100vh;
+            background: var(--base-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flame-geometry {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: grid; grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: repeat(10, 1fr); opacity: 0.2;
+        }
+        .flame-shard {
+            background: linear-gradient(180deg, transparent, var(--blue-flame-hot));
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            animation: shardPulse 3s ease-in-out infinite;
+        }
+        .flame-shard:nth-child(odd) {
+            animation-delay: 0.5s;
+            background: linear-gradient(180deg, transparent, var(--blue-flame-light));
+        }
+        .flame-shard:nth-child(even) {
+            animation-delay: 1s; transform: rotate(180deg);
+        }
+        @keyframes shardPulse {
+            0%, 100% { opacity: 0.1; transform: translateY(0) scale(1); }
+            50% { opacity: 0.3; transform: translateY(-10px) scale(1.1); }
+        }
+        .hero-fortress { text-align: center; z-index: 10; position: relative; }
+        .fortress-title {
+            font-size: clamp(3rem, 10vw, 7rem); font-weight: 900;
+            text-transform: uppercase; letter-spacing: -0.05em; line-height: 1;
+        }
+        .title-line-1 {
+            color: var(--base-blue); display: block; transform: skewY(-3deg);
+            text-shadow: 5px 5px 0 var(--base-black), 10px 10px 0 var(--blue-flame-core);
+        }
+        .title-line-2 {
+            color: var(--base-black); display: block; transform: skewY(3deg);
+            -webkit-text-stroke: 2px var(--accent-gold);
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.5); margin-top: -10px;
+        }
+        .power-indicator {
+            margin-top: 30px; display: inline-block; padding: 15px 40px;
+            background: linear-gradient(135deg, var(--base-blue), var(--base-black));
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+            font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase;
+            animation: powerPulse 2s ease-in-out infinite;
+        }
+        @keyframes powerPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 61, 165, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
         }
 
-        /* スケジュール表のスタイル */
-        .schedule-table {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            border-collapse: collapse; /* 罫線を重ねる */
-            border: 2px solid var(--base-blue);
+        /* Grid System (for Math Themes and more) */
+        .dual-core-section {
+            background: linear-gradient(180deg, var(--base-black) 0%, var(--base-blue) 100%);
         }
-        .schedule-table th, 
-        .schedule-table td {
-            border: 1px solid var(--steel-gray);
-            padding: 15px 20px;
-            text-align: left;
+        .core-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .core-cell {
+            background: var(--base-black);
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--base-blue);
+            text-align: left; /* テキストを左揃えに */
+        }
+        .core-cell:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        .core-cell-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .core-icon {
+            width: 60px; height: 60px;
+            background: var(--accent-gold);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-weight: 900; color: var(--base-black);
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .core-title {
+            font-size: 1.6rem; font-weight: 900;
+            color: var(--accent-gold); text-transform: uppercase;
+        }
+        .core-cell p { font-size: 1rem; color: var(--platinum); line-height: 1.7; }
+        .core-cell .math-subtitle {
+            font-weight: bold; color: var(--blue-flame-light); margin-top: 15px;
+        }
+        .step-by-step { margin-top: 15px; padding-left: 20px; }
+        .step-by-step li { margin-bottom: 10px; }
+        .code-snippet {
+            background: var(--blue-flame-core);
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-left: 3px solid var(--accent-gold);
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Schedule Section */
+        .schedule-section { background: var(--base-black); }
+        .schedule-table {
+            width: 100%; max-width: 1200px; margin: 50px auto 0;
+            border-collapse: collapse; border: 2px solid var(--base-blue);
+        }
+        .schedule-table th, .schedule-table td {
+            border: 1px solid var(--steel-gray); padding: 15px 20px; text-align: left;
         }
         .schedule-table th {
-            background: var(--blue-flame-core); /* ヘッダーの背景色 */
-            color: var(--accent-gold);
-            font-size: 1.1rem;
-            text-transform: uppercase;
+            background: var(--blue-flame-core); color: var(--accent-gold);
+            font-size: 1.1rem; text-transform: uppercase;
         }
-        .schedule-table td {
-            background: rgba(13, 13, 13, 0.5); /* セルの背景色 */
-            vertical-align: top; /* 内容が多いセルでも上揃えに */
+        .schedule-table td { background: rgba(13, 13, 13, 0.5); vertical-align: top; }
+        .schedule-table tr:nth-child(even) td { background: rgba(0, 61, 165, 0.2); }
+        .schedule-table td:first-child {
+            font-weight: 700; color: var(--accent-white); text-align: center;
         }
-        .schedule-table tr:nth-child(even) td {
-            background: rgba(0, 61, 165, 0.2); /* 偶数行の色を少し変える */
-        }
-        .schedule-table td:first-child { /* 1列目（回） */
-            font-weight: 700;
-            color: var(--accent-white);
-            text-align: center;
-        }
-        /* ★ここまで追加★ */
+        
+        /* Plasma Section (Decorative) */
+        .plasma-section { padding: 100px 0; background: var(--base-black); position: relative; overflow: hidden; }
+        .plasma-container { position: relative; height: 600px; max-width: 1400px; margin: 0 auto; }
+        .plasma-beam { position: absolute; width: 100%; height: 10px; background: linear-gradient(90deg, transparent, var(--blue-flame-hot), var(--accent-gold), var(--blue-flame-hot), transparent); animation: plasmaFlow 4s linear infinite; }
+        .plasma-beam:nth-child(1) { top: 10%; animation-delay: 0s; } .plasma-beam:nth-child(2) { top: 25%; animation-delay: 0.5s; } .plasma-beam:nth-child(3) { top: 40%; animation-delay: 1s; } .plasma-beam:nth-child(4) { top: 55%; animation-delay: 1.5s; } .plasma-beam:nth-child(5) { top: 70%; animation-delay: 2s; } .plasma-beam:nth-child(6) { top: 85%; animation-delay: 2.5s; }
+        @keyframes plasmaFlow { 0% { transform: translateX(-100%) scaleX(0.5); } 50% { transform: translateX(0) scaleX(1.5); } 100% { transform: translateX(100%) scaleX(0.5); } }
+        .plasma-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: radial-gradient(circle, var(--accent-gold), var(--blue-flame-hot), var(--base-blue)); clip-path: polygon( 50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35% ); animation: coreSpin 10s linear infinite; }
+        @keyframes coreSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-
-        /* Plasma Stream Section */
-        .plasma-section {
-            padding: 100px 0;
-            background: var(--base-black);
-            position: relative;
-            overflow: hidden;
+        /* Footer */
+        .citadel-footer { background: var(--base-blue); padding: 100px 5% 40px; position: relative; clip-path: polygon( 0 50px, 10% 0, 20% 50px, 30% 0, 40% 50px, 50% 0, 60% 50px, 70% 0, 80% 50px, 90% 0, 100% 50px, 100% 100%, 0 100% ); border-top: 5px solid var(--accent-gold); }
+        .citadel-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1400px; margin: 0 auto; }
+        .citadel-tower { background: rgba(13, 13, 13, 0.3); padding: 40px; clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%); transition: all 0.3s ease; }
+        .citadel-tower:hover { background: rgba(255, 215, 0, 0.1); transform: translateY(-10px); }
+        .tower-title { font-size: 1.5rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .tower-links { list-style: none; }
+        .tower-link { color: var(--accent-white); text-decoration: none; display: block; padding: 10px 0; font-weight: 600; text-transform: uppercase; transition: all 0.3s ease; position: relative; }
+        .tower-link::before { content: ''; position: absolute; left: -20px; top: 50%; width: 10px; height: 2px; background: var(--accent-gold); transform: translateY(-50%); opacity: 0; transition: all 0.3s ease; }
+        .tower-link:hover { padding-left: 20px; color: var(--accent-gold); }
+        .tower-link:hover::before { left: 0; opacity: 1; }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .rampart-nav { display: none; }
+            .citadel-grid { grid-template-columns: 1fr 1fr; }
         }
-
-        .plasma-container {
-            position: relative;
-            height: 600px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .plasma-beam {
-            position: absolute;
-            width: 100%;
-            height: 10px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                var(--blue-flame-hot), 
-                var(--accent-gold), 
-                var(--blue-flame-hot), 
-                transparent
-            );
-            animation: plasmaFlow 4s linear infinite;
-        }
-
-        .plasma-beam:nth-child(1) { top: 10%; animation-delay: 0s; }
-        .plasma-beam:nth-child(2) { top: 25%; animation-delay: 0.5s; }
-        .plasma-beam:nth-child(3) { top: 40%; animation-delay: 1s; }
-        .plasma-beam:nth-child(4) { top: 55%; animation-delay: 1.5s; }
-        .plasma-beam:nth-child(5) { top: 70%; animation-delay: 2s; }
-        .plasma-beam:nth-child(6) { top: 85%; animation-delay: 2.5s; }
-
-        @keyframes plasmaFlow {
-            0% { transform: translateX(-100%) scaleX(0.5); }
-            50% { transform: translateX(0) scaleX(1.5); }
-            100% { transform: translateX(100%) scaleX(0.5); }
-        }
-
-        .plasma-core {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, var(--accent-gold), var(--blue-flame-hot), var(--base-blue));
-            clip-path: polygon(
-                50% 0%, 61% 35%, 98% 35%, 68% 57%,
-                79% 91%, 50% 70%, 21% 91%, 32% 57%,
-                2% 35%, 39% 35%
-            );
-            animation: coreSpin 10s linear infinite;
-        }
-
-        @keyframes coreSpin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* Citadel Footer */
-        .citadel-footer {
-            background: var(--base-blue);
-            padding: 100px 5% 40px;
-            position: relative;
-            clip-path: polygon(
-                0 50px, 10% 0, 20% 50px, 30% 0, 40% 50px, 50% 0,
-                60% 50px, 70% 0, 80% 50px, 90% 0, 100% 50px,
-                100% 100%, 0 100%
-            );
-            border-top: 5px solid var(--accent-gold);
-        }
-
-        .citadel-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .citadel-tower {
-            background: rgba(13, 13, 13, 0.3);
-            padding: 40px;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
-            transition: all 0.3s ease;
-        }
-
-        .citadel-tower:hover {
-            background: rgba(255, 215, 0, 0.1);
-            transform: translateY(-10px);
-        }
-
-        .tower-title {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .tower-links {
-            list-style: none;
-        }
-
-        .tower-link {
-            color: var(--accent-white);
-            text-decoration: none;
-            display: block;
-            padding: 10px 0;
-            font-weight: 600;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .tower-link::before {
-            content: '';
-            position: absolute;
-            left: -20px;
-            top: 50%;
-            width: 10px;
-            height: 2px;
-            background: var(--accent-gold);
-            transform: translateY(-50%);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .tower-link:hover {
-            padding-left: 20px;
-            color: var(--accent-gold);
-        }
-
-        .tower-link:hover::before {
-            left: 0;
-            opacity: 1;
-        }
-
-        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .rampart-nav {
-                display: none;
-            }
-            .core-grid {
-                grid-template-columns: 1fr;
-            }
-            .core-cell {
-                clip-path: none !important;
-                margin: 0 !important;
-                border: 2px solid var(--accent-gold);
-                margin-bottom: 20px !important;
-            }
-            
-            /* ★追加★ スマホでも表が見やすいように調整 */
-            .schedule-section {
-                padding: 50px 2%;
-            }
-            .schedule-table {
-                font-size: 0.8rem;
-            }
-            .schedule-table th, 
-            .schedule-table td {
-                padding: 10px 5px;
-            }
-            
-            .citadel-grid {
-                grid-template-columns: 1fr;
-            }
-            .citadel-tower {
-                clip-path: none;
-                border: 2px solid var(--accent-gold);
-            }
+            .core-grid { grid-template-columns: 1fr; }
+            .schedule-section { padding: 50px 2%; }
+            .schedule-table { font-size: 0.8rem; }
+            .schedule-table th, .schedule-table td { padding: 10px 5px; }
+            .citadel-grid { grid-template-columns: 1fr; }
+            .citadel-tower { clip-path: none; border: 2px solid var(--accent-gold); }
         }
     </style>
 </head>
@@ -561,18 +292,15 @@
     <header class="rampart-header">
         <div class="header-structure">
             <div class="fortress-brand">MATH|UNITY</div>
-            
             <nav class="rampart-nav">
-                <a href="#hero" class="rampart-link"><span>概要</span></a>
-                <a href="#theme1" class="rampart-link"><span>数列</span></a>
-                <a href="#theme2" class="rampart-link"><span>確率</span></a>
-                <a href="#theme3" class="rampart-link"><span>ベクトル</span></a>
+                <a href="#themes" class="rampart-link"><span>Themes</span></a>
+                <a href="#overview" class="rampart-link"><span>Overview</span></a>
                 <a href="#schedule" class="rampart-link"><span>Schedule</span></a>
             </nav>
         </div>
     </header>
 
-    <section class="flame-core-hero" id="hero">
+    <section class="flame-core-hero content-section" id="hero">
         <div class="flame-geometry">
             <div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div>
         </div>
@@ -585,70 +313,90 @@
         </div>
     </section>
 
-    <section class="dual-core-section">
+    <section class="dual-core-section content-section" id="themes">
+        <h2>数学B × ゲーム開発テーマ</h2>
         <div class="core-grid">
             
-            <div class="core-cell" id="theme1">
-                <div class="core-icon">①</div>
-                <h3 class="core-title">数列 × レベルアップ</h3>
-                <p>テーマ：経験値の増加パターンを数学で設計しよう！<br>
-                   数学で学ぶこと：等比数列の漸化式 aₙ₊₁ = r × aₙ</p>
-            </div>
-            
-            <div class="core-cell" id="theme2">
-                <div class="core-icon">②</div>
-                <h3 class="core-title">確率 × ガチャ演出</h3>
-                <p>テーマ：レアアイテムが出る確率を制御しよう！<br>
-                   数学で学ぶこと：確率の定義と乱数</p>
-            </div>
-            
-            <div class="core-cell" id="theme3">
-                <div class="core-icon">③</div>
-                <h3 class="core-title">ベクトル × 敵の追尾</h3>
-                <p>テーマ：敵をプレイヤーに向かって動かすには？<br>
-                   数学で学ぶこと：位置ベクトル・差ベクトル・正規化</p>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">①</div>
+                    <h3 class="core-title">数列 × レベルアップ</h3>
+                </div>
+                <p>経験値の増加パターンを数学で設計！等比数列の漸化式を使って、成長スピードを調整します。</p>
+                <p class="math-subtitle">🛠 Step by Step</p>
+                <ul class="step-by-step">
+                    <li><b>Step 1:</b> Lv1→Lv2の経験値を決める (例: a₁ = 100)</li>
+                    <li><b>Step 2:</b> 経験値の増加率(公比)を設定 (例: r = 1.5)</li>
+                    <li><b>Step 3:</b> 次のレベルの経験値を計算 (a₂=150, a₃=225...)</li>
+                    <li><b>Step 4:</b> Unityで実装！</li>
+                </ul>
+                <div class="code-snippet">float nextExp = 100f * Mathf.Pow(1.5f, level - 1);</div>
             </div>
             
             <div class="core-cell">
-                <div class="core-icon">概要</div>
-                <h3 class="core-title">プロジェクト概要</h3>
-                <p>聖学院高校、スクーミー、開志専門職大学、LOTTEの産学連携によるSTEAM型の実践授業です。</p>
-            </div>
-
-            <div class="core-cell">
-                <div class="core-icon">支援</div>
-                <h3 class="core-title">技術サポート</h3>
-                <p>大学生エンジニアがチームの伴走支援を行います。 高度な技術実装や課題解決をサポートします。</p>
-            </div>
-
-            <div class="core-cell">
-                <div class="core-icon">教材</div>
-                <h3 class="core-title">活用リソース</h3>
-                <p>Unity、スクーミー教材、LOTTE提供キャラクター素材、知財ワークシートなどを活用します。</p>
-            </div>
-
-            <div class="core-cell">
-                <div class="core-icon">TEAM</div>
-                <h3 class="core-title">チーム構成</h3>
-                <p>高校生3名（プランナー、デザイナー、プログラマー）と大学生1名でチームを編成します。</p>
+                <div class="core-cell-header">
+                    <div class="core-icon">②</div>
+                    <h3 class="core-title">確率 × ガチャ</h3>
+                </div>
+                <p>レアアイテムが出る確率を制御！乱数を使い、確率的な処理をゲームに導入します。</p>
+                <p class="math-subtitle">🛠 Step by Step</p>
+                <ul class="step-by-step">
+                    <li><b>Step 1:</b> レア確率を設定 (例: 30% → 0.3)</li>
+                    <li><b>Step 2:</b> Unityで0.0～1.0の乱数を生成</li>
+                    <li><b>Step 3:</b> 条件分岐で確率を再現</li>
+                    <li><b>Step 4:</b> 数学との繋がりを実感！</li>
+                </ul>
+                <div class="code-snippet">if (Random.Range(0f, 1f) &lt;= 0.3f) { // Get Item }</div>
             </div>
             
             <div class="core-cell">
-                <div class="core-icon">成果</div>
-                <h3 class="core-title">最終成果</h3>
-                <p>Unityで開発したオリジナルゲームを制作し、校内発表会でプレゼンを行います。</p>
+                <div class="core-cell-header">
+                    <div class="core-icon">③</div>
+                    <h3 class="core-title">ベクトル × 敵の追尾</h3>
+                </div>
+                <p>敵をプレイヤーに向かって動かすロジックを設計！位置ベクトルや正規化を活用します。</p>
+                <p class="math-subtitle">🛠 Step by Step</p>
+                <ul class="step-by-step">
+                    <li><b>Step 1:</b> プレイヤーと敵の座標を設定</li>
+                    <li><b>Step 2:</b> 差ベクトルで「進むべき方向」を計算</li>
+                    <li><b>Step 3:</b> 正規化して「方向だけ」を取り出す</li>
+                    <li><b>Step 4:</b> 速さをかけて移動させる</li>
+                </ul>
+                <div class="code-snippet">Vector3 dir = (playerPos - enemyPos).normalized;</div>
             </div>
 
         </div>
     </section>
     
-    <section class="schedule-section" id="schedule">
-        <h2>目標とスケジュール</h2>
-        
-        <p class="section-description">
-            全10コマの授業を通じて、Unityを用いたオリジナルゲームを開発します。大学生エンジニアと連携し、LOTTE提供のキャラクター素材を使いながら、企画、実装、知財の学習、そして最終発表までの一連の制作プロセスを体験することが目標です。
-        </p>
+    <section class="content-section" id="overview">
+        <h2>プロジェクト概要</h2>
+        <div class="core-grid">
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">目的</div>
+                    <h3 class="core-title">目的と特徴</h3>
+                </div>
+                <p>聖学院の教育理念5つの柱に基づき、生徒主体の学び、実践的な技術教育、学外の経験を重視。大学生・企業と協働し、成果物制作を通じて自律と成長を促進します。</p>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">概要</div>
+                    <h3 class="core-title">実施概要</h3>
+                </div>
+                <p>対象は希望選抜生。2025年10月～11月にかけて、全10コマの授業を実施。対面を基本とし、最終回には外部講評者を招いた成果発表会を行います。</p>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">TEAM</div>
+                    <h3 class="core-title">チーム構成</h3>
+                </div>
+                <p>高校生3名（プログラマー、UI/UXデザイナー、ゲームプランナー）と、技術伴走を行う大学生1名でチームを編成。役割を分担し、協力して開発を進めます。</p>
+            </div>
+        </div>
+    </section>
 
+    <section class="schedule-section content-section" id="schedule">
+        <h2>授業スケジュール</h2>
         <table class="schedule-table">
             <thead>
                 <tr>
@@ -662,20 +410,20 @@
                 <tr>
                     <td>第1回</td>
                     <td>10/3 (金) 13:30-15:20</td>
-                    <td>オリエンテーション<br>Unity基礎 (Lv 2,3)<br>知的財産講座・企画立案</td>
-                    <td>LOTTEキャラ紹介／Unity起動と基本操作<br>著作権と創造／ゲーム仕様の策定</td>
+                    <td>オリエンテーション／Unity基礎／知財講座・企画立案</td>
+                    <td>LOTTEキャラ紹介／Unity基本操作／著作権／ゲーム仕様策定</td>
                 </tr>
                 <tr>
                     <td>第2回</td>
                     <td>10/4 (土) 8:50-10:40</td>
-                    <td>大学生の紹介<br>スクーミー体験 (Lv 1,4)<br>プロトタイプ制作⓪</td>
-                    <td>顔合わせ／目標：10/3に見せたゲームが動くところまで</td>
+                    <td>大学生紹介／スクーミー体験／プロトタイプ制作⓪</td>
+                    <td>顔合わせ／目標設定／制作開始</td>
                 </tr>
                 <tr>
                     <td>第3回</td>
                     <td>10/24 (金) 13:30-15:20</td>
                     <td>プロトタイプ制作①</td>
-                    <td>レベル4の復習？<br>基礎実装・UI初期デザイン</td>
+                    <td>基礎実装・UI初期デザイン</td>
                 </tr>
                 <tr>
                     <td>第4回</td>
@@ -704,15 +452,10 @@
             </tbody>
         </table>
     </section>
+
     <section class="plasma-section">
         <div class="plasma-container">
-            <div class="plasma-beam"></div>
-            <div class="plasma-beam"></div>
-            <div class="plasma-beam"></div>
-            <div class="plasma-beam"></div>
-            <div class="plasma-beam"></div>
-            <div class="plasma-beam"></div>
-            <div class="plasma-core"></div>
+            <div class="plasma-beam"></div><div class="plasma-beam"></div><div class="plasma-beam"></div><div class="plasma-beam"></div><div class="plasma-beam"></div><div class="plasma-beam"></div><div class="plasma-core"></div>
         </div>
     </section>
 
@@ -725,11 +468,10 @@
                 </p>
             </div>
             <div class="citadel-tower">
-                <h3 class="tower-title">授業テーマ</h3>
+                <h3 class="tower-title">Links</h3>
                 <ul class="tower-links">
-                    <li><a href="#theme1" class="tower-link">数列</a></li>
-                    <li><a href="#theme2" class="tower-link">確率</a></li>
-                    <li><a href="#theme3" class="tower-link">ベクトル</a></li>
+                    <li><a href="#themes" class="tower-link">Themes</a></li>
+                    <li><a href="#overview" class="tower-link">Overview</a></li>
                     <li><a href="#schedule" class="tower-link">Schedule</a></li>
                 </ul>
             </div>
@@ -754,31 +496,26 @@
     <script>
         // Dynamic plasma interaction
         const plasmaBeams = document.querySelectorAll('.plasma-beam');
-        
         document.addEventListener('mousemove', (e) => {
             const x = e.clientX / window.innerWidth;
             const y = e.clientY / window.innerHeight;
-            
             plasmaBeams.forEach((beam, index) => {
                 const speed = 1 + (index * 0.2);
                 const offset = (x - 0.5) * 100 * speed;
                 beam.style.transform = `translateX(${offset}px) scaleY(${1 + y})`;
             });
         });
-
         // Core cell depth effect
         const coreCells = document.querySelectorAll('.core-cell');
-        
         coreCells.forEach(cell => {
             cell.addEventListener('mouseenter', () => {
                 coreCells.forEach(otherCell => {
                     if (otherCell !== cell) {
-                        otherCell.style.opacity = '0.6';
+                        otherCell.style.opacity = '0.7';
                         otherCell.style.filter = 'blur(1px)';
                     }
                 });
             });
-            
             cell.addEventListener('mouseleave', () => {
                 coreCells.forEach(otherCell => {
                     otherCell.style.opacity = '1';
