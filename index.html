@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数学B × Unityゲーム開発 - 産学連携プロジェクト</title>
+    <!-- ★タイトルを変更★ -->
+    <title>知財・プログラミング・デザインを横断するUnityゲーム開発授業</title>
     <style>
         * {
             margin: 0;
@@ -177,6 +178,34 @@
             50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
         }
 
+        /* ★ここから追加★ */
+        .partner-logos {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px 40px; /* 縦横の隙間 */
+            flex-wrap: wrap; 
+        }
+        .partner-logo {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: 600;
+            color: var(--platinum);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            border: 1px solid var(--steel-gray);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .partner-logo:hover {
+            opacity: 1;
+            color: var(--accent-gold);
+            transform: scale(1.1);
+            border-color: var(--accent-gold);
+        }
+        /* ★ここまで追加★ */
+
+
         /* Grid System (for Math Themes and more) */
         .dual-core-section {
             background: linear-gradient(180deg, var(--base-black) 0%, var(--base-blue) 100%);
@@ -252,7 +281,6 @@
             color: var(--accent-white);
         }
 
-        /* ★ここから追加★ */
         .help-link-section {
             background: var(--blue-flame-core);
         }
@@ -260,8 +288,6 @@
             border-color: var(--accent-gold); /* 枠線をゴールドに */
             background: rgba(13, 13, 13, 0.5);
         }
-        /* ★ここまで追加★ */
-
 
         /* Schedule Section */
         .schedule-section { background: var(--base-black); }
@@ -336,15 +362,23 @@
             <div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div>
         </div>
         <div class="hero-fortress">
+            <!-- ★メインタイトルを変更★ -->
             <h1 class="fortress-title">
-                <span class="title-line-1">数学B × UNITY</span>
-                <span class="title-line-2">ゲーム開発</span>
+                <span class="title-line-1">知財 × プログラミング</span>
+                <span class="title-line-2">× デザイン</span>
             </h1>
-            <div class="power-indicator">産学連携プロジェクト</div>
+            <!-- ★サブタイトルを変更★ -->
+            <div class="power-indicator">横断型Unityゲーム開発授業</div>
+            <!-- ★連携団体を強調して追加★ -->
+            <div class="partner-logos">
+                <div class="partner-logo">聖学院高校</div>
+                <div class="partner-logo">スクーミー</div>
+                <div class="partner-logo">開志専門職大学</div>
+                <div class="partner-logo">LOTTE</div>
+            </div>
         </div>
     </section>
 
-    <!-- ★ここから追加★ -->
     <section class="content-section help-link-section" id="help-links">
         <h2>お助けリンク</h2>
         <div class="core-grid">
@@ -380,7 +414,6 @@
             </div>
         </div>
     </section>
-    <!-- ★ここまで追加★ -->
 
     <section class="dual-core-section content-section" id="themes">
         <h2>数学B × ゲーム開発テーマ</h2>
