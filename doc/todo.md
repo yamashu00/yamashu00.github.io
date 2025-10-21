@@ -9,11 +9,11 @@
 - [ ] #GEM-002 `unity-debug-mentor`のプロトタイプを作成し、典型エラーケース（NullReferenceException等）への回答品質を検証する（担当: TA）。
 - [ ] #GEM-003 `lesson-scheduler`の授業回チェックリスト仕様とサイト連携要件を定義する（担当: 教員）。
 - [ ] #GEM-004 ヒアリングシステムとのAPI連携方針を検討し、手動運用からの移行ロードマップを作成する（担当: 開発）。
-- [ ] #HEAR-001 `hearing`リポジトリのUXレビューを実施し、踏襲すべき要素と改善点を洗い出す（担当: プロダクト）。
-- [ ] #HEAR-002 OpenAI GPT API移行の技術検証（プロンプト、レート制限、コスト試算）を行う（担当: バックエンド）。
-- [ ] #HEAR-003 ヒアリングログのストレージ設計とアクセス権限ポリシーを決める（担当: 情報管理）。
-- [ ] #HEAR-004 Firestoreコレクション設計とFirebase Security Rules（`seig-boys.jp`と`itoksk.com`ドメイン限定アクセス）のドラフトを作成する（担当: バックエンド）。
-- [ ] #HEAR-005 Google Workspace（`seig-boys.jp`と`itoksk.com`）とのOAuth連携設定とVercelデプロイ環境のセットアップを行う（担当: インフラ）。
+- [x] #HEAR-001 `hearing`リポジトリのUXレビューを実施し、踏襲すべき要素と改善点を洗い出す（担当: プロダクト）。完了日: 2025-10-21 / 成果物: doc/hearing-ux-review-hear001.md
+- [x] #HEAR-002 OpenAI GPT API移行の技術検証（プロンプト、レート制限、コスト試算）を行う（担当: バックエンド）。完了日: 2025-10-21 / 成果物: doc/hearing-api-design-hear002.md
+- [x] #HEAR-003 ヒアリングログのストレージ設計とアクセス権限ポリシーを決める（担当: 情報管理）。完了日: 2025-10-21 / 成果物: doc/hearing-storage-design-hear003.md
+- [x] #HEAR-004 Firestoreコレクション設計とFirebase Security Rules（`seig-boys.jp`と`itoksk.com`ドメイン限定アクセス）のドラフトを作成する（担当: バックエンド）。完了日: 2025-10-21 / 成果物: doc/hearing-security-rules-hear004.md
+- [x] #HEAR-005 Google Workspace（`seig-boys.jp`と`itoksk.com`）とのOAuth連携設定とVercelデプロイ環境のセットアップを行う（担当: インフラ）。完了日: 2025-10-21 / 成果物: doc/hearing-deployment-hear005.md
 - [ ] #OPS-001 プライバシーポリシーと保護者/生徒向け同意フローのドラフトを作成する（担当: 事務局）。
 - [ ] #OPS-002 運用ドキュメント（問い合わせ対応、トラブルシュート、バージョン更新手順）を整備する（担当: 運用）。
 - [ ] #QA-001 生徒・教員を交えたユーザーテスト計画と評価指標（回答精度、操作時間）の策定（担当: QAチーム）。
