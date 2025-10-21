@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/firebase';
 import { Timestamp } from 'firebase-admin/firestore';
-import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(req: NextRequest) {
   // 認証チェック
@@ -22,8 +21,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 相談IDを生成
-    const consultationId = uuidv4();
+    // Firestoreドキュメント参照を作成（自動生成ID）
+    const docRef = db.collection('consultations').doc();
+    const consultationId = docRef.id;
 
     // Firestoreに保存
     const consultationData = {
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
       updatedAt: Timestamp.now(),
     };
 
-    await db.collection('consultations').doc(consultationId).set(consultationData);
+    await docRef.set(consultationData);
 
     // ユーザー統計を更新
     const userRef = db.collection('users').doc(session.user.email);
