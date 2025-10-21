@@ -4,6 +4,26 @@ import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/firebase';
 import Link from 'next/link';
 import MarkResolvedButton from './MarkResolvedButton';
+import ExportPdfButton from './ExportPdfButton';
+import resourcesData from '@/lib/resources.json';
+
+// リソースIDからURLとタイトルを取得する関数
+function getResourceInfo(resourceId: string) {
+  const resource = resourcesData.resources.find((r: any) => r.id === resourceId);
+  if (resource) {
+    return {
+      url: resource.url || 'https://yamashu00.github.io/#section3',
+      title: resource.title,
+      description: resource.description
+    };
+  }
+  // フォールバック
+  return {
+    url: 'https://yamashu00.github.io/#section3',
+    title: resourceId,
+    description: ''
+  };
+}
 
 export default async function ConsultationDetail({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
@@ -94,12 +114,15 @@ export default async function ConsultationDetail({ params }: { params: { id: str
             </div>
           </div>
 
-          {canMarkResolved && (
-            <MarkResolvedButton
-              consultationId={id}
-              currentStatus={consultation?.resolved || false}
-            />
-          )}
+          <div className="flex gap-4 flex-wrap">
+            {canMarkResolved && (
+              <MarkResolvedButton
+                consultationId={id}
+                currentStatus={consultation?.resolved || false}
+              />
+            )}
+            <ExportPdfButton consultation={consultation} />
+          </div>
         </div>
 
         {/* 相談内容 */}
@@ -170,25 +193,53 @@ export default async function ConsultationDetail({ params }: { params: { id: str
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">💡 推奨リソース</h4>
                   <ul className="space-y-2">
-                    {consultation.aiResponse.recommendedResources.map((resource: any, index: number) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-blue-600 mr-2">•</span>
-                        <div>
-                          <a
-                            href="https://yamashu00.github.io/#section3"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
-                          >
-                            {resource.id}
-                          </a>
-                          <span className="text-gray-900"> - {resource.reason}</span>
-                        </div>
-                      </li>
-                    ))}
+                    {consultation.aiResponse.recommendedResources.map((resource: any, index: number) => {
+                      const resourceInfo = getResourceInfo(resource.id);
+                      return (
+                        <li key={index} className="flex items-start">
+                          <span className="text-blue-600 mr-2">•</span>
+                          <div>
+                            <a
+                              href={resourceInfo.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                            >
+                              {resourceInfo.title}
+                            </a>
+                            <span className="text-gray-900"> - {resource.reason}</span>
+                          </div>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}
+
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-1">🤖 AI アシスタント</h4>
+                <p className="text-gray-900 mb-2 text-sm">
+                  直接プロンプトを入れて質問したい場合は、以下のAIサービスもご利用いただけます。
+                </p>
+                <div className="flex gap-3">
+                  <a
+                    href="https://chat.openai.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition text-sm font-medium"
+                  >
+                    ChatGPT を開く
+                  </a>
+                  <a
+                    href="https://gemini.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-sm font-medium"
+                  >
+                    Gemini を開く
+                  </a>
+                </div>
+              </div>
 
               <div>
                 <h4 className="font-semibold text-gray-900 mb-1">推定解決時間</h4>

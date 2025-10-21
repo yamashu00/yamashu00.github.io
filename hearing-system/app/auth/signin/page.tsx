@@ -17,7 +17,7 @@ export default function SignIn() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center">
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-900">
           ヒアリングシステム
         </h1>
 

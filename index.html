@@ -801,6 +801,26 @@
                      <a href="https://schoomy-files.s3.ap-northeast-1.amazonaws.com/%E7%89%B9%E5%88%A5%E5%8F%B77%E6%9C%88%E5%88%8A%E8%A1%8C_%E3%81%99%E3%81%84%E3%81%8B%E3%81%B0%E3%83%9E%E3%83%B3%E6%83%85%E5%A0%B1%E2%85%A1.pdf" target="_blank" class="reference-link">PDFで情報誌を読む</a>
                 </div>
             </div>
+            <div class="core-cell help-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">🤖</div>
+                    <h3 class="core-title">ChatGPT</h3>
+                </div>
+                <p>OpenAI が開発した対話型 AI です。プログラミングの質問や、エラーの解決方法を直接聞くことができます。</p>
+                <div class="reference-section">
+                     <a href="https://chat.openai.com/" target="_blank" class="reference-link">ChatGPT を開く</a>
+                </div>
+            </div>
+            <div class="core-cell help-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">✨</div>
+                    <h3 class="core-title">Google Gemini</h3>
+                </div>
+                <p>Google が開発した AI アシスタントです。プログラミング支援や、Unity 開発の相談に対応できます。</p>
+                <div class="reference-section">
+                     <a href="https://gemini.google.com/" target="_blank" class="reference-link">Gemini を開く</a>
+                </div>
+            </div>
         </div>
     </section>
     
@@ -1301,17 +1321,51 @@ public class ItemDropper : MonoBehaviour
                 'documentation': 'ドキュメント'
             };
 
-            resourceGrid.innerHTML = resources.map(resource => `
-                <div class="resource-card">
-                    <span class="resource-type">${typeLabels[resource.type] || resource.type}</span>
-                    <h3 class="resource-title">${resource.title}</h3>
-                    <p class="resource-description">${resource.description}</p>
-                    <div class="resource-tags">
-                        ${resource.tags.slice(0, 5).map(tag => `<span class="resource-tag">${tag}</span>`).join('')}
+            // セクションマッピング
+            const sectionMapping = {
+                'schedule': 'schedule',
+                'code': 'code',
+                'theme': 'themes',
+                'gem': 'gems',
+                'help': 'help-links',
+                'tips': 'tips'
+            };
+
+            function getSectionAnchor(resource) {
+                // タグやカテゴリからセクションを判定
+                if (resource.tags.includes('schedule') || resource.id.includes('schedule')) return 'schedule';
+                if (resource.type === 'code-snippet') return 'code';
+                if (resource.type === 'theme') return 'themes';
+                if (resource.type === 'gem-tool') return 'gems';
+                if (resource.tags.includes('help')) return 'help-links';
+                if (resource.tags.includes('tips')) return 'tips';
+                return null;
+            }
+
+            resourceGrid.innerHTML = resources.map(resource => {
+                const section = getSectionAnchor(resource);
+                let actionButton = '';
+
+                if (resource.url) {
+                    // 外部URLがある場合
+                    actionButton = `<a href="${resource.url}" target="_blank" style="color: var(--accent-gold); text-decoration: none; margin-top: 10px; display: inline-block;">→ 開く</a>`;
+                } else if (section) {
+                    // ページ内セクションへのリンク
+                    actionButton = `<a href="#${section}" style="color: var(--accent-gold); text-decoration: none; margin-top: 10px; display: inline-block;">→ 詳細を見る</a>`;
+                }
+
+                return `
+                    <div class="resource-card">
+                        <span class="resource-type">${typeLabels[resource.type] || resource.type}</span>
+                        <h3 class="resource-title">${resource.title}</h3>
+                        <p class="resource-description">${resource.description}</p>
+                        <div class="resource-tags">
+                            ${resource.tags.slice(0, 5).map(tag => `<span class="resource-tag">${tag}</span>`).join('')}
+                        </div>
+                        ${actionButton}
                     </div>
-                    ${resource.url ? `<a href="${resource.url}" target="_blank" style="color: var(--accent-gold); text-decoration: none; margin-top: 10px; display: inline-block;">→ 開く</a>` : ''}
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         // Update Active Filters Display
