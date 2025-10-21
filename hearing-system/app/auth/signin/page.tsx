@@ -54,7 +54,7 @@ export default function SignIn() {
           </button>
         </div>
 
-        <p className="mt-6 text-sm text-gray-700 text-center">
+        <p className="mt-6 text-sm text-gray-900 font-medium text-center">
           許可されたドメインのアカウントでログインしてください
         </p>
       </div>
