@@ -59,11 +59,11 @@ export default async function ConsultationDetail({ params }: { params: Promise<{
   const rawData = consultationDoc.data();
 
   // Firestoreデータをシリアライズ可能な形式に変換
-  const consultation: any = rawData ? {
+  const consultation: any = rawData ? JSON.parse(JSON.stringify({
     ...rawData,
-    timestamp: rawData.timestamp?.toDate?.() || rawData.timestamp,
-    createdAt: rawData.createdAt?.toDate?.() || rawData.createdAt,
-  } : null;
+    timestamp: rawData.timestamp?.toDate?.()?.toISOString() || rawData.timestamp,
+    createdAt: rawData.createdAt?.toDate?.()?.toISOString() || rawData.createdAt,
+  })) : null;
 
   // アクセス権限チェック: 自分の相談または教員/TA
   const canView =
@@ -105,7 +105,7 @@ export default async function ConsultationDetail({ params }: { params: Promise<{
                 投稿者: {consultation?.studentId?.split('@')[0]}
               </p>
               <p className="text-sm text-gray-700">
-                日時: {consultation?.timestamp?.toDate().toLocaleString('ja-JP')}
+                日時: {consultation?.timestamp ? new Date(consultation.timestamp).toLocaleString('ja-JP') : ''}
               </p>
             </div>
             <div>
