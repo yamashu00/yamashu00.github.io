@@ -1333,12 +1333,23 @@ public class ItemDropper : MonoBehaviour
 
             function getSectionAnchor(resource) {
                 // タグやカテゴリからセクションを判定
-                if (resource.tags.includes('schedule') || resource.id.includes('schedule')) return 'schedule';
+                // 授業スケジュール関連
+                if (resource.id === 'doc-002' ||
+                    resource.title.includes('スケジュール') ||
+                    resource.title.includes('授業') ||
+                    resource.tags.includes('schedule') ||
+                    resource.id.includes('schedule')) return 'schedule';
+
+                // タイプ別マッピング
                 if (resource.type === 'code-snippet') return 'code';
                 if (resource.type === 'theme') return 'themes';
                 if (resource.type === 'gem-tool') return 'gems';
                 if (resource.tags.includes('help')) return 'help-links';
                 if (resource.tags.includes('tips')) return 'tips';
+
+                // ドキュメントタイプのフォールバック（授業スケジュールなど）
+                if (resource.type === 'documentation') return 'schedule';
+
                 return null;
             }
 
