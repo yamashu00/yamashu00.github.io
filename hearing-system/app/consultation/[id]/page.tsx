@@ -56,7 +56,14 @@ export default async function ConsultationDetail({ params }: { params: Promise<{
     );
   }
 
-  const consultation = consultationDoc.data();
+  const rawData = consultationDoc.data();
+
+  // Firestoreデータをシリアライズ可能な形式に変換
+  const consultation = rawData ? {
+    ...rawData,
+    timestamp: rawData.timestamp?.toDate?.() || rawData.timestamp,
+    createdAt: rawData.createdAt?.toDate?.() || rawData.createdAt,
+  } : null;
 
   // アクセス権限チェック: 自分の相談または教員/TA
   const canView =
