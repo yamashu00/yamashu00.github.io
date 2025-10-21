@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ★タイトルを変更★ -->
     <title>知財・プログラミング・デザインを横断するUnityゲーム開発授業</title>
     <style>
         * {
@@ -178,7 +177,6 @@
             50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
         }
 
-        /* ★ここから追加★ */
         .partner-logos {
             margin-top: 40px;
             display: flex;
@@ -203,7 +201,6 @@
             transform: scale(1.1);
             border-color: var(--accent-gold);
         }
-        /* ★ここまで追加★ */
 
 
         /* Grid System (for Math Themes and more) */
@@ -270,8 +267,9 @@
             border-top: 1px solid var(--steel-gray);
         }
         .reference-link {
-            display: block;
+            display: inline-block; /* 変更 */
             margin-top: 10px;
+            margin-right: 10px; /* 追加 */
             color: var(--accent-gold);
             text-decoration: none;
             font-weight: bold;
@@ -350,6 +348,7 @@
             <div class="fortress-brand">MATH|UNITY</div>
             <nav class="rampart-nav">
                 <a href="#help-links" class="rampart-link"><span>Help</span></a>
+                <a href="#unity-tips" class="rampart-link"><span>Tips</span></a>
                 <a href="#themes" class="rampart-link"><span>Themes</span></a>
                 <a href="#overview" class="rampart-link"><span>Overview</span></a>
                 <a href="#schedule" class="rampart-link"><span>Schedule</span></a>
@@ -362,14 +361,11 @@
             <div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div><div class="flame-shard"></div>
         </div>
         <div class="hero-fortress">
-            <!-- ★メインタイトルを変更★ -->
             <h1 class="fortress-title">
                 <span class="title-line-1">知財 × プログラミング</span>
                 <span class="title-line-2">× デザイン</span>
             </h1>
-            <!-- ★サブタイトルを変更★ -->
             <div class="power-indicator">横断型Unityゲーム開発授業</div>
-            <!-- ★連携団体を強調して追加★ -->
             <div class="partner-logos">
                 <div class="partner-logo">聖学院高校</div>
                 <div class="partner-logo">スクーミー</div>
@@ -414,6 +410,67 @@
             </div>
         </div>
     </section>
+    
+    <!-- ★ここから追加★ -->
+    <section class="content-section" id="unity-tips">
+        <h2>Unity開発のヒント</h2>
+        <div class="core-grid">
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">🧩</div>
+                    <h3 class="core-title">Unityの基本構成</h3>
+                </div>
+                <p>Unityのすべてのモノは「ゲームオブジェクト」です。そして、その機能は「コンポーネント」が担います。</p>
+                <ul class="step-by-step">
+                    <li><b>ゲームオブジェクト:</b> シーンに配置するキャラクター、壁、ライトなどの「からっぽの箱」。</li>
+                    <li><b>コンポーネント:</b> 箱に入れる「機能」や「道具」。形を決める`Mesh Renderer`、物理演算の`Rigidbody`、自作の`C#スクリプト`などがあります。</li>
+                </ul>
+                <p class="math-subtitle">💡 Inspectorウィンドウでコンポーネントを追加・編集しよう。</p>
+            </div>
+             <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">⚙️</div>
+                    <h3 class="core-title">物理演算の基礎</h3>
+                </div>
+                <p>オブジェクトにリアルな物理挙動をさせるには、2つのコンポーネントが基本になります。</p>
+                 <ul class="step-by-step">
+                    <li><b>Rigidbody:</b> オブジェクトに「質量」を与え、重力や外部からの力の影響を受けるようにする。</li>
+                    <li><b>Collider:</b> オブジェクトに「当たり判定」の形状を設定する。これがないと他のオブジェクトをすり抜けてしまう。</li>
+                </ul>
+                 <p class="math-subtitle">💡 プレイヤー操作には`Rigidbody.AddForce()`が便利。</p>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">📜</div>
+                    <h3 class="core-title">スクリプトの初歩</h3>
+                </div>
+                <p>C#スクリプトはUnityの頭脳です。決まった「イベント関数」の中に行動を記述します。</p>
+                 <ul class="step-by-step">
+                    <li><b>`Start()`:</b> ゲーム開始時に一度だけ呼ばれる。初期設定に使う。</li>
+                    <li><b>`Update()`:</b> 毎フレーム（1秒間に何十回も）呼ばれる。プレイヤーの入力受付や、常に監視したい処理に使う。</li>
+                </ul>
+                 <p class="math-subtitle">💡 `Debug.Log("メッセージ");` でコンソールに情報を表示して、変数の値などを確認する癖をつけよう。</p>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">♻️</div>
+                    <h3 class="core-title">プレハブ (Prefab)</h3>
+                </div>
+                <p>「プレハブ」は、設定済みのゲームオブジェクトを保存しておける設計図のような機能です。</p>
+                 <ul class="step-by-step">
+                    <li>敵キャラクターや、ステージに配置するコインなど、同じものを何個も使いたい時に便利。</li>
+                    <li>プレハブ本体を編集すれば、シーンに配置したすべてのオブジェクトに一括で変更が反映される。</li>
+                </ul>
+                <p class="math-subtitle">💡 ヒエラルキーからプロジェクトウィンドウにドラッグ＆ドロップするだけでプレハブが作れる。</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="https://learning.unity3d.jp/tag/beginners/" target="_blank" class="reference-link">Unity公式ブログ 初心者向け記事一覧</a>
+            <a href="https://learn.unity.com/course/unity-tutorials-for-beginners-jp" target="_blank" class="reference-link">Unity公式ラーニング 初心者向けチュートリアル</a>
+        </div>
+    </section>
+    <!-- ★ここまで追加★ -->
+
 
     <section class="dual-core-section content-section" id="themes">
         <h2>数学B × ゲーム開発テーマ</h2>
@@ -569,6 +626,7 @@
                 <h3 class="tower-title">Links</h3>
                 <ul class="tower-links">
                     <li><a href="#help-links" class="tower-link">Help</a></li>
+                    <li><a href="#unity-tips" class="tower-link">Tips</a></li>
                     <li><a href="#themes" class="tower-link">Themes</a></li>
                     <li><a href="#overview" class="tower-link">Overview</a></li>
                     <li><a href="#schedule" class="tower-link">Schedule</a></li>
