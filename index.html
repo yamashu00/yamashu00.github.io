@@ -251,25 +251,49 @@
         }
         .step-by-step { margin-top: 15px; padding-left: 20px; }
         .step-by-step li { margin-bottom: 10px; }
+        
+        .code-snippet-wrapper {
+            position: relative;
+            margin-top: 15px;
+        }
         .code-snippet {
             background: var(--blue-flame-core);
-            padding: 10px 15px;
-            margin-top: 10px;
+            padding: 15px;
             border-left: 3px solid var(--accent-gold);
             font-family: 'Courier New', Courier, monospace;
             white-space: pre-wrap;
             word-wrap: break-word;
             font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
         }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-gold);
+            color: var(--base-black);
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        .copy-btn:hover {
+            background: var(--accent-white);
+        }
+
+
         .reference-section {
             margin-top: auto; /* この要素をカードの下部に固定 */
             padding-top: 20px;
             border-top: 1px solid var(--steel-gray);
         }
         .reference-link {
-            display: inline-block; /* 変更 */
+            display: inline-block;
             margin-top: 10px;
-            margin-right: 10px; /* 追加 */
+            margin-right: 10px;
             color: var(--accent-gold);
             text-decoration: none;
             font-weight: bold;
@@ -283,7 +307,7 @@
             background: var(--blue-flame-core);
         }
         .help-cell {
-            border-color: var(--accent-gold); /* 枠線をゴールドに */
+            border-color: var(--accent-gold);
             background: rgba(13, 13, 13, 0.5);
         }
 
@@ -349,6 +373,7 @@
             <nav class="rampart-nav">
                 <a href="#help-links" class="rampart-link"><span>Help</span></a>
                 <a href="#unity-tips" class="rampart-link"><span>Tips</span></a>
+                <a href="#code-snippets" class="rampart-link"><span>Code</span></a>
                 <a href="#themes" class="rampart-link"><span>Themes</span></a>
                 <a href="#overview" class="rampart-link"><span>Overview</span></a>
                 <a href="#schedule" class="rampart-link"><span>Schedule</span></a>
@@ -411,7 +436,6 @@
         </div>
     </section>
     
-    <!-- ★ここから追加★ -->
     <section class="content-section" id="unity-tips">
         <h2>Unity開発のヒント</h2>
         <div class="core-grid">
@@ -467,6 +491,105 @@
         <div style="text-align: center; margin-top: 50px;">
             <a href="https://learning.unity3d.jp/tag/beginners/" target="_blank" class="reference-link">Unity公式ブログ 初心者向け記事一覧</a>
             <a href="https://learn.unity.com/course/unity-tutorials-for-beginners-jp" target="_blank" class="reference-link">Unity公式ラーニング 初心者向けチュートリアル</a>
+        </div>
+    </section>
+
+    <!-- ★ここから追加★ -->
+    <section class="dual-core-section content-section" id="code-snippets">
+        <h2>コピペで使える！コードスニペット</h2>
+        <div class="core-grid">
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">動</div>
+                    <h3 class="core-title">プレイヤーを動かす</h3>
+                </div>
+                <p>キーボードの矢印キー（またはWASD）でプレイヤーを動かす基本的なスクリプトです。`Rigidbody`コンポーネントが必要です。</p>
+                <div class="code-snippet-wrapper">
+                    <button class="copy-btn" aria-label="Copy Code">Copy</button>
+                    <pre class="code-snippet"><code>using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    public float moveSpeed = 5.0f;
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent&lt;Rigidbody&gt;();
+    }
+
+    void FixedUpdate()
+    {
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+
+        rb.velocity = movement * moveSpeed;
+    }
+}</code></pre>
+                </div>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">追</div>
+                    <h3 class="core-title">敵の追尾</h3>
+                </div>
+                <p>指定したターゲット（プレイヤー）を追いかけるスクリプトです。Inspectorで`target`にプレイヤーオブジェクトを設定してください。</p>
+                 <div class="code-snippet-wrapper">
+                    <button class="copy-btn" aria-label="Copy Code">Copy</button>
+                    <pre class="code-snippet"><code>using UnityEngine;
+
+public class EnemyChaser : MonoBehaviour
+{
+    public Transform target; // 追いかける対象
+    public float speed = 3.0f;
+
+    void Update()
+    {
+        if (target != null)
+        {
+            // ターゲットの方向を向く
+            transform.LookAt(target);
+
+            // 前に進む
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
+    }
+}</code></pre>
+                </div>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">🎲</div>
+                    <h3 class="core-title">確率でアイテムを出す</h3>
+                </div>
+                <p>設定した確率（`dropChance`）でアイテムをドロップ（生成）する関数です。敵を倒した時などに呼び出します。</p>
+                <div class="code-snippet-wrapper">
+                    <button class="copy-btn" aria-label="Copy Code">Copy</button>
+                    <pre class="code-snippet"><code>using UnityEngine;
+
+public class ItemDropper : MonoBehaviour
+{
+    public GameObject itemPrefab; // 生成するアイテムのプレハブ
+    [Range(0, 1)]
+    public float dropChance = 0.3f; // 30%
+
+    public void TryDropItem()
+    {
+        // 0.0から1.0の間のランダムな値を生成
+        float randomValue = Random.value;
+
+        if (randomValue &lt; dropChance)
+        {
+            // アイテムを生成する
+            Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        }
+    }
+}
+</code></pre>
+                </div>
+            </div>
         </div>
     </section>
     <!-- ★ここまで追加★ -->
@@ -627,6 +750,7 @@
                 <ul class="tower-links">
                     <li><a href="#help-links" class="tower-link">Help</a></li>
                     <li><a href="#unity-tips" class="tower-link">Tips</a></li>
+                    <li><a href="#code-snippets" class="tower-link">Code</a></li>
                     <li><a href="#themes" class="tower-link">Themes</a></li>
                     <li><a href="#overview" class="tower-link">Overview</a></li>
                     <li><a href="#schedule" class="tower-link">Schedule</a></li>
@@ -662,6 +786,7 @@
                 beam.style.transform = `translateX(${offset}px) scaleY(${1 + y})`;
             });
         });
+        
         // Core cell depth effect
         const coreCells = document.querySelectorAll('.core-cell');
         coreCells.forEach(cell => {
@@ -678,6 +803,27 @@
                     otherCell.style.opacity = '1';
                     otherCell.style.filter = 'none';
                 });
+            });
+        });
+
+        // Copy button functionality
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const codeSnippet = button.nextElementSibling;
+                const codeText = codeSnippet.textContent;
+                
+                const textArea = document.createElement('textarea');
+                textArea.value = codeText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
             });
         });
     </script>
