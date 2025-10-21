@@ -30,7 +30,7 @@ export default function SignIn() {
         <div className="space-y-4">
           <button
             onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg px-4 py-3 hover:bg-gray-50 transition"
+            className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-700 text-gray-900 font-medium rounded-lg px-4 py-3 hover:bg-gray-100 transition"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path

@@ -506,7 +506,7 @@ export default function NewConsultation() {
               </button>
               <button
                 onClick={() => router.push('/dashboard')}
-                className="px-6 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                className="px-6 py-2 border-2 border-gray-700 text-gray-900 font-medium rounded hover:bg-gray-100"
               >
                 ダッシュボードに戻る
               </button>
