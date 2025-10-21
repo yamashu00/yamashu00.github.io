@@ -3,8 +3,27 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import resourcesData from '@/lib/resources.json';
 
 type Step = 1 | 2 | 3 | 4 | 5;
+
+// リソースIDからURLとタイトルを取得する関数
+function getResourceInfo(resourceId: string) {
+  const resource = resourcesData.resources.find((r: any) => r.id === resourceId);
+  if (resource) {
+    return {
+      url: resource.url || 'https://yamashu00.github.io/#section3',
+      title: resource.title,
+      description: resource.description
+    };
+  }
+  // フォールバック
+  return {
+    url: 'https://yamashu00.github.io/#section3',
+    title: resourceId,
+    description: ''
+  };
+}
 
 export default function NewConsultation() {
   const router = useRouter();
@@ -350,22 +369,25 @@ export default function NewConsultation() {
                 <div>
                   <h3 className="font-semibold text-gray-900">💡 推奨リソース</h3>
                   <ul className="space-y-2">
-                    {aiResponse.recommendedResources.map((resource: any, index: number) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-blue-600 mr-2">•</span>
-                        <div>
-                          <a
-                            href="https://yamashu00.github.io/#section3"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
-                          >
-                            {resource.id}
-                          </a>
-                          <span className="text-gray-900"> - {resource.reason}</span>
-                        </div>
-                      </li>
-                    ))}
+                    {aiResponse.recommendedResources.map((resource: any, index: number) => {
+                      const resourceInfo = getResourceInfo(resource.id);
+                      return (
+                        <li key={index} className="flex items-start">
+                          <span className="text-blue-600 mr-2">•</span>
+                          <div>
+                            <a
+                              href={resourceInfo.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                            >
+                              {resourceInfo.title}
+                            </a>
+                            <span className="text-gray-900"> - {resource.reason}</span>
+                          </div>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}
