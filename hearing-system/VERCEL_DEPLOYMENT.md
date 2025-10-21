@@ -78,7 +78,7 @@ Firebase秘密鍵は改行を含むため、正しく設定する必要があり
 - Vercel UIで設定する場合: そのまま貼り付けてOK（Vercelが自動で処理）
 - `.env`ファイルで設定する場合: ダブルクォートで囲む
   ```
-  FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQ...\n-----END PRIVATE KEY-----\n"
+  FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n<YOUR_PRIVATE_KEY_CONTENT>\n-----END PRIVATE KEY-----\n"
   ```
 
 **NEXTAUTH_URL の設定**
