@@ -355,7 +355,7 @@ export default function NewConsultation() {
                         <span className="text-blue-600 mr-2">•</span>
                         <div>
                           <a
-                            href="/index.html#section3"
+                            href="https://yamashu00.github.io/#section3"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
