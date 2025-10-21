@@ -183,6 +183,10 @@ GOOGLE_CLIENT_SECRET=your-google-client-secret
 
 # OpenAI API
 OPENAI_API_KEY=sk-proj-your-openai-api-key
+
+# 許可ドメインとロール設定
+ALLOWED_DOMAINS=seig-boys.jp,itoksk.com
+TEACHER_EMAILS=teacher1@example.com,teacher2@example.com
 ```
 
 **NEXTAUTH_SECRET の生成方法**:
@@ -205,6 +209,8 @@ openssl rand -base64 32
 | `GOOGLE_CLIENT_ID` | Google OAuthクライアントID | Production, Preview, Development |
 | `GOOGLE_CLIENT_SECRET` | Google OAuthクライアントシークレット | Production, Preview, Development |
 | `OPENAI_API_KEY` | OpenAI APIキー | Production, Preview, Development |
+| `ALLOWED_DOMAINS` | 許可するメールドメイン（カンマ区切り） | Production, Preview, Development |
+| `TEACHER_EMAILS` | 教員のメールアドレス（カンマ区切り） | Production, Preview, Development |
 
 ## 🔗 リンクとURLの変更
 
