@@ -1157,13 +1157,27 @@ public class ItemDropper : MonoBehaviour
         async function loadResources() {
             try {
                 const response = await fetch('/data/resources.json');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const data = await response.json();
+
+                if (!data || !data.resources) {
+                    throw new Error('Invalid data format');
+                }
+
                 allResources = data.resources;
                 renderGems();
                 filterAndDisplayResources();
             } catch (error) {
                 console.error('Failed to load resources:', error);
                 document.getElementById('resultsCount').textContent = 'データの読み込みに失敗しました';
+                const gemGrid = document.getElementById('gemGrid');
+                if (gemGrid) {
+                    gemGrid.innerHTML = '<p style="color: var(--accent-gold); text-align: center; padding: 40px;">データの読み込みに失敗しました。ページを再読み込みしてください。</p>';
+                }
             }
         }
 
