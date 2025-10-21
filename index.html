@@ -105,6 +105,304 @@
         .rampart-link:hover::before { left: 0; }
         .rampart-link span { position: relative; z-index: 1; }
 
+        /* Search & Filter Section */
+        .search-filter-section {
+            background: linear-gradient(180deg, var(--blue-flame-core) 0%, var(--base-black) 100%);
+            padding: 80px 5% 60px;
+        }
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .search-box {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 20px 60px 20px 25px;
+            font-size: 1.2rem;
+            border: 3px solid var(--base-blue);
+            background: var(--base-black);
+            color: var(--accent-white);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        .search-icon {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+        }
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .filter-select {
+            padding: 12px 20px;
+            background: var(--base-blue);
+            color: var(--accent-white);
+            border: 2px solid var(--accent-gold);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .filter-select:hover {
+            background: var(--accent-gold);
+            color: var(--base-black);
+        }
+        .active-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            min-height: 30px;
+        }
+        .filter-tag {
+            padding: 8px 15px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid var(--accent-gold);
+            border-radius: 20px;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-tag-close {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .results-count {
+            color: var(--platinum);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        /* Gem Tools Section */
+        .gem-section {
+            background: linear-gradient(180deg, var(--base-black) 0%, var(--blue-flame-core) 100%);
+        }
+        .gem-intro {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .gem-intro p {
+            font-size: 1.2rem;
+            color: var(--platinum);
+            margin-bottom: 30px;
+        }
+        .persona-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .persona-tab {
+            padding: 12px 25px;
+            background: rgba(0, 61, 165, 0.3);
+            border: 2px solid var(--base-blue);
+            border-radius: 25px;
+            color: var(--platinum);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        .persona-tab:hover, .persona-tab.active {
+            background: var(--base-blue);
+            border-color: var(--accent-gold);
+            color: var(--accent-white);
+            transform: translateY(-3px);
+        }
+        .gem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .gem-card {
+            background: var(--base-black);
+            padding: 30px;
+            border: 2px solid var(--base-blue);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .gem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--blue-flame-hot));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        .gem-card:hover::before {
+            transform: scaleX(1);
+        }
+        .gem-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            border-color: var(--accent-gold);
+        }
+        .gem-card.dimmed {
+            opacity: 0.4;
+        }
+        .gem-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .gem-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gold);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .gem-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-transform: none;
+        }
+        .gem-description {
+            color: var(--platinum);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        .gem-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .gem-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .gem-badge.priority-a {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+        }
+        .gem-badge.priority-b {
+            background: rgba(74, 144, 226, 0.2);
+            color: var(--blue-flame-light);
+            border: 1px solid var(--blue-flame-light);
+        }
+        .gem-badge.persona {
+            background: rgba(229, 228, 226, 0.2);
+            color: var(--platinum);
+        }
+        .gem-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .gem-btn {
+            flex: 1;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid;
+        }
+        .gem-btn-primary {
+            background: var(--accent-gold);
+            color: var(--base-black);
+            border-color: var(--accent-gold);
+        }
+        .gem-btn-primary:hover {
+            background: var(--accent-white);
+            border-color: var(--accent-white);
+        }
+        .gem-btn-secondary {
+            background: transparent;
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+        .gem-btn-secondary:hover {
+            background: var(--accent-gold);
+            color: var(--base-black);
+        }
+
+        /* Resource Cards (Search Results) */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .resource-card {
+            background: rgba(13, 13, 13, 0.8);
+            border: 2px solid var(--steel-gray);
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .resource-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+        }
+        .resource-type {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--base-blue);
+            color: var(--accent-white);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+        .resource-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+        .resource-description {
+            color: var(--platinum);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .resource-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .resource-tag {
+            padding: 3px 8px;
+            background: rgba(74, 144, 226, 0.2);
+            color: var(--blue-flame-light);
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
         /* General Section Styling */
         .content-section {
             padding: 120px 5%;
@@ -371,12 +669,12 @@
         <div class="header-structure">
             <div class="fortress-brand">MATH|UNITY</div>
             <nav class="rampart-nav">
-                <a href="#help-links" class="rampart-link"><span>Help</span></a>
-                <a href="#unity-tips" class="rampart-link"><span>Tips</span></a>
+                <a href="#search" class="rampart-link"><span>🔍 Search</span></a>
+                <a href="#gems" class="rampart-link"><span>🤖 Gems</span></a>
                 <a href="#code-snippets" class="rampart-link"><span>Code</span></a>
                 <a href="#themes" class="rampart-link"><span>Themes</span></a>
-                <a href="#overview" class="rampart-link"><span>Overview</span></a>
                 <a href="#schedule" class="rampart-link"><span>Schedule</span></a>
+                <a href="/updates/" class="rampart-link"><span>📰 Updates</span></a>
             </nav>
         </div>
     </header>
@@ -397,6 +695,75 @@
                 <div class="partner-logo">開志専門職大学</div>
                 <div class="partner-logo">LOTTE</div>
             </div>
+        </div>
+    </section>
+
+    <!-- Search & Filter Section -->
+    <section class="search-filter-section" id="search">
+        <div class="search-container">
+            <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: var(--accent-gold); text-align: center; margin-bottom: 40px; text-transform: uppercase; text-shadow: 2px 2px 0 var(--base-blue);">🔍 リソースを探す</h2>
+
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="キーワードで検索（例: ベクトル、エラー、プレイヤー...）">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <div class="filter-controls">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">全カテゴリ</option>
+                    <option value="unity-basics">Unity基礎</option>
+                    <option value="programming">プログラミング</option>
+                    <option value="math-game">数学×ゲーム</option>
+                    <option value="assets">素材・アセット</option>
+                    <option value="gem-tools">Gemツール</option>
+                </select>
+
+                <select class="filter-select" id="levelFilter">
+                    <option value="">全レベル</option>
+                    <option value="beginner">初級</option>
+                    <option value="intermediate">中級</option>
+                    <option value="advanced">上級</option>
+                </select>
+
+                <select class="filter-select" id="typeFilter">
+                    <option value="">全タイプ</option>
+                    <option value="gem-tool">Gemツール</option>
+                    <option value="code-snippet">コード例</option>
+                    <option value="external-link">外部リンク</option>
+                    <option value="theme">学習テーマ</option>
+                </select>
+
+                <select class="filter-select" id="sortFilter">
+                    <option value="priority">優先度順</option>
+                    <option value="updated">更新日順</option>
+                    <option value="title">タイトル順</option>
+                </select>
+            </div>
+
+            <div class="active-filters" id="activeFilters"></div>
+
+            <div class="results-count" id="resultsCount">読み込み中...</div>
+
+            <div class="resource-grid" id="resourceGrid">
+                <!-- 検索結果がここに動的に表示されます -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gem Tools Section -->
+    <section class="dual-core-section content-section gem-section" id="gems">
+        <h2>🤖 AIアシスタント Gem</h2>
+        <div class="gem-intro">
+            <p>あなたの学習をサポートする6つのツール</p>
+            <div class="persona-tabs">
+                <div class="persona-tab" data-persona="all">全て</div>
+                <div class="persona-tab" data-persona="student">👨‍💻 生徒</div>
+                <div class="persona-tab" data-persona="teacher">👨‍🏫 教員</div>
+            </div>
+        </div>
+
+        <div class="gem-grid" id="gemGrid">
+            <!-- Gemカードがここに動的に表示されます -->
         </div>
     </section>
 
@@ -748,12 +1115,12 @@ public class ItemDropper : MonoBehaviour
             <div class="citadel-tower">
                 <h3 class="tower-title">Links</h3>
                 <ul class="tower-links">
-                    <li><a href="#help-links" class="tower-link">Help</a></li>
-                    <li><a href="#unity-tips" class="tower-link">Tips</a></li>
+                    <li><a href="#search" class="tower-link">Search</a></li>
+                    <li><a href="#gems" class="tower-link">Gems</a></li>
                     <li><a href="#code-snippets" class="tower-link">Code</a></li>
                     <li><a href="#themes" class="tower-link">Themes</a></li>
-                    <li><a href="#overview" class="tower-link">Overview</a></li>
                     <li><a href="#schedule" class="tower-link">Schedule</a></li>
+                    <li><a href="/updates/" class="tower-link">Updates</a></li>
                 </ul>
             </div>
             <div class="citadel-tower">
@@ -775,6 +1142,220 @@ public class ItemDropper : MonoBehaviour
     </footer>
 
     <script>
+        // Resource Data Management
+        let allResources = [];
+        let currentFilters = {
+            search: '',
+            category: '',
+            level: '',
+            type: '',
+            sort: 'priority'
+        };
+
+        // Fetch resources data
+        async function loadResources() {
+            try {
+                const response = await fetch('/data/resources.json');
+                const data = await response.json();
+                allResources = data.resources;
+                renderGems();
+                filterAndDisplayResources();
+            } catch (error) {
+                console.error('Failed to load resources:', error);
+                document.getElementById('resultsCount').textContent = 'データの読み込みに失敗しました';
+            }
+        }
+
+        // Render Gem Cards
+        function renderGems() {
+            const gems = allResources.filter(r => r.type === 'gem-tool');
+            const gemGrid = document.getElementById('gemGrid');
+
+            const gemIcons = {
+                'gem-001': '🐛',
+                'gem-002': '📐',
+                'gem-003': '🎨',
+                'gem-004': '📅',
+                'gem-005': '⚙️',
+                'gem-006': '📊'
+            };
+
+            gemGrid.innerHTML = gems.map(gem => `
+                <div class="gem-card" data-persona="${gem.gemConfig?.targetUser || 'student'}">
+                    <div class="gem-header">
+                        <div class="gem-icon">${gemIcons[gem.id] || '🤖'}</div>
+                        <h3 class="gem-title">${gem.title}</h3>
+                    </div>
+                    <p class="gem-description">${gem.description}</p>
+                    <div class="gem-meta">
+                        <span class="gem-badge priority-${gem.priority.toLowerCase()}">${gem.priority}優先</span>
+                        <span class="gem-badge persona">${gem.gemConfig?.targetUser === 'teacher' ? '👨‍🏫 教員' : gem.gemConfig?.targetUser === 'both' ? '👨‍💻👨‍🏫 全員' : '👨‍💻 生徒'}</span>
+                    </div>
+                    <div class="gem-actions">
+                        <a href="${gem.url}" target="_blank" class="gem-btn gem-btn-primary">Gemを起動</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Persona Filter for Gems
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('persona-tab')) {
+                // Remove active class from all tabs
+                document.querySelectorAll('.persona-tab').forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+
+                const persona = e.target.dataset.persona;
+                const gemCards = document.querySelectorAll('.gem-card');
+
+                gemCards.forEach(card => {
+                    if (persona === 'all') {
+                        card.classList.remove('dimmed');
+                    } else {
+                        const cardPersona = card.dataset.persona;
+                        if (cardPersona === persona || cardPersona === 'both') {
+                            card.classList.remove('dimmed');
+                        } else {
+                            card.classList.add('dimmed');
+                        }
+                    }
+                });
+            }
+        });
+
+        // Filter and Display Resources
+        function filterAndDisplayResources() {
+            let filtered = [...allResources];
+
+            // Search filter
+            if (currentFilters.search) {
+                const searchTerm = currentFilters.search.toLowerCase();
+                filtered = filtered.filter(r =>
+                    r.title.toLowerCase().includes(searchTerm) ||
+                    r.description.toLowerCase().includes(searchTerm) ||
+                    r.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
+                    (r.code && r.code.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // Category filter
+            if (currentFilters.category) {
+                filtered = filtered.filter(r => r.category === currentFilters.category);
+            }
+
+            // Level filter
+            if (currentFilters.level) {
+                filtered = filtered.filter(r => r.level === currentFilters.level);
+            }
+
+            // Type filter
+            if (currentFilters.type) {
+                filtered = filtered.filter(r => r.type === currentFilters.type);
+            }
+
+            // Sort
+            filtered.sort((a, b) => {
+                if (currentFilters.sort === 'priority') {
+                    const priorityOrder = { 'A': 1, 'B': 2, 'C': 3 };
+                    return (priorityOrder[a.priority] || 4) - (priorityOrder[b.priority] || 4);
+                } else if (currentFilters.sort === 'updated') {
+                    return new Date(b.lastUpdated) - new Date(a.lastUpdated);
+                } else {
+                    return a.title.localeCompare(b.title, 'ja');
+                }
+            });
+
+            // Display results
+            displayResources(filtered);
+            updateActiveFilters();
+        }
+
+        // Display Resources
+        function displayResources(resources) {
+            const resourceGrid = document.getElementById('resourceGrid');
+            const resultsCount = document.getElementById('resultsCount');
+
+            resultsCount.textContent = `検索結果: ${resources.length}件`;
+
+            const typeLabels = {
+                'gem-tool': 'Gemツール',
+                'external-link': '外部リンク',
+                'code-snippet': 'コード例',
+                'theme': '学習テーマ',
+                'google-drive': 'Google Drive',
+                'documentation': 'ドキュメント'
+            };
+
+            resourceGrid.innerHTML = resources.map(resource => `
+                <div class="resource-card">
+                    <span class="resource-type">${typeLabels[resource.type] || resource.type}</span>
+                    <h3 class="resource-title">${resource.title}</h3>
+                    <p class="resource-description">${resource.description}</p>
+                    <div class="resource-tags">
+                        ${resource.tags.slice(0, 5).map(tag => `<span class="resource-tag">${tag}</span>`).join('')}
+                    </div>
+                    ${resource.url ? `<a href="${resource.url}" target="_blank" style="color: var(--accent-gold); text-decoration: none; margin-top: 10px; display: inline-block;">→ 開く</a>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Update Active Filters Display
+        function updateActiveFilters() {
+            const activeFiltersDiv = document.getElementById('activeFilters');
+            const filters = [];
+
+            if (currentFilters.search) filters.push({ label: `検索: "${currentFilters.search}"`, key: 'search' });
+            if (currentFilters.category) filters.push({ label: document.querySelector(`#categoryFilter option[value="${currentFilters.category}"]`).textContent, key: 'category' });
+            if (currentFilters.level) filters.push({ label: document.querySelector(`#levelFilter option[value="${currentFilters.level}"]`).textContent, key: 'level' });
+            if (currentFilters.type) filters.push({ label: document.querySelector(`#typeFilter option[value="${currentFilters.type}"]`).textContent, key: 'type' });
+
+            activeFiltersDiv.innerHTML = filters.map(f => `
+                <div class="filter-tag">
+                    ${f.label}
+                    <span class="filter-tag-close" onclick="removeFilter('${f.key}')">×</span>
+                </div>
+            `).join('');
+        }
+
+        // Remove Filter
+        function removeFilter(key) {
+            currentFilters[key] = '';
+            if (key === 'search') document.getElementById('searchInput').value = '';
+            if (key === 'category') document.getElementById('categoryFilter').value = '';
+            if (key === 'level') document.getElementById('levelFilter').value = '';
+            if (key === 'type') document.getElementById('typeFilter').value = '';
+            filterAndDisplayResources();
+        }
+
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentFilters.search = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        document.getElementById('categoryFilter').addEventListener('change', (e) => {
+            currentFilters.category = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        document.getElementById('levelFilter').addEventListener('change', (e) => {
+            currentFilters.level = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        document.getElementById('typeFilter').addEventListener('change', (e) => {
+            currentFilters.type = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        document.getElementById('sortFilter').addEventListener('change', (e) => {
+            currentFilters.sort = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', loadResources);
+
         // Dynamic plasma interaction
         const plasmaBeams = document.querySelectorAll('.plasma-beam');
         document.addEventListener('mousemove', (e) => {

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更新情報 | 知財・プログラミング・デザインを横断するUnityゲーム開発授業</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --base-blue: #003DA5;
+            --base-black: #0D0D0D;
+            --accent-gold: #FFD700;
+            --accent-white: #FFFFFF;
+            --blue-flame-light: #4A90E2;
+            --blue-flame-hot: #0066FF;
+            --blue-flame-core: #001E4D;
+            --steel-gray: #434B56;
+            --platinum: #E5E4E2;
+        }
+
+        body {
+            font-family: 'Montserrat', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background: var(--base-black);
+            color: var(--accent-white);
+            overflow-x: hidden;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 13, 13, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 3px solid var(--accent-gold);
+            padding: 20px 5%;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .brand {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--base-blue);
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            text-shadow: 0 0 30px rgba(0, 61, 165, 0.5), 2px 2px 0 var(--accent-gold);
+        }
+
+        .back-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 700;
+            padding: 10px 20px;
+            border: 2px solid var(--accent-gold);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--accent-gold);
+            color: var(--base-black);
+        }
+
+        .main-content {
+            padding: 120px 5% 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 var(--base-blue);
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: var(--platinum);
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--accent-gold), var(--base-blue));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            background: rgba(0, 61, 165, 0.1);
+            border: 2px solid var(--base-blue);
+            border-radius: 10px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -39px;
+            top: 30px;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-gold);
+            border: 3px solid var(--base-black);
+            border-radius: 50%;
+        }
+
+        .update-date {
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .update-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            background: var(--base-blue);
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .update-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-white);
+            margin-bottom: 15px;
+        }
+
+        .update-content {
+            color: var(--platinum);
+            line-height: 1.8;
+        }
+
+        .update-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .update-content li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .update-content li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .update-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .update-link:hover {
+            color: var(--accent-white);
+        }
+
+        @media (max-width: 768px) {
+            .timeline {
+                padding-left: 30px;
+            }
+            .timeline::before {
+                left: 10px;
+            }
+            .timeline-item::before {
+                left: -24px;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="brand">MATH|UNITY</div>
+            <a href="/" class="back-link">← トップへ戻る</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h1 class="page-title">更新情報</h1>
+        <p class="page-subtitle">サイト更新・Gemリリース・教材追加の最新情報</p>
+
+        <div class="timeline">
+            <!-- Update 2025-10-21 -->
+            <div class="timeline-item">
+                <div class="update-date">
+                    2025年10月21日
+                    <span class="update-badge">サイト</span>
+                    <span class="update-badge">Gem</span>
+                    <span class="update-badge">データ</span>
+                </div>
+                <h2 class="update-title">授業ハブサイト 正式公開</h2>
+                <div class="update-content">
+                    <p>知財・プログラミング・デザインを横断するUnityゲーム開発授業の公式ハブサイトを公開しました。</p>
+                    <ul>
+                        <li><strong>検索・フィルタ機能:</strong> 全23件のリソースをカテゴリ、レベル、タイプで絞り込み検索可能に</li>
+                        <li><strong>Gemツールスイート:</strong> 6つのAIアシスタントツールを統合（unity-debug-mentor、vector-math-coach、asset-handbook、lesson-scheduler、unity-install-help、hearing-reporter）</li>
+                        <li><strong>教材メタデータAPI:</strong> <a href="/data/resources.json" class="update-link">JSONフォーマット</a>で全リソースのメタデータを配信開始</li>
+                        <li><strong>ペルソナ別ナビゲーション:</strong> プログラマー、デザイナー、プランナー向けにカスタマイズされた案内機能</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Update 2025-10-15 (Example) -->
+            <div class="timeline-item">
+                <div class="update-date">
+                    2025年10月15日
+                    <span class="update-badge">教材</span>
+                </div>
+                <h2 class="update-title">LOTTEキャラクター素材 更新</h2>
+                <div class="update-content">
+                    <p>Google Drive上のLOTTEキャラクター素材を更新しました。</p>
+                    <ul>
+                        <li>新キャラクター3種追加</li>
+                        <li>既存キャラクターの高解像度版を追加</li>
+                        <li>利用ガイドラインPDFを更新</li>
+                    </ul>
+                    <p><a href="https://drive.google.com/drive/folders/1QBlIiFDMRzqVpPwk6aTZ7pUFpJEw-VWD?hl=ja" class="update-link">素材フォルダを開く →</a></p>
+                </div>
+            </div>
+
+            <!-- Update 2025-10-10 (Example) -->
+            <div class="timeline-item">
+                <div class="update-date">
+                    2025年10月10日
+                    <span class="update-badge">Gem</span>
+                </div>
+                <h2 class="update-title">unity-debug-mentor プロトタイプ公開</h2>
+                <div class="update-content">
+                    <p>Unity開発のデバッグをサポートするGemツール「unity-debug-mentor」のプロトタイプを公開しました。</p>
+                    <ul>
+                        <li>NullReferenceException、MissingComponentExceptionなど典型エラーに対応</li>
+                        <li>原因仮説→修正手順→検証方法の3ステップで案内</li>
+                        <li>関連する授業ハブのリソースを自動推薦</li>
+                    </ul>
+                    <p><a href="https://gemini.google.com/gem/1tzBSlzfPbSujsB6YfcdDq7qs_jqdbw7V?usp=sharing" class="update-link">Gemを起動 →</a></p>
+                </div>
+            </div>
+
+            <!-- Update 2025-10-03 (Example) -->
+            <div class="timeline-item">
+                <div class="update-date">
+                    2025年10月3日
+                    <span class="update-badge">授業</span>
+                </div>
+                <h2 class="update-title">第1回授業開催</h2>
+                <div class="update-content">
+                    <p>聖学院高校にて、知財・プログラミング・デザイン横断授業の第1回を開催しました。</p>
+                    <ul>
+                        <li>オリエンテーション実施</li>
+                        <li>Unity基礎講座</li>
+                        <li>LOTTE様による知財講座</li>
+                        <li>チーム編成とゲーム企画立案</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Placeholder for future updates -->
+            <div class="timeline-item" style="border-style: dashed; opacity: 0.5;">
+                <div class="update-date">
+                    今後の予定
+                    <span class="update-badge">計画</span>
+                </div>
+                <h2 class="update-title">今後の更新予定</h2>
+                <div class="update-content">
+                    <ul>
+                        <li>ヒアリングシステムの本格運用開始</li>
+                        <li>GitHub Classroom課題リストの公開</li>
+                        <li>よくある質問（FAQ）セクションの追加</li>
+                        <li>デバッグガイド・トラブルシューティングページの追加</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scroll for back link
+        document.querySelectorAll('a[href^="/"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href === '/') {
+                    e.preventDefault();
+                    window.location.href = '/';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
