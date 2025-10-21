@@ -42,7 +42,7 @@ export default async function Dashboard() {
             user.role === 'teacher' ||
             user.role === 'ta') && (
             <Link
-              href="/consultation/new"
+              href="/consultation/intro"
               className="bg-white p-6 rounded-lg shadow hover:shadow-md transition"
             >
               <div className="text-blue-600 mb-2">
