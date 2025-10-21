@@ -59,7 +59,7 @@ export default async function ConsultationDetail({ params }: { params: Promise<{
   const rawData = consultationDoc.data();
 
   // Firestoreデータをシリアライズ可能な形式に変換
-  const consultation = rawData ? {
+  const consultation: any = rawData ? {
     ...rawData,
     timestamp: rawData.timestamp?.toDate?.() || rawData.timestamp,
     createdAt: rawData.createdAt?.toDate?.() || rawData.createdAt,
