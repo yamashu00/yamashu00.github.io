@@ -85,10 +85,19 @@ export const authOptions: NextAuthOptions = {
           });
           console.log('新規ユーザー作成:', email, role);
         } else {
-          // 既存ユーザー: lastLogin更新
-          await userRef.update({
+          // 既存ユーザー: lastLoginとロールを更新
+          const existingData = userDoc.data();
+          const updates: any = {
             lastLogin: new Date(),
-          });
+          };
+
+          // ロールが変更されている場合は更新
+          if (existingData?.role !== role) {
+            updates.role = role;
+            console.log('ロール更新:', email, existingData?.role, '->', role);
+          }
+
+          await userRef.update(updates);
         }
       } catch (error) {
         console.error('Firestoreへのユーザー保存エラー:', error);
