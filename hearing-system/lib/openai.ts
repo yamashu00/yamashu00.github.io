@@ -1,11 +1,74 @@
 import OpenAI from 'openai';
+import fs from 'fs';
+import path from 'path';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// 相談分析用プロンプト
-const CONSULTATION_ANALYSIS_PROMPT = `あなたは高校生のUnity学習をサポートするAIアシスタントです。
+// resources.jsonを読み込む
+function loadResources() {
+  try {
+    const resourcesPath = path.join(process.cwd(), 'public', 'resources.json');
+    const resourcesData = JSON.parse(fs.readFileSync(resourcesPath, 'utf-8'));
+    return resourcesData.resources;
+  } catch (error) {
+    console.error('Failed to load resources.json:', error);
+    return [];
+  }
+}
+
+// リソース情報をプロンプト用にフォーマット
+function formatResourcesForPrompt() {
+  const resources = loadResources();
+
+  const gems = resources.filter((r: any) => r.type === 'gem-tool');
+  const codeSnippets = resources.filter((r: any) => r.type === 'code-snippet');
+  const themes = resources.filter((r: any) => r.type === 'theme');
+  const externalLinks = resources.filter((r: any) => r.type === 'external-link');
+
+  let formatted = '\n利用可能なリソース:\n\n';
+
+  if (gems.length > 0) {
+    formatted += '【Gemツール】\n';
+    gems.forEach((gem: any) => {
+      formatted += `  - ${gem.id}: ${gem.title} - ${gem.description}\n`;
+      formatted += `    URL: ${gem.url}\n`;
+    });
+    formatted += '\n';
+  }
+
+  if (codeSnippets.length > 0) {
+    formatted += '【コードスニペット】\n';
+    codeSnippets.forEach((code: any) => {
+      formatted += `  - ${code.id}: ${code.title} - ${code.description}\n`;
+    });
+    formatted += '\n';
+  }
+
+  if (themes.length > 0) {
+    formatted += '【学習テーマ】\n';
+    themes.forEach((theme: any) => {
+      formatted += `  - ${theme.id}: ${theme.title} - ${theme.description}\n`;
+    });
+    formatted += '\n';
+  }
+
+  if (externalLinks.length > 0) {
+    formatted += '【外部リンク】\n';
+    externalLinks.forEach((link: any) => {
+      formatted += `  - ${link.id}: ${link.title} - ${link.description}\n`;
+    });
+  }
+
+  return formatted;
+}
+
+// 相談分析用プロンプトを動的に生成
+function generateAnalysisPrompt() {
+  const resourceInfo = formatResourcesForPrompt();
+
+  return `あなたは高校生のUnity学習をサポートするAIアシスタントです。
 
 以下の相談内容を分析し、JSON形式で回答してください。
 
@@ -34,19 +97,10 @@ const CONSULTATION_ANALYSIS_PROMPT = `あなたは高校生のUnity学習をサ�
 # 注意事項
 - 高校生にわかりやすい言葉で説明してください
 - 具体的で実行可能なアドバイスを提供してください
-- recommendedResourcesは以下のIDから選択してください:
-  - gem-001: unity-debug-mentor
-  - gem-002: vector-math-coach
-  - gem-003: asset-handbook
-  - code-001: PlayerController
-  - code-002: EnemyChaser
-  - code-003: ItemDropper
-  - theme-001: 数列×レベルアップ
-  - theme-002: 確率×ガチャ
-  - theme-003: ベクトル×追尾
-  - resource-001〜009: 外部リンク
+- recommendedResourcesには最も関連性の高いリソース（最大3つ）を選んでください
+${resourceInfo}
 `;
-
+}
 // PIIフィルタ
 const PII_PATTERNS = {
   name: /[一-龥]{2,4}(?:さん|君|ちゃん)?/g,
@@ -88,13 +142,14 @@ export async function analyzeConsultationWithRetry(
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const filteredDetails = filterPII(params.details);
+      const prompt = generateAnalysisPrompt();
 
       const response = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',
-            content: CONSULTATION_ANALYSIS_PROMPT,
+            content: prompt,
           },
           {
             role: 'user',
@@ -103,7 +158,7 @@ export async function analyzeConsultationWithRetry(
         ],
         response_format: { type: 'json_object' },
         temperature: 0.7,
-        max_tokens: 500,
+        max_tokens: 800,
       });
 
       return JSON.parse(response.choices[0].message.content || '{}');
