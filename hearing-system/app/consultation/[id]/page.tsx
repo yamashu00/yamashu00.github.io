@@ -25,7 +25,7 @@ function getResourceInfo(resourceId: string) {
   };
 }
 
-export default async function ConsultationDetail({ params }: { params: { id: string } }) {
+export default async function ConsultationDetail({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -33,7 +33,7 @@ export default async function ConsultationDetail({ params }: { params: { id: str
   }
 
   const user = session.user as any;
-  const { id } = params;
+  const { id } = await params;
 
   // Firestoreから相談を取得
   const consultationRef = db.collection('consultations').doc(id);
