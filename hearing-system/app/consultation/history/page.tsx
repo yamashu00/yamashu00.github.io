@@ -44,7 +44,7 @@ export default async function ConsultationHistory() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {consultations.length === 0 ? (
           <div className="bg-white rounded-lg shadow p-8 text-center">
-            <p className="text-gray-600 mb-4">まだ相談がありません</p>
+            <p className="text-gray-700 mb-4">まだ相談がありません</p>
             <Link
               href="/consultation/new"
               className="inline-block px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -83,7 +83,7 @@ export default async function ConsultationHistory() {
 
                 <div className="mb-4">
                   <h4 className="text-sm font-medium text-gray-700 mb-1">要約</h4>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-700 text-sm">
                     {consultation.aiResponse?.summary || '要約なし'}
                   </p>
                 </div>

@@ -171,7 +171,7 @@ export default function NewConsultation() {
                       ? 'bg-green-500 text-white'
                       : step === currentStep
                       ? 'bg-blue-500 text-white'
-                      : 'bg-gray-300 text-gray-600'
+                      : 'bg-gray-300 text-gray-700'
                   }`}
                 >
                   {step}
@@ -186,7 +186,7 @@ export default function NewConsultation() {
               </div>
             ))}
           </div>
-          <div className="mt-2 text-sm text-gray-600 text-center">
+          <div className="mt-2 text-sm text-gray-900 text-center font-medium">
             {currentStep === 1 && 'ステップ 1/5: 相談テーマを選択'}
             {currentStep === 2 && 'ステップ 2/5: 詳細を入力'}
             {currentStep === 3 && 'ステップ 3/5: AI回答'}
@@ -223,14 +223,14 @@ export default function NewConsultation() {
                     onChange={(e) => setTheme(e.target.value)}
                     className="mr-3"
                   />
-                  <span className="font-medium">{preset.label}</span>
+                  <span className="font-medium text-gray-900">{preset.label}</span>
                 </label>
               ))}
             </div>
 
             {theme === 'custom' && (
               <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   カスタムテーマ
                 </label>
                 <input
@@ -238,7 +238,7 @@ export default function NewConsultation() {
                   value={customTheme}
                   onChange={(e) => setCustomTheme(e.target.value)}
                   placeholder="例: プレイヤーの移動が遅い"
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                 />
               </div>
             )}
@@ -260,16 +260,16 @@ export default function NewConsultation() {
             <h2 className="text-lg font-semibold mb-4">相談内容を入力</h2>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 選択したテーマ
               </label>
-              <div className="px-4 py-2 bg-gray-100 rounded">
+              <div className="px-4 py-2 bg-gray-100 rounded font-medium text-gray-900">
                 {theme === 'custom' ? customTheme : presetThemes.find((t) => t.value === theme)?.label}
               </div>
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 相談内容 <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -277,9 +277,9 @@ export default function NewConsultation() {
                 onChange={(e) => setDetails(e.target.value)}
                 rows={10}
                 placeholder="具体的に記入してください...&#10;&#10;💡 ヒント:&#10;- どんな問題が起きていますか？&#10;- どこまで試しましたか？&#10;- エラーメッセージがあれば貼り付けてください"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 text-gray-900"
               />
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-gray-700 font-medium">
                 {details.length}/5000文字（最低20文字）
               </p>
             </div>
@@ -287,7 +287,7 @@ export default function NewConsultation() {
             <div className="flex justify-between">
               <button
                 onClick={() => setCurrentStep(1)}
-                className="px-6 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                className="px-6 py-2 border-2 border-gray-700 text-gray-900 font-medium rounded hover:bg-gray-100"
               >
                 戻る
               </button>
@@ -310,7 +310,7 @@ export default function NewConsultation() {
             <div className="space-y-4">
               <div>
                 <h3 className="font-semibold text-gray-900">要約</h3>
-                <p className="text-gray-700">{aiResponse.summary}</p>
+                <p className="text-gray-900">{aiResponse.summary}</p>
               </div>
 
               <div>
@@ -325,7 +325,7 @@ export default function NewConsultation() {
 
               <div>
                 <h3 className="font-semibold text-gray-900">主な問題点</h3>
-                <ul className="list-disc list-inside text-gray-700">
+                <ul className="list-disc list-inside text-gray-900">
                   {aiResponse.keyIssues?.map((issue: string, index: number) => (
                     <li key={index}>{issue}</li>
                   ))}
@@ -334,12 +334,12 @@ export default function NewConsultation() {
 
               <div>
                 <h3 className="font-semibold text-gray-900">解決案</h3>
-                <p className="text-gray-700">{aiResponse.suggestedSolution}</p>
+                <p className="text-gray-900">{aiResponse.suggestedSolution}</p>
               </div>
 
               <div>
                 <h3 className="font-semibold text-gray-900">次にすべきこと</h3>
-                <ol className="list-decimal list-inside text-gray-700">
+                <ol className="list-decimal list-inside text-gray-900">
                   {aiResponse.nextSteps?.map((step: string, index: number) => (
                     <li key={index}>{step}</li>
                   ))}
@@ -354,8 +354,15 @@ export default function NewConsultation() {
                       <li key={index} className="flex items-start">
                         <span className="text-blue-600 mr-2">•</span>
                         <div>
-                          <span className="font-medium">{resource.id}</span>
-                          <span className="text-gray-600"> - {resource.reason}</span>
+                          <a
+                            href="/index.html#section3"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                          >
+                            {resource.id}
+                          </a>
+                          <span className="text-gray-900"> - {resource.reason}</span>
                         </div>
                       </li>
                     ))}
@@ -365,7 +372,7 @@ export default function NewConsultation() {
 
               <div>
                 <h3 className="font-semibold text-gray-900">推定解決時間</h3>
-                <p className="text-gray-700">{aiResponse.estimatedTime}</p>
+                <p className="text-gray-900">{aiResponse.estimatedTime}</p>
               </div>
 
               <div>
@@ -374,7 +381,7 @@ export default function NewConsultation() {
                   {aiResponse.tags?.map((tag: string, index: number) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm"
+                      className="px-3 py-1 bg-gray-200 text-gray-900 rounded text-sm font-medium"
                     >
                       #{tag}
                     </span>
@@ -392,7 +399,7 @@ export default function NewConsultation() {
             <div className="mt-6 flex justify-between">
               <button
                 onClick={() => setCurrentStep(2)}
-                className="px-6 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                className="px-6 py-2 border-2 border-gray-700 text-gray-900 font-medium rounded hover:bg-gray-100"
               >
                 戻る
               </button>
@@ -413,9 +420,9 @@ export default function NewConsultation() {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   成功したこと <span className="text-red-500">*</span>
-                  <span className="ml-2 text-xs text-gray-500">
+                  <span className="ml-2 text-xs text-gray-700 font-medium">
                     💡 例: エラーメッセージの意味を理解できた
                   </span>
                 </label>
@@ -426,12 +433,12 @@ export default function NewConsultation() {
                   }
                   rows={3}
                   placeholder="具体的に記入してください（30文字以上推奨）"
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   課題・まだわからないこと <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -441,12 +448,12 @@ export default function NewConsultation() {
                   }
                   rows={3}
                   placeholder="具体的に記入してください"
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   次にやること <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -456,7 +463,7 @@ export default function NewConsultation() {
                   }
                   rows={3}
                   placeholder="具体的に記入してください"
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                 />
               </div>
             </div>
@@ -464,7 +471,7 @@ export default function NewConsultation() {
             <div className="mt-6 flex justify-between">
               <button
                 onClick={() => setCurrentStep(3)}
-                className="px-6 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                className="px-6 py-2 border-2 border-gray-700 text-gray-900 font-medium rounded hover:bg-gray-100"
               >
                 戻る
               </button>
@@ -486,7 +493,7 @@ export default function NewConsultation() {
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               相談レポートが作成されました！
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-900 mb-6">
               レポートは保存されました。相談履歴から確認できます。
             </p>
 

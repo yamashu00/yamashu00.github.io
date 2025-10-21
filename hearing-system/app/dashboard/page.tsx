@@ -21,7 +21,7 @@ export default async function Dashboard() {
             ヒアリングシステム
           </h1>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-700">
               {user.displayName || user.email}
               <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
                 {user.role === 'student' && '生徒'}
@@ -63,7 +63,7 @@ export default async function Dashboard() {
               <h2 className="text-lg font-semibold text-gray-900 mb-2">
                 新しい相談
               </h2>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-700">
                 相談内容を入力してAI分析を受ける
               </p>
             </Link>
@@ -93,7 +93,7 @@ export default async function Dashboard() {
               <h2 className="text-lg font-semibold text-gray-900 mb-2">
                 相談履歴
               </h2>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-700">
                 過去の相談とレポートを確認
               </p>
             </Link>
@@ -124,7 +124,7 @@ export default async function Dashboard() {
                 <h2 className="text-lg font-semibold text-gray-900 mb-2">
                   相談ダッシュボード
                 </h2>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-700">
                   全生徒の相談を閲覧・分析
                 </p>
               </Link>
@@ -151,7 +151,7 @@ export default async function Dashboard() {
                 <h2 className="text-lg font-semibold text-gray-900 mb-2">
                   統計・分析
                 </h2>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-700">
                   よくある質問と傾向分析
                 </p>
               </Link>
@@ -166,19 +166,19 @@ export default async function Dashboard() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
-              <p className="text-sm text-gray-600">総相談回数</p>
+              <p className="text-sm text-gray-700">総相談回数</p>
               <p className="text-2xl font-bold text-gray-900">-</p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">解決済み</p>
+              <p className="text-sm text-gray-700">解決済み</p>
               <p className="text-2xl font-bold text-green-600">-</p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">未解決</p>
+              <p className="text-sm text-gray-700">未解決</p>
               <p className="text-2xl font-bold text-orange-600">-</p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">最終相談</p>
+              <p className="text-sm text-gray-700">最終相談</p>
               <p className="text-sm font-medium text-gray-900">-</p>
             </div>
           </div>

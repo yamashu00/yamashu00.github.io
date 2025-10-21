@@ -18,7 +18,7 @@ export default async function Home() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             ヒアリングシステム
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-700">
             Unity学習をサポートする相談システム
           </p>
         </div>
@@ -31,7 +31,7 @@ export default async function Home() {
             ログイン
           </Link>
 
-          <div className="text-center text-sm text-gray-600">
+          <div className="text-center text-sm text-gray-700">
             <p>@seig-boys.jp または @itoksk.com</p>
             <p>のアカウントでログインしてください</p>
           </div>
@@ -41,7 +41,7 @@ export default async function Home() {
           <h2 className="text-sm font-semibold text-gray-900 mb-2">
             主な機能
           </h2>
-          <ul className="text-sm text-gray-600 space-y-1">
+          <ul className="text-sm text-gray-700 space-y-1">
             <li>• AI による相談内容の分析</li>
             <li>• 個別レポート生成（PDF/Markdown/JSON）</li>
             <li>• 教員ダッシュボード</li>

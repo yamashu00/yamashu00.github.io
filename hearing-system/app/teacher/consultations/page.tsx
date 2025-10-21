@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/firebase';
 import Link from 'next/link';
+import ExportButtons from './ExportButtons';
 
 export default async function TeacherConsultations() {
   const session = await getServerSession(authOptions);
@@ -25,11 +26,22 @@ export default async function TeacherConsultations() {
     .limit(100)
     .get();
 
-  const consultations = snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-    timestamp: doc.data().timestamp?.toDate().toISOString(),
-  }));
+  const consultations = snapshot.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      studentId: data.studentId || '',
+      theme: data.theme || '',
+      timestamp: data.timestamp?.toDate().toISOString() || '',
+      resolved: data.resolved || false,
+      aiResponse: data.aiResponse
+        ? {
+            category: data.aiResponse.category || '',
+            difficulty: data.aiResponse.difficulty || '',
+          }
+        : undefined,
+    };
+  });
 
   // 統計情報を計算
   const totalConsultations = consultations.length;
@@ -62,7 +74,7 @@ export default async function TeacherConsultations() {
             </Link>
             <Link
               href="/dashboard"
-              className="text-gray-600 hover:text-gray-700 text-sm"
+              className="text-gray-700 hover:text-gray-700 text-sm"
             >
               ← ダッシュボード
             </Link>
@@ -74,19 +86,19 @@ export default async function TeacherConsultations() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">総相談件数</p>
+            <p className="text-sm text-gray-700 mb-1">総相談件数</p>
             <p className="text-3xl font-bold text-gray-900">{totalConsultations}</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">解決済み</p>
+            <p className="text-sm text-gray-700 mb-1">解決済み</p>
             <p className="text-3xl font-bold text-green-600">{resolvedCount}</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">未解決</p>
+            <p className="text-sm text-gray-700 mb-1">未解決</p>
             <p className="text-3xl font-bold text-orange-600">{unresolvedCount}</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">解決率</p>
+            <p className="text-sm text-gray-700 mb-1">解決率</p>
             <p className="text-3xl font-bold text-blue-600">
               {totalConsultations > 0
                 ? Math.round((resolvedCount / totalConsultations) * 100)
@@ -120,7 +132,7 @@ export default async function TeacherConsultations() {
           </div>
 
           {consultations.length === 0 ? (
-            <div className="p-8 text-center text-gray-600">
+            <div className="p-8 text-center text-gray-700">
               相談がありません
             </div>
           ) : (
@@ -218,14 +230,7 @@ export default async function TeacherConsultations() {
         </div>
 
         {/* アクションボタン */}
-        <div className="mt-6 flex justify-end gap-4">
-          <button className="px-6 py-2 border border-gray-300 rounded hover:bg-gray-50">
-            CSVエクスポート
-          </button>
-          <button className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-            レポート生成
-          </button>
-        </div>
+        <ExportButtons consultations={consultations} />
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile }) {
       // ドメイン制限チェック
       const email = user.email || '';
-      const allowedDomains = ['seig-boys.jp', 'itoksk.com'];
+      const allowedDomains = (process.env.ALLOWED_DOMAINS || '').split(',');
       const domain = email.split('@')[1];
 
       if (!allowedDomains.includes(domain)) {
@@ -32,18 +32,15 @@ export const authOptions: NextAuthOptions = {
       let role = 'student'; // デフォルト
 
       // 教員リスト（管理者権限）
-      const teachers = [
-        'keisuke@itoksk.com',
-        's-yamamoto@seig-boys.jp',
-      ];
+      const teachers = (process.env.TEACHER_EMAILS || '').split(',');
 
       // TAリスト
-      const tas = [
+      const tas: string[] = [
         // 必要に応じてTAのメールアドレスを追加
       ];
 
       // 外部講師リスト
-      const externalInstructors = [
+      const externalInstructors: string[] = [
         // 必要に応じて外部講師のメールアドレスを追加
       ];
 
@@ -136,6 +133,40 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30日
+  },
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production'
+        ? '__Secure-next-auth.session-token'
+        : 'next-auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+    callbackUrl: {
+      name: process.env.NODE_ENV === 'production'
+        ? '__Secure-next-auth.callback-url'
+        : 'next-auth.callback-url',
+      options: {
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+    csrfToken: {
+      name: process.env.NODE_ENV === 'production'
+        ? '__Host-next-auth.csrf-token'
+        : 'next-auth.csrf-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

@@ -314,7 +314,7 @@ Vercel Dashboard → プロジェクト → Settings → Environment Variables
 | `FIREBASE_PROJECT_ID` | `yamashu-hearing` |
 | `FIREBASE_CLIENT_EMAIL` | （ステップ2で確認した値） |
 | `FIREBASE_PRIVATE_KEY` | （ステップ2で確認した値、改行を`\n`に置換） |
-| `OPENAI_API_KEY` | `sk-proj-B-eOkWV4Wuz...`（提供済み） |
+| `OPENAI_API_KEY` | `sk-proj-YOUR_OPENAI_API_KEY_HERE` |
 | `UPSTASH_REDIS_REST_URL` | （ステップ5で取得した値） |
 | `UPSTASH_REDIS_REST_TOKEN` | （ステップ5で取得した値） |
 

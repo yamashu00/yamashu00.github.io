@@ -54,8 +54,8 @@ export default function SignIn() {
           </button>
         </div>
 
-        <p className="mt-6 text-sm text-gray-600 text-center">
-          @seig-boys.jp または @itoksk.com のアカウントでログインしてください
+        <p className="mt-6 text-sm text-gray-700 text-center">
+          許可されたドメインのアカウントでログインしてください
         </p>
       </div>
     </div>

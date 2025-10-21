@@ -22,7 +22,7 @@ export default function AuthError() {
         <div className="text-center">
           <div className="text-red-500 text-5xl mb-4">⚠️</div>
           <h1 className="text-2xl font-bold mb-4">ログインエラー</h1>
-          <p className="text-gray-600 mb-6">{message}</p>
+          <p className="text-gray-700 mb-6">{message}</p>
 
           <Link
             href="/auth/signin"
