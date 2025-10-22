@@ -1,0 +1,124 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ========================================
+    // ヘルパー関数
+    // ========================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isSchoolDomain() {
+      return request.auth.token.email.matches('.*@seig-boys[.]jp$') ||
+             request.auth.token.email.matches('.*@itoksk[.]com$');
+    }
+
+    function getUserRole() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.token.email)).data.role;
+    }
+
+    function isTeacher() {
+      return isAuthenticated() && getUserRole() == 'teacher';
+    }
+
+    function isTA() {
+      return isAuthenticated() && getUserRole() == 'ta';
+    }
+
+    function isTeacherOrTA() {
+      return isTeacher() || isTA();
+    }
+
+    // ファイルサイズ制限（10MB）
+    function isValidSize() {
+      return request.resource.size <= 10 * 1024 * 1024;
+    }
+
+    // PDFファイルかチェック
+    function isPDF() {
+      return request.resource.contentType == 'application/pdf';
+    }
+
+    // Markdownファイルかチェック
+    function isMarkdown() {
+      return request.resource.contentType == 'text/markdown';
+    }
+
+    // JSONファイルかチェック
+    function isJSON() {
+      return request.resource.contentType == 'application/json';
+    }
+
+    // CSVファイルかチェック
+    function isCSV() {
+      return request.resource.contentType == 'text/csv';
+    }
+
+    // ========================================
+    // PDF レポート
+    // ========================================
+
+    match /pdf/{consultationId}/{fileName} {
+      // 読み取り: 認証済みユーザー（署名付きURLでアクセス制御）
+      allow read: if isAuthenticated() && isSchoolDomain();
+
+      // 書き込み: 認証済みユーザー、PDFファイル、サイズ制限内
+      allow write: if isAuthenticated() &&
+                      isSchoolDomain() &&
+                      isPDF() &&
+                      isValidSize();
+
+      // 削除: 教員のみ
+      allow delete: if isTeacher();
+    }
+
+    // ========================================
+    // Markdown レポート
+    // ========================================
+
+    match /markdown/{consultationId}/{fileName} {
+      allow read: if isAuthenticated() && isSchoolDomain();
+
+      allow write: if isAuthenticated() &&
+                      isSchoolDomain() &&
+                      isMarkdown() &&
+                      isValidSize();
+
+      allow delete: if isTeacher();
+    }
+
+    // ========================================
+    // JSON レポート
+    // ========================================
+
+    match /json/{consultationId}/{fileName} {
+      allow read: if isAuthenticated() && isSchoolDomain();
+
+      allow write: if isAuthenticated() &&
+                      isSchoolDomain() &&
+                      isJSON() &&
+                      isValidSize();
+
+      allow delete: if isTeacher();
+    }
+
+    // ========================================
+    // エクスポートファイル（CSV/JSON）
+    // ========================================
+
+    match /exports/csv/{fileName} {
+      allow read: if isTeacherOrTA();
+      allow write: if isTeacherOrTA() && isCSV() && isValidSize();
+      allow delete: if isTeacher();
+    }
+
+    match /exports/json/{fileName} {
+      allow read: if isTeacherOrTA();
+      allow write: if isTeacherOrTA() && isJSON() && isValidSize();
+      allow delete: if isTeacher();
+    }
+  }
+}

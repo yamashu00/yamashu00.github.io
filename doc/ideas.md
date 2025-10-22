@@ -1,0 +1,22 @@
+# アイデアサマリ
+- **授業ハブサイト**
+  - トップに検索バー＋クリエイター絞り込みを設置し、授業テーマ別カードとタグで迷子を防ぐ。
+  - 「フェーズ（導入/開発/仕上げ）」×「テーマ（数学/プログラミング/デザイン/知財）」の二軸で情報を整理。
+  - 更新頻度の高い素材リンク（LOTTE提供アセット、指導案、PDF等）は更新日タグ付きミニカードで提示。
+  - タイムライン形式で授業ステップを並べ、各ステップから必要教材・Gem・外部リソースへ誘導。
+- **Gemスイート**
+  - `unity-debug-mentor`（https://gemini.google.com/gem/1tzBSlzfPbSujsB6YfcdDq7qs_jqdbw7V?usp=sharing）：Unityの典型エラー診断と修正案を提示。コード例→理由→検証方法の順で出力。
+  - `vector-math-coach`（https://gemini.google.com/gem/1YWLi1l_60oxmMzyQLDBHpSh4Er79xmFG?usp=sharing）：数学Bの概念（ベクトル/数列/確率）をUnity実装へ橋渡しする解説を提供。
+  - `asset-handbook`（https://gemini.google.com/gem/10Bl3Yjq4Mz-OIGQ1AWV2oT7Z50wWDpt7?usp=sharing）：LOTTE素材や配布アセットの命名規則・利用ガイドラインを即参照できるリファレンス。
+  - `lesson-scheduler`（https://gemini.google.com/gem/1KEIGpDlnDLUbViVYTyl3-w4kfBW_NNA6?usp=sharing）：授業回ごとのゴール、チェックリスト、推奨教材/Gemをまとめ、生徒・教員双方に行動提示。
+  - `unity-install-help`（https://gemini.google.com/gem/1NsM8TTDDG0Bql-GawdMER1U4ZWOgne2Z?usp=sharing）：OS別セットアップやアップデート、再インストール手順を案内する環境構築支援。
+  - すべてのGemはカスタム指示で対応範囲/非対応範囲/口調/不足情報の確認フローを明記。
+- **ヒアリング＆レポートシステム**
+  - `hearing`の体験を踏襲しつつ、「生徒→AI→振り返り→教員共有」のレポート生成を自動化。
+  - 相談ログには相談内容・AI回答・生徒の自己評価（成功/課題/次の一手）を含め、授業回単位で束ねる。
+  - ハブサイトには相談フォーム（モーダル/別ページ）を埋め込み、Gemからもレポート取得コマンドを提供。
+  - AI呼び出しはOpenAI GPT APIを利用し、要約→API呼び出し→レポート生成のフローでコストとトーンを制御。
+- **データ連携と運用**
+  - サイト側で教材・Gem・相談タグを共通JSONフィード化し、Gemとヒアリングが同じタグセットを利用。
+  - サイトの更新ログやGemリリースノートを、今後新設する更新情報セクション（想定パス:`/updates`）にまとめ、Gemからも最新情報を案内。
+  - 相談ログから頻出課題を抽出し、FAQやGemのカスタム指示にフィードバックする仕組みを設計。
