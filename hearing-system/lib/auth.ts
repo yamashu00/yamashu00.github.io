@@ -1,9 +1,12 @@
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import { db as firestore } from './firebase';
+import bcrypt from 'bcryptjs';
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    // 教師・TA用: Google OAuth
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -15,11 +18,66 @@ export const authOptions: NextAuthOptions = {
         },
       },
     }),
+    // 生徒用: メールアドレス＋パスワード
+    CredentialsProvider({
+      id: 'student-credentials',
+      name: 'Student Login',
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        try {
+          // Firestoreからユーザーを取得
+          const userRef = firestore.collection('users').doc(credentials.email);
+          const userDoc = await userRef.get();
+
+          if (!userDoc.exists) {
+            return null;
+          }
+
+          const userData = userDoc.data();
+
+          // パスワードチェック（生徒のみ）
+          if (userData?.authType === 'credentials') {
+            const isValid = await bcrypt.compare(credentials.password, userData.password);
+            if (!isValid) {
+              return null;
+            }
+
+            // lastLogin更新
+            await userRef.update({ lastLogin: new Date() });
+
+            return {
+              id: credentials.email,
+              email: credentials.email,
+              name: userData.displayName || credentials.email,
+              image: null,
+            };
+          }
+
+          return null;
+        } catch (error) {
+          console.error('認証エラー:', error);
+          return null;
+        }
+      }
+    }),
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      // ドメイン制限チェック
       const email = user.email || '';
+
+      // Credentials認証（生徒）の場合は、authorize関数で既に認証済み
+      if (account?.provider === 'student-credentials') {
+        return true;
+      }
+
+      // Google OAuth（教師・TA）の場合のみドメイン制限チェック
       const allowedDomains = (process.env.ALLOWED_DOMAINS || '').split(',');
       const domain = email.split('@')[1];
 
@@ -64,10 +122,11 @@ export const authOptions: NextAuthOptions = {
         const userDoc = await userRef.get();
 
         if (!userDoc.exists) {
-          // 新規ユーザー
+          // 新規ユーザー（Google OAuth）
           await userRef.set({
             email,
             role,
+            authType: 'google', // 認証方式
             displayName: user.name || '',
             avatar: user.image || '',
             createdAt: new Date(),
