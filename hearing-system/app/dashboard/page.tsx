@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/firebase';
 import Link from 'next/link';
+import Header from '@/app/components/Header';
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
@@ -45,25 +46,11 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ヘッダー */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">
-            ヒアリングシステム
-          </h1>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-700">
-              {user.displayName || user.email}
-              <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
-                {user.role === 'student' && '生徒'}
-                {user.role === 'teacher' && '教員'}
-                {user.role === 'ta' && 'TA'}
-                {user.role === 'external-instructor' && '外部講師'}
-              </span>
-            </span>
-          </div>
-        </div>
-      </header>
+      <Header
+        title="ヒアリングシステム"
+        userName={user.displayName || user.email}
+        userRole={user.role}
+      />
 
       {/* メインコンテンツ */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

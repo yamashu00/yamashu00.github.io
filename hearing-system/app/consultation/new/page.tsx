@@ -173,8 +173,22 @@ export default function NewConsultation() {
     <div className="min-h-screen bg-gray-50">
       {/* ヘッダー */}
       <header className="bg-white shadow">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">新しい相談</h1>
+          <button
+            onClick={() => {
+              if (currentStep < 5 && (theme || details || aiResponse)) {
+                if (confirm('入力中のデータは保存されません。ダッシュボードに戻りますか？')) {
+                  router.push('/dashboard');
+                }
+              } else {
+                router.push('/dashboard');
+              }
+            }}
+            className="text-gray-700 hover:text-gray-900 text-sm font-medium"
+          >
+            ✕ キャンセル
+          </button>
         </div>
       </header>
 

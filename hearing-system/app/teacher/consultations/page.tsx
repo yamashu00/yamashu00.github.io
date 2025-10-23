@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/firebase';
 import Link from 'next/link';
 import ExportButtons from './ExportButtons';
+import Header from '@/app/components/Header';
 
 export default async function TeacherConsultations() {
   const session = await getServerSession(authOptions);
@@ -61,26 +62,13 @@ export default async function TeacherConsultations() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ヘッダー */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">相談ダッシュボード</h1>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/teacher/analytics"
-              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
-            >
-              統計・分析 →
-            </Link>
-            <Link
-              href="/dashboard"
-              className="text-gray-700 hover:text-gray-700 text-sm"
-            >
-              ← ダッシュボード
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header
+        title="相談ダッシュボード"
+        links={[
+          { href: '/teacher/analytics', label: '📊 統計・分析を見る', position: 'right' },
+          { href: '/dashboard', label: '🏠 ホームに戻る', position: 'right' }
+        ]}
+      />
 
       {/* 統計サマリー */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/firebase';
 import Link from 'next/link';
 import ConsultationCard from './ConsultationCard';
+import Header from '@/app/components/Header';
 
 export default async function ConsultationHistory() {
   const session = await getServerSession(authOptions);
@@ -32,18 +33,12 @@ export default async function ConsultationHistory() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ヘッダー */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">相談履歴</h1>
-          <Link
-            href="/dashboard"
-            className="text-blue-600 hover:text-blue-700 text-sm"
-          >
-            ← ダッシュボード
-          </Link>
-        </div>
-      </header>
+      <Header
+        title="相談履歴"
+        links={[
+          { href: '/dashboard', label: '🏠 ダッシュボードに戻る', position: 'right' }
+        ]}
+      />
 
       {/* メインコンテンツ */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

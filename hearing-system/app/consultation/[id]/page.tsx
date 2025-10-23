@@ -6,6 +6,7 @@ import Link from 'next/link';
 import MarkResolvedButton from './MarkResolvedButton';
 import ExportPdfButton from './ExportPdfButton';
 import resourcesData from '@/lib/resources.json';
+import Header from '@/app/components/Header';
 
 // リソースIDからURLとタイトルを取得する関数
 function getResourceInfo(resourceId: string) {
@@ -79,18 +80,12 @@ export default async function ConsultationDetail({ params }: { params: Promise<{
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ヘッダー */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">相談詳細</h1>
-          <Link
-            href="/dashboard"
-            className="text-gray-700 hover:text-gray-900 text-sm"
-          >
-            ← ダッシュボード
-          </Link>
-        </div>
-      </header>
+      <Header
+        title="相談詳細"
+        links={[
+          { href: '/dashboard', label: '🏠 ダッシュボードに戻る', position: 'right' }
+        ]}
+      />
 
       {/* メインコンテンツ */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -30,7 +30,7 @@ export default function ExportPdfButton({ consultation }: ExportPdfButtonProps) 
       yPos += 10;
       doc.text(`投稿者: ${consultation.studentId?.split('@')[0]}`, margin, yPos);
       yPos += 10;
-      doc.text(`日時: ${consultation.timestamp?.toDate().toLocaleString('ja-JP')}`, margin, yPos);
+      doc.text(`日時: ${consultation.timestamp?.toDate().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })}`, margin, yPos);
       yPos += 10;
       doc.text(`ステータス: ${consultation.resolved ? '解決済み' : '未解決'}`, margin, yPos);
       yPos += 15;

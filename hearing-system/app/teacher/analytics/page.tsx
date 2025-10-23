@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/firebase';
 import Link from 'next/link';
+import Header from '@/app/components/Header';
 
 export default async function AnalyticsPage() {
   const session = await getServerSession(authOptions);
@@ -56,18 +57,13 @@ export default async function AnalyticsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ヘッダー */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">統計・分析</h1>
-          <Link
-            href="/dashboard"
-            className="text-blue-600 hover:text-blue-700 text-sm"
-          >
-            ← ダッシュボード
-          </Link>
-        </div>
-      </header>
+      <Header
+        title="統計・分析"
+        links={[
+          { href: '/teacher/consultations', label: '📋 相談一覧を見る', position: 'right' },
+          { href: '/dashboard', label: '🏠 ホームに戻る', position: 'right' }
+        ]}
+      />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* 全体統計 */}
