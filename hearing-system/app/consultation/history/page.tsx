@@ -19,11 +19,15 @@ export default async function ConsultationHistory() {
     .limit(50)
     .get();
 
-  const consultations = snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-    timestamp: doc.data().timestamp?.toDate().toISOString(),
-  }));
+  const consultations = snapshot.docs.map((doc) => {
+    const rawData = doc.data();
+    return JSON.parse(JSON.stringify({
+      id: doc.id,
+      ...rawData,
+      timestamp: rawData.timestamp?.toDate?.()?.toISOString() || rawData.timestamp,
+      createdAt: rawData.createdAt?.toDate?.()?.toISOString() || rawData.createdAt,
+    }));
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">
