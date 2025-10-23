@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { db } from '@/lib/firebase';
 import Link from 'next/link';
 
 export default async function Dashboard() {
@@ -11,6 +12,36 @@ export default async function Dashboard() {
   }
 
   const user = session.user as any;
+
+  // 統計データを取得
+  let stats = {
+    totalConsultations: 0,
+    resolvedCount: 0,
+    unresolvedCount: 0,
+    lastConsultation: null as string | null,
+  };
+
+  try {
+    const consultationsRef = db.collection('consultations');
+    const snapshot = await consultationsRef
+      .where('studentId', '==', user.email)
+      .orderBy('timestamp', 'desc')
+      .get();
+
+    stats.totalConsultations = snapshot.size;
+    stats.resolvedCount = snapshot.docs.filter((doc) => doc.data().resolved).length;
+    stats.unresolvedCount = stats.totalConsultations - stats.resolvedCount;
+
+    if (snapshot.docs.length > 0) {
+      const lastDoc = snapshot.docs[0];
+      const timestamp = lastDoc.data().timestamp?.toDate();
+      if (timestamp) {
+        stats.lastConsultation = timestamp.toLocaleDateString('ja-JP');
+      }
+    }
+  } catch (error) {
+    console.error('統計データ取得エラー:', error);
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -167,19 +198,19 @@ export default async function Dashboard() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <p className="text-sm text-gray-700">総相談回数</p>
-              <p className="text-2xl font-bold text-gray-900">-</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.totalConsultations}</p>
             </div>
             <div>
               <p className="text-sm text-gray-700">解決済み</p>
-              <p className="text-2xl font-bold text-green-600">-</p>
+              <p className="text-2xl font-bold text-green-600">{stats.resolvedCount}</p>
             </div>
             <div>
               <p className="text-sm text-gray-700">未解決</p>
-              <p className="text-2xl font-bold text-orange-600">-</p>
+              <p className="text-2xl font-bold text-orange-600">{stats.unresolvedCount}</p>
             </div>
             <div>
               <p className="text-sm text-gray-700">最終相談</p>
-              <p className="text-sm font-medium text-gray-900">-</p>
+              <p className="text-sm font-medium text-gray-900">{stats.lastConsultation || 'なし'}</p>
             </div>
           </div>
         </div>
