@@ -51,7 +51,7 @@ export default function ConsultationCard({ consultation }: ConsultationCardProps
             {consultation.theme}
           </h3>
           <p className="text-sm text-gray-500">
-            {new Date(consultation.timestamp).toLocaleString('ja-JP')}
+            {new Date(consultation.timestamp).toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })}
           </p>
         </div>
         <div className="flex gap-2">

@@ -36,7 +36,7 @@ export default async function Dashboard() {
       const lastDoc = snapshot.docs[0];
       const timestamp = lastDoc.data().timestamp?.toDate();
       if (timestamp) {
-        stats.lastConsultation = timestamp.toLocaleDateString('ja-JP');
+        stats.lastConsultation = timestamp.toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' });
       }
     }
   } catch (error) {

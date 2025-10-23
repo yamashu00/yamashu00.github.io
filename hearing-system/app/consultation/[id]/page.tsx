@@ -105,7 +105,7 @@ export default async function ConsultationDetail({ params }: { params: Promise<{
                 投稿者: {consultation?.studentId?.split('@')[0]}
               </p>
               <p className="text-sm text-gray-700">
-                日時: {consultation?.timestamp ? new Date(consultation.timestamp).toLocaleString('ja-JP') : ''}
+                日時: {consultation?.timestamp ? new Date(consultation.timestamp).toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }) : ''}
               </p>
             </div>
             <div>
