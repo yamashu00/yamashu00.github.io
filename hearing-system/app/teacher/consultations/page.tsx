@@ -167,12 +167,13 @@ export default async function TeacherConsultations() {
                   {consultations.map((consultation: any) => (
                     <tr key={consultation.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {new Date(consultation.timestamp).toLocaleDateString('ja-JP')}
+                        {new Date(consultation.timestamp).toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' })}
                         <br />
                         <span className="text-xs text-gray-500">
                           {new Date(consultation.timestamp).toLocaleTimeString('ja-JP', {
                             hour: '2-digit',
                             minute: '2-digit',
+                            timeZone: 'Asia/Tokyo',
                           })}
                         </span>
                       </td>
