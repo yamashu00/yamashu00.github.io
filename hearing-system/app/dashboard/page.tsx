@@ -1,7 +1,9 @@
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { db } from '@/lib/firebase';
 import Link from 'next/link';
+import Header from '@/app/components/Header';
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
@@ -12,27 +14,43 @@ export default async function Dashboard() {
 
   const user = session.user as any;
 
+  // 統計データを取得
+  let stats = {
+    totalConsultations: 0,
+    resolvedCount: 0,
+    unresolvedCount: 0,
+    lastConsultation: null as string | null,
+  };
+
+  try {
+    const consultationsRef = db.collection('consultations');
+    const snapshot = await consultationsRef
+      .where('studentId', '==', user.email)
+      .orderBy('timestamp', 'desc')
+      .get();
+
+    stats.totalConsultations = snapshot.size;
+    stats.resolvedCount = snapshot.docs.filter((doc) => doc.data().resolved).length;
+    stats.unresolvedCount = stats.totalConsultations - stats.resolvedCount;
+
+    if (snapshot.docs.length > 0) {
+      const lastDoc = snapshot.docs[0];
+      const timestamp = lastDoc.data().timestamp?.toDate();
+      if (timestamp) {
+        stats.lastConsultation = timestamp.toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' });
+      }
+    }
+  } catch (error) {
+    console.error('統計データ取得エラー:', error);
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ヘッダー */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">
-            ヒアリングシステム
-          </h1>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-700">
-              {user.displayName || user.email}
-              <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
-                {user.role === 'student' && '生徒'}
-                {user.role === 'teacher' && '教員'}
-                {user.role === 'ta' && 'TA'}
-                {user.role === 'external-instructor' && '外部講師'}
-              </span>
-            </span>
-          </div>
-        </div>
-      </header>
+      <Header
+        title="ヒアリングシステム"
+        userName={user.displayName || user.email}
+        userRole={user.role}
+      />
 
       {/* メインコンテンツ */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -167,19 +185,19 @@ export default async function Dashboard() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <p className="text-sm text-gray-700">総相談回数</p>
-              <p className="text-2xl font-bold text-gray-900">-</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.totalConsultations}</p>
             </div>
             <div>
               <p className="text-sm text-gray-700">解決済み</p>
-              <p className="text-2xl font-bold text-green-600">-</p>
+              <p className="text-2xl font-bold text-green-600">{stats.resolvedCount}</p>
             </div>
             <div>
               <p className="text-sm text-gray-700">未解決</p>
-              <p className="text-2xl font-bold text-orange-600">-</p>
+              <p className="text-2xl font-bold text-orange-600">{stats.unresolvedCount}</p>
             </div>
             <div>
               <p className="text-sm text-gray-700">最終相談</p>
-              <p className="text-sm font-medium text-gray-900">-</p>
+              <p className="text-sm font-medium text-gray-900">{stats.lastConsultation || 'なし'}</p>
             </div>
           </div>
         </div>
