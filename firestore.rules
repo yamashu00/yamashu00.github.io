@@ -1,0 +1,235 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========================================
+    // ヘルパー関数
+    // ========================================
+
+    // ユーザーが認証済みかチェック
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // メールドメインをチェック
+    function isSchoolDomain() {
+      return request.auth.token.email.matches('.*@seig-boys[.]jp$') ||
+             request.auth.token.email.matches('.*@itoksk[.]com$');
+    }
+
+    // ユーザーのロールを取得
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.token.email)).data.role;
+    }
+
+    // 生徒かチェック
+    function isStudent() {
+      return isAuthenticated() &&
+             getUserRole() == 'student' &&
+             request.auth.token.email.matches('.*@seig-boys[.]jp$');
+    }
+
+    // 教員かチェック
+    function isTeacher() {
+      return isAuthenticated() &&
+             getUserRole() == 'teacher' &&
+             isSchoolDomain();
+    }
+
+    // TAかチェック
+    function isTA() {
+      return isAuthenticated() &&
+             getUserRole() == 'ta' &&
+             request.auth.token.email.matches('.*@itoksk[.]com$');
+    }
+
+    // 外部講師かチェック
+    function isExternalInstructor() {
+      return isAuthenticated() &&
+             getUserRole() == 'external-instructor' &&
+             request.auth.token.email.matches('.*@itoksk[.]com$');
+    }
+
+    // 教員またはTAかチェック
+    function isTeacherOrTA() {
+      return isTeacher() || isTA();
+    }
+
+    // 教員、TA、または外部講師かチェック
+    function isStaff() {
+      return isTeacher() || isTA() || isExternalInstructor();
+    }
+
+    // 自分のデータかチェック
+    function isOwnData(userId) {
+      return request.auth.token.email == userId;
+    }
+
+    // データがPII除去済みかチェック
+    function isPIIFiltered(data) {
+      return !data.keys().hasAny(['originalDetails']);
+    }
+
+    // ========================================
+    // consultations コレクション
+    // ========================================
+
+    match /consultations/{consultationId} {
+      // 読み取りルール
+      allow read: if isAuthenticated() && (
+        // 生徒: 自分の相談のみ
+        (isStudent() && isOwnData(resource.data.studentId)) ||
+        // 教員・TA: 全件読取可（PII除去済み）
+        isTeacherOrTA() ||
+        // 外部講師: 匿名化済みのみ
+        (isExternalInstructor() && isPIIFiltered(resource.data))
+      );
+
+      // 作成ルール
+      allow create: if isAuthenticated() && (
+        // 生徒: 自分の相談のみ作成可
+        (isStudent() && isOwnData(request.resource.data.studentId)) ||
+        // 教員・TA: 作成可
+        isTeacherOrTA()
+      ) &&
+      // バリデーション
+      request.resource.data.keys().hasAll(['studentId', 'timestamp', 'theme', 'details']) &&
+      request.resource.data.studentId is string &&
+      request.resource.data.timestamp is timestamp &&
+      request.resource.data.theme is string &&
+      request.resource.data.details is string &&
+      // detailsが空でないこと
+      request.resource.data.details.size() > 0 &&
+      request.resource.data.details.size() <= 5000; // 最大5000文字
+
+      // 更新ルール
+      allow update: if isAuthenticated() && (
+        // 生徒: status が draft の自分の相談のみ更新可
+        (isStudent() &&
+         isOwnData(resource.data.studentId) &&
+         resource.data.status == 'draft') ||
+        // 教員・TA: 全件更新可
+        isTeacherOrTA()
+      ) &&
+      // 主キーフィールドは変更不可
+      request.resource.data.consultationId == resource.data.consultationId &&
+      request.resource.data.studentId == resource.data.studentId &&
+      request.resource.data.timestamp == resource.data.timestamp;
+
+      // 削除ルール（論理削除のみ）
+      allow delete: if isTeacher() &&
+                       resource.data.deletedAt != null; // 論理削除済みのみ完全削除可
+    }
+
+    // ========================================
+    // users コレクション
+    // ========================================
+
+    match /users/{userId} {
+      // 読み取りルール
+      allow read: if isAuthenticated() && (
+        // 自分のユーザー情報
+        isOwnData(userId) ||
+        // 教員・TA: 全ユーザー情報読取可
+        isTeacherOrTA() ||
+        // 外部講師: 匿名化済みのみ（emailフィールドがマスクされている）
+        (isExternalInstructor() && !resource.data.keys().hasAny(['email']))
+      );
+
+      // 作成ルール（初回ログイン時の自動作成）
+      allow create: if isAuthenticated() &&
+                       isOwnData(userId) &&
+                       isSchoolDomain() &&
+                       request.resource.data.email == request.auth.token.email &&
+                       request.resource.data.role in ['student', 'teacher', 'ta', 'external-instructor'];
+
+      // 更新ルール
+      allow update: if isAuthenticated() && (
+        // 自分のユーザー情報: preferences のみ更新可
+        (isOwnData(userId) &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['preferences', 'lastLogin', 'stats'])) ||
+        // 教員: 全フィールド更新可
+        isTeacher()
+      );
+
+      // 削除ルール
+      allow delete: if isTeacher();
+    }
+
+    // ========================================
+    // lessons コレクション
+    // ========================================
+
+    match /lessons/{lessonId} {
+      // 読み取りルール: 全員読取可
+      allow read: if isAuthenticated() && isSchoolDomain();
+
+      // 作成・更新・削除: 教員のみ
+      allow create, update, delete: if isTeacher();
+
+      // サブコレクション: consultations への参照
+      match /consultations/{consultationId} {
+        allow read: if isAuthenticated() && isSchoolDomain();
+        allow write: if isTeacher();
+      }
+    }
+
+    // ========================================
+    // reports コレクション
+    // ========================================
+
+    match /reports/{reportId} {
+      // 読み取りルール
+      allow read: if isAuthenticated() && (
+        // 自分が作成したレポート
+        isOwnData(resource.data.generatedBy) ||
+        // 教員・TA: 全件読取可
+        isTeacherOrTA() ||
+        // accessibleBy に含まれるユーザー
+        request.auth.token.email in resource.data.accessibleBy
+      );
+
+      // 作成ルール
+      allow create: if isAuthenticated() && (
+        isStudent() || isTeacherOrTA()
+      ) &&
+      request.resource.data.generatedBy == request.auth.token.email &&
+      request.resource.data.format in ['pdf', 'markdown', 'json'] &&
+      request.resource.data.expiresAt is timestamp;
+
+      // 更新ルール: 教員のみ（有効期限延長等）
+      allow update: if isTeacher();
+
+      // 削除ルール: 教員のみ
+      allow delete: if isTeacher();
+    }
+
+    // ========================================
+    // analytics コレクション
+    // ========================================
+
+    match /analytics/{analyticsId} {
+      // 読み取りルール: 教員・TA・外部講師のみ
+      allow read: if isStaff();
+
+      // 作成・更新・削除: 教員のみ（自動生成される）
+      allow create, update, delete: if isTeacher();
+    }
+
+    // ========================================
+    // audit_logs コレクション（監査ログ）
+    // ========================================
+
+    match /audit_logs/{logId} {
+      // 読み取りルール: 教員のみ
+      allow read: if isTeacher();
+
+      // 作成ルール: システムのみ（Cloud Functions）
+      allow create: if false; // Cloud Functionsから admin SDK で書き込み
+
+      // 更新・削除: 不可
+      allow update, delete: if false;
+    }
+  }
+}

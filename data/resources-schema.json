@@ -1,0 +1,170 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "授業ハブサイト 教材リソーススキーマ",
+  "description": "Unity × 数学B × 知財授業の教材・リンク・Gemツールのメタデータスキーマ",
+  "type": "object",
+  "properties": {
+    "resources": {
+      "type": "array",
+      "description": "すべてのリソースの配列",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "type", "category", "tags", "priority"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "一意のリソースID（例: resource-001, gem-001）",
+            "pattern": "^(resource|gem|code|theme|doc)-[0-9]{3}$"
+          },
+          "title": {
+            "type": "string",
+            "description": "リソースのタイトル"
+          },
+          "description": {
+            "type": "string",
+            "description": "リソースの説明文"
+          },
+          "type": {
+            "type": "string",
+            "description": "リソースのタイプ",
+            "enum": [
+              "external-link",
+              "code-snippet",
+              "tutorial",
+              "reference",
+              "gem-tool",
+              "google-drive",
+              "theme",
+              "documentation"
+            ]
+          },
+          "category": {
+            "type": "string",
+            "description": "主要カテゴリ",
+            "enum": [
+              "unity-basics",
+              "programming",
+              "math-game",
+              "assets",
+              "design",
+              "game-design",
+              "ip-law",
+              "gem-tools"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "description": "タグの配列（primary, secondary, meta, level含む）",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "priority": {
+            "type": "string",
+            "description": "公開優先度",
+            "enum": ["A", "B", "C"]
+          },
+          "level": {
+            "type": "string",
+            "description": "対象レベル",
+            "enum": ["beginner", "intermediate", "advanced"]
+          },
+          "url": {
+            "type": "string",
+            "description": "外部リンクURL（external-link, gem-tool, google-driveの場合）",
+            "format": "uri"
+          },
+          "code": {
+            "type": "string",
+            "description": "コードスニペットの内容（code-snippetの場合）"
+          },
+          "language": {
+            "type": "string",
+            "description": "コードの言語（code-snippetの場合）",
+            "enum": ["csharp", "javascript", "python"]
+          },
+          "requirements": {
+            "type": "array",
+            "description": "必要なコンポーネントや前提知識",
+            "items": {
+              "type": "string"
+            }
+          },
+          "relatedResources": {
+            "type": "array",
+            "description": "関連リソースのID配列",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lastUpdated": {
+            "type": "string",
+            "description": "最終更新日（YYYY-MM-DD形式）",
+            "format": "date"
+          },
+          "access": {
+            "type": "string",
+            "description": "アクセス権限",
+            "enum": ["public", "school-account", "restricted"]
+          },
+          "author": {
+            "type": "string",
+            "description": "作成者・提供元"
+          },
+          "gemConfig": {
+            "type": "object",
+            "description": "Gemツール固有の設定（gem-toolの場合）",
+            "properties": {
+              "gemId": {
+                "type": "string",
+                "description": "Gemini GemのID"
+              },
+              "role": {
+                "type": "string",
+                "description": "Gemの役割"
+              },
+              "targetUser": {
+                "type": "string",
+                "description": "対象ユーザー",
+                "enum": ["student", "teacher", "both"]
+              },
+              "useCases": {
+                "type": "array",
+                "description": "ユースケースの配列",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "mathConcepts": {
+            "type": "array",
+            "description": "関連する数学概念（math-gameの場合）",
+            "items": {
+              "type": "string"
+            }
+          },
+          "gameElements": {
+            "type": "array",
+            "description": "関連するゲーム要素（math-gameの場合）",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "description": "スキーマバージョン",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "description": "データ最終更新日",
+      "format": "date-time"
+    }
+  },
+  "required": ["resources", "version", "lastUpdated"]
+}

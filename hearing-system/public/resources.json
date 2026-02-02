@@ -1,0 +1,742 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-02-02T19:20:43+09:00",
+  "resources": [
+    {
+      "id": "gem-001",
+      "title": "unity-debug-mentor",
+      "description": "Unityのデバッグメンター。不具合の原因分析から修正・検証まで導くGemツール。NullReferenceException等の典型エラーに対応。",
+      "type": "gem-tool",
+      "category": "gem-tools",
+      "tags": [
+        "gem-tool",
+        "debugging",
+        "unity-basics",
+        "programming",
+        "tutorial",
+        "beginner"
+      ],
+      "priority": "A",
+      "level": "beginner",
+      "url": "https://gemini.google.com/gem/1tzBSlzfPbSujsB6YfcdDq7qs_jqdbw7V?usp=sharing",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "gemConfig": {
+        "gemId": "1tzBSlzfPbSujsB6YfcdDq7qs_jqdbw7V",
+        "role": "Unityデバッグメンター",
+        "targetUser": "student",
+        "useCases": [
+          "エラーメッセージの解読",
+          "NullReferenceExceptionの原因特定",
+          "コンポーネント設定ミスの診断",
+          "スクリプトバグの修正手順案内"
+        ]
+      },
+      "relatedResources": [
+        "code-001",
+        "code-002",
+        "resource-001"
+      ]
+    },
+    {
+      "id": "gem-002",
+      "title": "vector-math-coach",
+      "description": "数学BとUnityを横断する学習コーチ。数列・確率・ベクトルの概念をゲーム実装へ橋渡し。",
+      "type": "gem-tool",
+      "category": "gem-tools",
+      "tags": [
+        "gem-tool",
+        "math-game",
+        "vector",
+        "probability",
+        "sequence",
+        "tutorial",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "url": "https://gemini.google.com/gem/1YWLi1l_60oxmMzyQLDBHpSh4Er79xmFG?usp=sharing",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "gemConfig": {
+        "gemId": "1YWLi1l_60oxmMzyQLDBHpSh4Er79xmFG",
+        "role": "数学B × Unity学習コーチ",
+        "targetUser": "student",
+        "useCases": [
+          "数列を使ったレベルアップシステムの設計",
+          "確率を使ったガチャシステムの実装",
+          "ベクトルを使った追尾AIの作成",
+          "数学概念とゲーム要素の橋渡し"
+        ]
+      },
+      "relatedResources": [
+        "theme-001",
+        "theme-002",
+        "theme-003"
+      ],
+      "mathConcepts": [
+        "数列",
+        "確率",
+        "ベクトル",
+        "正規化",
+        "内積"
+      ]
+    },
+    {
+      "id": "gem-003",
+      "title": "asset-handbook",
+      "description": "配布素材の利用ガイド提供。LOTTE素材やGoogle Drive上のデザイン資料を安全かつ効率的に扱う手順を案内。",
+      "type": "gem-tool",
+      "category": "gem-tools",
+      "tags": [
+        "gem-tool",
+        "assets",
+        "design",
+        "ip-law",
+        "reference",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "url": "https://gemini.google.com/gem/10Bl3Yjq4Mz-OIGQ1AWV2oT7Z50wWDpt7?usp=sharing",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "gemConfig": {
+        "gemId": "10Bl3Yjq4Mz-OIGQ1AWV2oT7Z50wWDpt7",
+        "role": "アセット管理アドバイザー",
+        "targetUser": "student",
+        "useCases": [
+          "LOTTEキャラクター素材の利用方法",
+          "素材の命名規則とフォルダ構成",
+          "権利表記・クレジット記載方法",
+          "素材の改変可否の確認"
+        ]
+      },
+      "relatedResources": [
+        "resource-004"
+      ]
+    },
+    {
+      "id": "gem-004",
+      "title": "lesson-scheduler",
+      "description": "授業ファシリテーター。授業回ごとのゴール・タスク・必要資料を整理し、教員と生徒の双方をナビゲート。",
+      "type": "gem-tool",
+      "category": "gem-tools",
+      "tags": [
+        "gem-tool",
+        "game-design",
+        "reference",
+        "intermediate"
+      ],
+      "priority": "B",
+      "level": "intermediate",
+      "url": "https://gemini.google.com/gem/1KEIGpDlnDLUbViVYTyl3-w4kfBW_NNA6?usp=sharing",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "gemConfig": {
+        "gemId": "1KEIGpDlnDLUbViVYTyl3-w4kfBW_NNA6",
+        "role": "授業ファシリテーター",
+        "targetUser": "both",
+        "useCases": [
+          "授業回ごとのタスク整理",
+          "生徒・教員・TAの役割分担",
+          "必要教材とGemの紐付け",
+          "GitHub Classroom課題の提出管理"
+        ]
+      },
+      "relatedResources": [
+        "doc-002"
+      ]
+    },
+    {
+      "id": "gem-005",
+      "title": "unity-install-help",
+      "description": "Unity環境構築サポーター。Windows/Mac対応のUnity Hubと必要Editorの導入・更新を案内。",
+      "type": "gem-tool",
+      "category": "gem-tools",
+      "tags": [
+        "gem-tool",
+        "unity-basics",
+        "installation",
+        "tutorial",
+        "beginner"
+      ],
+      "priority": "A",
+      "level": "beginner",
+      "url": "https://gemini.google.com/gem/1NsM8TTDDG0Bql-GawdMER1U4ZWOgne2Z?usp=sharing",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "gemConfig": {
+        "gemId": "1NsM8TTDDG0Bql-GawdMER1U4ZWOgne2Z",
+        "role": "Unity環境構築サポーター",
+        "targetUser": "student",
+        "useCases": [
+          "Unity Hubのインストール",
+          "Unity Editorのバージョン選択",
+          "プロキシ設定のトラブルシュート",
+          "再インストール手順の案内"
+        ]
+      },
+      "relatedResources": [
+        "resource-001"
+      ]
+    },
+    {
+      "id": "gem-006",
+      "title": "hearing-reporter",
+      "description": "ヒアリングレポート作成支援メンター。相談ログを要約し、教員・外部講師・生徒が共有できるレポートを生成。",
+      "type": "gem-tool",
+      "category": "gem-tools",
+      "tags": [
+        "gem-tool",
+        "reference",
+        "advanced"
+      ],
+      "priority": "C",
+      "level": "advanced",
+      "url": "https://gemini.google.com/gem/19a4eFRpRXQSPpGo2nN_-hrJDRF9F9d7X?usp=sharing",
+      "lastUpdated": "2025-10-21",
+      "access": "school-account",
+      "author": "授業チーム",
+      "gemConfig": {
+        "gemId": "19a4eFRpRXQSPpGo2nN_-hrJDRF9F9d7X",
+        "role": "ヒアリングレポート作成支援メンター",
+        "targetUser": "teacher",
+        "useCases": [
+          "相談ログの要約",
+          "課題と成功の抽出",
+          "推奨教材・Gemの提示",
+          "レポート共有時の匿名化"
+        ]
+      }
+    },
+    {
+      "id": "resource-001",
+      "title": "Schoomy開発者の知見 on note",
+      "description": "Unityのインストールやプロジェクト作成を画像付きで丁寧に解説。環境構築の第一歩。",
+      "type": "external-link",
+      "category": "unity-basics",
+      "tags": [
+        "unity-basics",
+        "installation",
+        "tutorial",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "A",
+      "level": "beginner",
+      "url": "https://note.com/schoomy/n/n18d261804e89",
+      "lastUpdated": "2024-09-01",
+      "access": "public",
+      "author": "Schoomy",
+      "relatedResources": [
+        "gem-005"
+      ]
+    },
+    {
+      "id": "resource-002",
+      "title": "Unity公式ブログ 初心者向け記事一覧",
+      "description": "Unity公式の初心者向け記事まとめ。より深い理解のための参考資料。",
+      "type": "external-link",
+      "category": "unity-basics",
+      "tags": [
+        "unity-basics",
+        "programming",
+        "reference",
+        "official",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "url": "https://learning.unity3d.jp/tag/beginners/",
+      "lastUpdated": "2025-10-01",
+      "access": "public",
+      "author": "Unity Technologies"
+    },
+    {
+      "id": "resource-003",
+      "title": "Unity公式ラーニング 初心者向けチュートリアル",
+      "description": "Unity公式の体系的なチュートリアルコース。公式の学習パス。",
+      "type": "external-link",
+      "category": "unity-basics",
+      "tags": [
+        "unity-basics",
+        "programming",
+        "tutorial",
+        "official",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "A",
+      "level": "beginner",
+      "url": "https://learn.unity.com/course/unity-tutorials-for-beginners-jp",
+      "lastUpdated": "2025-10-01",
+      "access": "public",
+      "author": "Unity Technologies"
+    },
+    {
+      "id": "resource-004",
+      "title": "LOTTEキャラクター素材",
+      "description": "LOTTE提供の公式キャラクター素材。授業で使用できるアセット集。",
+      "type": "google-drive",
+      "category": "assets",
+      "tags": [
+        "assets",
+        "design",
+        "partner",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "url": "https://drive.google.com/drive/folders/1QBlIiFDMRzqVpPwk6aTZ7pUFpJEw-VWD?hl=ja",
+      "lastUpdated": "2025-09-15",
+      "access": "school-account",
+      "author": "LOTTE",
+      "relatedResources": [
+        "gem-003"
+      ]
+    },
+    {
+      "id": "resource-005",
+      "title": "スクーミー情報誌",
+      "description": "スクーミーが発行している情報誌。開発ヒントや他の人の作品からインスピレーションを得られる。",
+      "type": "external-link",
+      "category": "design",
+      "tags": [
+        "design",
+        "game-design",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "C",
+      "level": "beginner",
+      "url": "https://schoomy-files.s3.ap-northeast-1.amazonaws.com/%E7%89%B9%E5%88%A5%E5%8F%B77%E6%9C%88%E5%88%8A%E8%A1%8C_%E3%81%99%E3%81%84%E3%81%8B%E3%81%B0%E3%83%9E%E3%83%B3%E6%83%85%E5%A0%B1%E2%85%A1.pdf",
+      "lastUpdated": "2024-07-01",
+      "access": "public",
+      "author": "Schoomy"
+    },
+    {
+      "id": "resource-006",
+      "title": "Unityで学ぶ数学 - グラフと曲線",
+      "description": "AnimationCurveなどグラフと曲線の解説。数列×レベルアップの発展内容。",
+      "type": "external-link",
+      "category": "math-game",
+      "tags": [
+        "math-game",
+        "curve",
+        "sequence",
+        "tutorial",
+        "official",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "C",
+      "level": "beginner",
+      "url": "https://learning.unity3d.jp/3238/",
+      "lastUpdated": "2024-06-01",
+      "access": "public",
+      "author": "Unity Technologies",
+      "relatedResources": [
+        "theme-001"
+      ],
+      "mathConcepts": [
+        "グラフ",
+        "曲線",
+        "AnimationCurve"
+      ]
+    },
+    {
+      "id": "resource-007",
+      "title": "Unityで学ぶ数学 - 確率と乱数",
+      "description": "確率と乱数の解説。確率×ガチャの発展内容。",
+      "type": "external-link",
+      "category": "math-game",
+      "tags": [
+        "math-game",
+        "probability",
+        "tutorial",
+        "official",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "C",
+      "level": "beginner",
+      "url": "https://learning.unity3d.jp/3219/",
+      "lastUpdated": "2024-06-01",
+      "access": "public",
+      "author": "Unity Technologies",
+      "relatedResources": [
+        "theme-002",
+        "code-003"
+      ],
+      "mathConcepts": [
+        "確率",
+        "乱数",
+        "重み付き抽選"
+      ]
+    },
+    {
+      "id": "resource-008",
+      "title": "Unity Physicsで使えるベクトル (YouTube)",
+      "description": "ベクトルの物理演算への応用を動画で解説。",
+      "type": "external-link",
+      "category": "math-game",
+      "tags": [
+        "math-game",
+        "vector",
+        "physics",
+        "tutorial",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "C",
+      "level": "beginner",
+      "url": "https://youtu.be/aUrS2Wqo7-8?si=S_8KavdalBgzx1_o",
+      "lastUpdated": "2024-05-01",
+      "access": "public",
+      "author": "外部クリエイター",
+      "relatedResources": [
+        "theme-003",
+        "resource-009"
+      ],
+      "mathConcepts": [
+        "ベクトル",
+        "物理演算"
+      ]
+    },
+    {
+      "id": "resource-009",
+      "title": "Unityで学ぶ数学 - ベクトル",
+      "description": "ベクトルの基礎と応用を解説。ベクトル×追尾の発展内容。",
+      "type": "external-link",
+      "category": "math-game",
+      "tags": [
+        "math-game",
+        "vector",
+        "enemy-ai",
+        "tutorial",
+        "official",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "C",
+      "level": "beginner",
+      "url": "https://learning.unity3d.jp/3120/",
+      "lastUpdated": "2024-06-01",
+      "access": "public",
+      "author": "Unity Technologies",
+      "relatedResources": [
+        "theme-003",
+        "code-002"
+      ],
+      "mathConcepts": [
+        "ベクトル",
+        "差ベクトル",
+        "正規化",
+        "内積"
+      ]
+    },
+    {
+      "id": "code-001",
+      "title": "PlayerController",
+      "description": "キーボード入力でプレイヤーを動かす基本スクリプト。",
+      "type": "code-snippet",
+      "category": "programming",
+      "tags": [
+        "programming",
+        "player-control",
+        "physics",
+        "script-example",
+        "code-snippet",
+        "beginner"
+      ],
+      "priority": "A",
+      "level": "beginner",
+      "language": "csharp",
+      "code": "using UnityEngine;\n\npublic class PlayerController : MonoBehaviour\n{\n    public float moveSpeed = 5.0f;\n    private Rigidbody rb;\n\n    void Start()\n    {\n        rb = GetComponent<Rigidbody>();\n    }\n\n    void FixedUpdate()\n    {\n        float moveHorizontal = Input.GetAxis(\"Horizontal\");\n        float moveVertical = Input.GetAxis(\"Vertical\");\n\n        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);\n\n        rb.velocity = movement * moveSpeed;\n    }\n}",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "requirements": [
+        "Rigidbody"
+      ],
+      "relatedResources": [
+        "gem-001"
+      ]
+    },
+    {
+      "id": "code-002",
+      "title": "EnemyChaser",
+      "description": "ターゲット（プレイヤー）を追いかける敵AIスクリプト。",
+      "type": "code-snippet",
+      "category": "programming",
+      "tags": [
+        "programming",
+        "enemy-ai",
+        "vector",
+        "script-example",
+        "code-snippet",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "language": "csharp",
+      "code": "using UnityEngine;\n\npublic class EnemyChaser : MonoBehaviour\n{\n    public Transform target; // 追いかける対象\n    public float speed = 3.0f;\n\n    void Update()\n    {\n        if (target != null)\n        {\n            // ターゲットの方向を向く\n            transform.LookAt(target);\n\n            // 前に進む\n            transform.Translate(Vector3.forward * speed * Time.deltaTime);\n        }\n    }\n}",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "requirements": [
+        "Transform target"
+      ],
+      "relatedResources": [
+        "theme-003",
+        "gem-002"
+      ],
+      "mathConcepts": [
+        "ベクトル",
+        "方向"
+      ]
+    },
+    {
+      "id": "code-003",
+      "title": "ItemDropper",
+      "description": "設定した確率でアイテムをドロップする関数。",
+      "type": "code-snippet",
+      "category": "programming",
+      "tags": [
+        "programming",
+        "item-system",
+        "probability",
+        "script-example",
+        "code-snippet",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "language": "csharp",
+      "code": "using UnityEngine;\n\npublic class ItemDropper : MonoBehaviour\n{\n    public GameObject itemPrefab; // 生成するアイテムのプレハブ\n    [Range(0, 1)]\n    public float dropChance = 0.3f; // 30%\n\n    public void TryDropItem()\n    {\n        // 0.0から1.0の間のランダムな値を生成\n        float randomValue = Random.value;\n\n        if (randomValue < dropChance)\n        {\n            // アイテムを生成する\n            Instantiate(itemPrefab, transform.position, Quaternion.identity);\n        }\n    }\n}",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "requirements": [
+        "GameObject itemPrefab"
+      ],
+      "relatedResources": [
+        "theme-002",
+        "gem-002"
+      ],
+      "mathConcepts": [
+        "確率",
+        "乱数"
+      ]
+    },
+    {
+      "id": "theme-001",
+      "title": "数列 × レベルアップ",
+      "description": "経験値の増加パターンを等比数列の漸化式で設計。AnimationCurveでの調整も可能。",
+      "type": "theme",
+      "category": "math-game",
+      "tags": [
+        "math-game",
+        "sequence",
+        "level-system",
+        "curve",
+        "tutorial",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "mathConcepts": [
+        "数列",
+        "等比数列",
+        "漸化式"
+      ],
+      "gameElements": [
+        "レベルアップ",
+        "経験値システム",
+        "成長曲線"
+      ],
+      "relatedResources": [
+        "resource-006",
+        "gem-002"
+      ]
+    },
+    {
+      "id": "theme-002",
+      "title": "確率 × ガチャ",
+      "description": "レアアイテムが出る確率を制御。乱数と重み付き抽選を活用。",
+      "type": "theme",
+      "category": "math-game",
+      "tags": [
+        "math-game",
+        "probability",
+        "item-system",
+        "gacha",
+        "tutorial",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "mathConcepts": [
+        "確率",
+        "乱数",
+        "重み付き抽選"
+      ],
+      "gameElements": [
+        "ガチャ",
+        "アイテムドロップ",
+        "ランダム報酬"
+      ],
+      "relatedResources": [
+        "code-003",
+        "resource-007",
+        "gem-002"
+      ]
+    },
+    {
+      "id": "theme-003",
+      "title": "ベクトル × 敵の追尾",
+      "description": "敵をプレイヤーに向かって動かすロジックを設計。差ベクトル、正規化、内積を活用。",
+      "type": "theme",
+      "category": "math-game",
+      "tags": [
+        "math-game",
+        "vector",
+        "enemy-ai",
+        "tutorial",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "mathConcepts": [
+        "ベクトル",
+        "差ベクトル",
+        "正規化",
+        "内積"
+      ],
+      "gameElements": [
+        "敵AI",
+        "追尾システム",
+        "索敵範囲"
+      ],
+      "relatedResources": [
+        "code-002",
+        "resource-008",
+        "resource-009",
+        "gem-002"
+      ]
+    },
+    {
+      "id": "doc-001",
+      "title": "プロジェクト概要",
+      "description": "授業の目的と特徴、実施概要、チーム構成の説明。",
+      "type": "documentation",
+      "category": "game-design",
+      "tags": [
+        "game-design",
+        "reference",
+        "beginner"
+      ],
+      "priority": "A",
+      "level": "beginner",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム"
+    },
+    {
+      "id": "doc-002",
+      "title": "授業スケジュール",
+      "description": "第1回～第7回の日程・内容・主な学び。全体の見通しを立てるために必須。",
+      "type": "documentation",
+      "category": "game-design",
+      "tags": [
+        "game-design",
+        "reference",
+        "beginner"
+      ],
+      "priority": "A",
+      "level": "beginner",
+      "lastUpdated": "2025-10-21",
+      "access": "public",
+      "author": "授業チーム",
+      "relatedResources": [
+        "gem-004"
+      ]
+    },
+    {
+      "id": "resource-010",
+      "title": "知的創造活動と知的財産",
+      "description": "知的創造活動の基礎と知的財産権の重要性について学ぶ解説資料。",
+      "type": "external-link",
+      "category": "ip-law",
+      "tags": [
+        "ip-law",
+        "reference",
+        "official",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "url": "https://www.inpit.go.jp/jinzai/educate/manual/souzou_chizai.pdf",
+      "lastUpdated": "2026-02-02",
+      "access": "public",
+      "author": "INPIT"
+    },
+    {
+      "id": "resource-011",
+      "title": "未来をつくるあなたへ",
+      "description": "知的財産への理解を深めるための啓発用小冊子。",
+      "type": "external-link",
+      "category": "ip-law",
+      "tags": [
+        "ip-law",
+        "reference",
+        "official",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "url": "https://www.inpit.go.jp/content/100870286.pdf",
+      "lastUpdated": "2026-02-02",
+      "access": "public",
+      "author": "INPIT"
+    },
+    {
+      "id": "resource-012",
+      "title": "MIRAI─未来をつくる",
+      "description": "新しい価値創造と知的財産の関わりを紹介する資料。",
+      "type": "external-link",
+      "category": "ip-law",
+      "tags": [
+        "ip-law",
+        "reference",
+        "official",
+        "external-link",
+        "beginner"
+      ],
+      "priority": "B",
+      "level": "beginner",
+      "url": "https://www.inpit.go.jp/content/100870288.pdf",
+      "lastUpdated": "2026-02-02",
+      "access": "public",
+      "author": "INPIT"
+    }
+  ]
+}

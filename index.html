@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知財・プログラミング・デザインを横断するUnityゲーム開発授業</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --base-blue: #003DA5;
+            --base-black: #0D0D0D;
+            --accent-gold: #FFD700;
+            --accent-white: #FFFFFF;
+            --blue-flame-light: #4A90E2;
+            --blue-flame-hot: #0066FF;
+            --blue-flame-core: #001E4D;
+            --steel-gray: #434B56;
+            --platinum: #E5E4E2;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            /* ページ内リンクをスムーズに */
+        }
+
+        body {
+            font-family: 'Montserrat', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background: var(--base-black);
+            color: var(--accent-white);
+            overflow-x: hidden;
+        }
+
+        /* Fortress Rampart Header */
+        .rampart-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 13, 13, 0.8);
+            /* 少し透明に */
+            backdrop-filter: blur(5px);
+            /* 背景をぼかす */
+            z-index: 1000;
+            border-bottom: 4px solid var(--accent-gold);
+            clip-path: polygon(0 0, 100% 0, 100% 70%,
+                    98% 100%, 96% 70%, 94% 100%, 92% 70%, 90% 100%,
+                    88% 70%, 86% 100%, 84% 70%, 82% 100%, 80% 70%,
+                    20% 70%, 18% 100%, 16% 70%, 14% 100%, 12% 70%,
+                    10% 100%, 8% 70%, 6% 100%, 4% 70%, 2% 100%, 0 70%);
+        }
+
+        .header-structure {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 5% 35px;
+            position: relative;
+        }
+
+        .fortress-brand {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            /* サイズを調整 */
+            font-weight: 900;
+            color: var(--base-blue);
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            text-shadow:
+                0 0 30px rgba(0, 61, 165, 0.5),
+                2px 2px 0 var(--accent-gold);
+            transform: skewX(-10deg);
+        }
+
+        .rampart-nav {
+            display: flex;
+            gap: 0;
+        }
+
+        .rampart-link {
+            color: var(--accent-white);
+            text-decoration: none;
+            padding: 15px 25px;
+            /* パディングを調整 */
+            background: var(--base-blue);
+            clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+            margin-left: -15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
+            font-size: 0.9rem;
+            /* 文字サイズを調整 */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rampart-link:first-child {
+            margin-left: 0;
+        }
+
+        .rampart-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            transition: left 0.3s ease;
+        }
+
+        .rampart-link:hover {
+            color: var(--base-black);
+            z-index: 1;
+            transform: translateY(-3px);
+        }
+
+        .rampart-link:hover::before {
+            left: 0;
+        }
+
+        .rampart-link span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Search & Filter Section */
+        .search-filter-section {
+            background: linear-gradient(180deg, var(--blue-flame-core) 0%, var(--base-black) 100%);
+            padding: 80px 5% 60px;
+        }
+
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 20px 60px 20px 25px;
+            font-size: 1.2rem;
+            border: 3px solid var(--base-blue);
+            background: var(--base-black);
+            color: var(--accent-white);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            background: var(--base-blue);
+            color: var(--accent-white);
+            border: 2px solid var(--accent-gold);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:hover {
+            background: var(--accent-gold);
+            color: var(--base-black);
+        }
+
+        .active-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            min-height: 30px;
+        }
+
+        .filter-tag {
+            padding: 8px 15px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid var(--accent-gold);
+            border-radius: 20px;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-tag-close {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .results-count {
+            color: var(--platinum);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        /* Gem Tools Section */
+        .gem-section {
+            background: linear-gradient(180deg, var(--base-black) 0%, var(--blue-flame-core) 100%);
+        }
+
+        .gem-intro {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .gem-intro p {
+            font-size: 1.2rem;
+            color: var(--platinum);
+            margin-bottom: 30px;
+        }
+
+        .persona-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .persona-tab {
+            padding: 12px 25px;
+            background: rgba(0, 61, 165, 0.3);
+            border: 2px solid var(--base-blue);
+            border-radius: 25px;
+            color: var(--platinum);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .persona-tab:hover,
+        .persona-tab.active {
+            background: var(--base-blue);
+            border-color: var(--accent-gold);
+            color: var(--accent-white);
+            transform: translateY(-3px);
+        }
+
+        .gem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .gem-card {
+            background: var(--base-black);
+            padding: 30px;
+            border: 2px solid var(--base-blue);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--blue-flame-hot));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .gem-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .gem-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            border-color: var(--accent-gold);
+        }
+
+        .gem-card.dimmed {
+            opacity: 0.4;
+        }
+
+        .gem-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .gem-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gold);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .gem-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-transform: none;
+        }
+
+        .gem-description {
+            color: var(--platinum);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .gem-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .gem-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .gem-badge.priority-a {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+        }
+
+        .gem-badge.priority-b {
+            background: rgba(74, 144, 226, 0.2);
+            color: var(--blue-flame-light);
+            border: 1px solid var(--blue-flame-light);
+        }
+
+        .gem-badge.persona {
+            background: rgba(229, 228, 226, 0.2);
+            color: var(--platinum);
+        }
+
+        .gem-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .gem-btn {
+            flex: 1;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid;
+        }
+
+        .gem-btn-primary {
+            background: var(--accent-gold);
+            color: var(--base-black);
+            border-color: var(--accent-gold);
+        }
+
+        .gem-btn-primary:hover {
+            background: var(--accent-white);
+            border-color: var(--accent-white);
+        }
+
+        .gem-btn-secondary {
+            background: transparent;
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+
+        .gem-btn-secondary:hover {
+            background: var(--accent-gold);
+            color: var(--base-black);
+        }
+
+        /* Resource Cards (Search Results) */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .resource-card {
+            background: rgba(13, 13, 13, 0.8);
+            border: 2px solid var(--steel-gray);
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .resource-type {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--base-blue);
+            color: var(--accent-white);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .resource-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .resource-description {
+            color: var(--platinum);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .resource-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .resource-tag {
+            padding: 3px 8px;
+            background: rgba(74, 144, 226, 0.2);
+            color: var(--blue-flame-light);
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* General Section Styling */
+        .content-section {
+            padding: 120px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section h2 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-align: center;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 var(--base-blue);
+        }
+
+        /* Blue Flame Core Hero */
+        .flame-core-hero {
+            padding-top: 120px;
+            /* ヘッダー分を確保 */
+            height: 100vh;
+            background: var(--base-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flame-geometry {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            opacity: 0.2;
+        }
+
+        .flame-shard {
+            background: linear-gradient(180deg, transparent, var(--blue-flame-hot));
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            animation: shardPulse 3s ease-in-out infinite;
+        }
+
+        .flame-shard:nth-child(odd) {
+            animation-delay: 0.5s;
+            background: linear-gradient(180deg, transparent, var(--blue-flame-light));
+        }
+
+        .flame-shard:nth-child(even) {
+            animation-delay: 1s;
+            transform: rotate(180deg);
+        }
+
+        @keyframes shardPulse {
+
+            0%,
+            100% {
+                opacity: 0.1;
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                opacity: 0.3;
+                transform: translateY(-10px) scale(1.1);
+            }
+        }
+
+        .hero-fortress {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .fortress-title {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        .title-line-1 {
+            color: var(--base-blue);
+            display: block;
+            transform: skewY(-3deg);
+            text-shadow: 5px 5px 0 var(--base-black), 10px 10px 0 var(--blue-flame-core);
+        }
+
+        .title-line-2 {
+            color: var(--base-black);
+            display: block;
+            transform: skewY(3deg);
+            -webkit-text-stroke: 2px var(--accent-gold);
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+            margin-top: -10px;
+        }
+
+        .power-indicator {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--base-blue), var(--base-black));
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            animation: powerPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes powerPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(0, 61, 165, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+            }
+        }
+
+        .partner-logos {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px 40px;
+            /* 縦横の隙間 */
+            flex-wrap: wrap;
+        }
+
+        .partner-logo {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: 600;
+            color: var(--platinum);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            border: 1px solid var(--steel-gray);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .partner-logo:hover {
+            opacity: 1;
+            color: var(--accent-gold);
+            transform: scale(1.1);
+            border-color: var(--accent-gold);
+        }
+
+
+        /* Grid System (for Math Themes and more) */
+        .dual-core-section {
+            background: linear-gradient(180deg, var(--base-black) 0%, var(--base-blue) 100%);
+        }
+
+        .core-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .core-cell {
+            background: var(--base-black);
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--base-blue);
+            text-align: left;
+            /* テキストを左揃えに */
+            display: flex;
+            /* Flexboxに変更 */
+            flex-direction: column;
+            /* 子要素を縦に並べる */
+        }
+
+        .core-cell:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .core-cell-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .core-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gold);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--base-black);
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .core-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+        }
+
+        .core-cell p {
+            font-size: 1rem;
+            color: var(--platinum);
+            line-height: 1.7;
+        }
+
+        .core-cell .math-subtitle {
+            font-weight: bold;
+            color: var(--blue-flame-light);
+            margin-top: 15px;
+        }
+
+        .step-by-step {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .step-by-step li {
+            margin-bottom: 10px;
+        }
+
+        .code-snippet-wrapper {
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .code-snippet {
+            background: var(--blue-flame-core);
+            padding: 15px;
+            border-left: 3px solid var(--accent-gold);
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-gold);
+            color: var(--base-black);
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-white);
+        }
+
+
+        .reference-section {
+            margin-top: auto;
+            /* この要素をカードの下部に固定 */
+            padding-top: 20px;
+            border-top: 1px solid var(--steel-gray);
+        }
+
+        .reference-link {
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 10px;
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .reference-link:hover {
+            color: var(--accent-white);
+        }
+
+        .help-link-section {
+            background: var(--blue-flame-core);
+        }
+
+        .help-cell {
+            border-color: var(--accent-gold);
+            background: rgba(13, 13, 13, 0.5);
+        }
+
+        /* Schedule Section */
+        .schedule-section {
+            background: var(--base-black);
+        }
+
+        .schedule-table {
+            width: 100%;
+            max-width: 1200px;
+            margin: 50px auto 0;
+            border-collapse: collapse;
+            border: 2px solid var(--base-blue);
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            border: 1px solid var(--steel-gray);
+            padding: 15px 20px;
+            text-align: left;
+        }
+
+        .schedule-table th {
+            background: var(--blue-flame-core);
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .schedule-table td {
+            background: rgba(13, 13, 13, 0.5);
+            vertical-align: top;
+        }
+
+        .schedule-table tr:nth-child(even) td {
+            background: rgba(0, 61, 165, 0.2);
+        }
+
+        .schedule-table td:first-child {
+            font-weight: 700;
+            color: var(--accent-white);
+            text-align: center;
+        }
+
+        /* Plasma Section (Decorative) */
+        .plasma-section {
+            padding: 100px 0;
+            background: var(--base-black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plasma-container {
+            position: relative;
+            height: 600px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .plasma-beam {
+            position: absolute;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, transparent, var(--blue-flame-hot), var(--accent-gold), var(--blue-flame-hot), transparent);
+            animation: plasmaFlow 4s linear infinite;
+        }
+
+        .plasma-beam:nth-child(1) {
+            top: 10%;
+            animation-delay: 0s;
+        }
+
+        .plasma-beam:nth-child(2) {
+            top: 25%;
+            animation-delay: 0.5s;
+        }
+
+        .plasma-beam:nth-child(3) {
+            top: 40%;
+            animation-delay: 1s;
+        }
+
+        .plasma-beam:nth-child(4) {
+            top: 55%;
+            animation-delay: 1.5s;
+        }
+
+        .plasma-beam:nth-child(5) {
+            top: 70%;
+            animation-delay: 2s;
+        }
+
+        .plasma-beam:nth-child(6) {
+            top: 85%;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes plasmaFlow {
+            0% {
+                transform: translateX(-100%) scaleX(0.5);
+            }
+
+            50% {
+                transform: translateX(0) scaleX(1.5);
+            }
+
+            100% {
+                transform: translateX(100%) scaleX(0.5);
+            }
+        }
+
+        .plasma-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-gold), var(--blue-flame-hot), var(--base-blue));
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: coreSpin 10s linear infinite;
+        }
+
+        @keyframes coreSpin {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Footer */
+        .citadel-footer {
+            background: var(--base-blue);
+            padding: 100px 5% 40px;
+            position: relative;
+            clip-path: polygon(0 50px, 10% 0, 20% 50px, 30% 0, 40% 50px, 50% 0, 60% 50px, 70% 0, 80% 50px, 90% 0, 100% 50px, 100% 100%, 0 100%);
+            border-top: 5px solid var(--accent-gold);
+        }
+
+        .citadel-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .citadel-tower {
+            background: rgba(13, 13, 13, 0.3);
+            padding: 40px;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+            transition: all 0.3s ease;
+        }
+
+        .citadel-tower:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-10px);
+        }
+
+        .tower-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tower-links {
+            list-style: none;
+        }
+
+        .tower-link {
+            color: var(--accent-white);
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tower-link::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            width: 10px;
+            height: 2px;
+            background: var(--accent-gold);
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .tower-link:hover {
+            padding-left: 20px;
+            color: var(--accent-gold);
+        }
+
+        .tower-link:hover::before {
+            left: 0;
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .rampart-nav {
+                display: none;
+            }
+
+            .citadel-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .core-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule-section {
+                padding: 50px 2%;
+            }
+
+            .schedule-table {
+                font-size: 0.8rem;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 10px 5px;
+            }
+
+            .citadel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .citadel-tower {
+                clip-path: none;
+                border: 2px solid var(--accent-gold);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="rampart-header">
+        <div class="header-structure">
+            <div class="fortress-brand">MATH|UNITY</div>
+            <nav class="rampart-nav">
+                <a href="#search" class="rampart-link"><span>🔍 Search</span></a>
+                <a href="#gems" class="rampart-link"><span>🤖 Gems</span></a>
+                <a href="#code-snippets" class="rampart-link"><span>Code</span></a>
+                <a href="#themes" class="rampart-link"><span>Themes</span></a>
+                <a href="#schedule" class="rampart-link"><span>Schedule</span></a>
+                <a href="./updates/" class="rampart-link"><span>📰 Updates</span></a>
+                <a href="https://yamashu00-github-io.vercel.app/" class="rampart-link"><span>💬 相談</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="flame-core-hero content-section" id="hero">
+        <div class="flame-geometry">
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+            <div class="flame-shard"></div>
+        </div>
+        <div class="hero-fortress">
+            <h1 class="fortress-title">
+                <span class="title-line-1">知財 × プログラミング</span>
+                <span class="title-line-2">× デザイン</span>
+            </h1>
+            <div class="power-indicator">横断型Unityゲーム開発授業</div>
+            <div class="partner-logos">
+                <div class="partner-logo">聖学院高校</div>
+                <div class="partner-logo">スクーミー</div>
+                <div class="partner-logo">開志専門職大学</div>
+                <div class="partner-logo">LOTTE</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Filter Section -->
+    <section class="search-filter-section" id="search">
+        <div class="search-container">
+            <h2
+                style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: var(--accent-gold); text-align: center; margin-bottom: 40px; text-transform: uppercase; text-shadow: 2px 2px 0 var(--base-blue);">
+                🔍 リソースを探す</h2>
+
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="キーワードで検索（例: ベクトル、エラー、プレイヤー...）">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <div class="filter-controls">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">全カテゴリ</option>
+                    <option value="unity-basics">Unity基礎</option>
+                    <option value="programming">プログラミング</option>
+                    <option value="math-game">数学×ゲーム</option>
+                    <option value="assets">素材・アセット</option>
+                    <option value="gem-tools">Gemツール</option>
+                </select>
+
+                <select class="filter-select" id="levelFilter">
+                    <option value="">全レベル</option>
+                    <option value="beginner">初級</option>
+                    <option value="intermediate">中級</option>
+                    <option value="advanced">上級</option>
+                </select>
+
+                <select class="filter-select" id="typeFilter">
+                    <option value="">全タイプ</option>
+                    <option value="gem-tool">Gemツール</option>
+                    <option value="code-snippet">コード例</option>
+                    <option value="external-link">外部リンク</option>
+                    <option value="theme">学習テーマ</option>
+                </select>
+
+                <select class="filter-select" id="sortFilter">
+                    <option value="priority">優先度順</option>
+                    <option value="updated">更新日順</option>
+                    <option value="title">タイトル順</option>
+                </select>
+            </div>
+
+            <div class="active-filters" id="activeFilters"></div>
+
+            <div class="results-count" id="resultsCount">読み込み中...</div>
+
+            <div class="resource-grid" id="resourceGrid">
+                <!-- 検索結果がここに動的に表示されます -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gem Tools Section -->
+    <section class="dual-core-section content-section gem-section" id="gems">
+        <h2>🤖 AIアシスタント Gem</h2>
+        <div class="gem-intro">
+            <p>あなたの学習をサポートする6つのツール</p>
+            <div class="persona-tabs">
+                <div class="persona-tab" data-persona="all">全て</div>
+                <div class="persona-tab" data-persona="student">👨‍💻 生徒</div>
+                <div class="persona-tab" data-persona="teacher">👨‍🏫 教員</div>
+            </div>
+        </div>
+
+        <div class="gem-grid" id="gemGrid">
+            <!-- Gemカードがここに動的に表示されます -->
+        </div>
+    </section>
+
+    <section class="content-section help-link-section" id="help-links">
+        <h2>お助けリンク</h2>
+        <div class="core-grid">
+            <div class="core-cell help-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">🚀</div>
+                    <h3 class="core-title">Unity開発の基本</h3>
+                </div>
+                <p>Unityのインストールやプロジェクト作成で困ったら、まずはこちらの記事を確認しましょう。画像付きで丁寧に解説されています。</p>
+                <div class="reference-section">
+                    <a href="https://note.com/schoomy/n/n18d261804e89" target="_blank"
+                        class="reference-link">Schoomy開発者の知見 on note</a>
+                </div>
+            </div>
+            <div class="core-cell help-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">🎨</div>
+                    <h3 class="core-title">LOTTEキャラクター素材</h3>
+                </div>
+                <p>この授業で使用できるLOTTE提供の公式キャラクター素材です。ここからダウンロードして、自分のゲームに登場させましょう。</p>
+                <div class="reference-section">
+                    <a href="https://drive.google.com/drive/folders/1QBlIiFDMRzqVpPwk6aTZ7pUFpJEw-VWD?hl=ja"
+                        target="_blank" class="reference-link">Google Driveで素材を確認</a>
+                </div>
+            </div>
+            <div class="core-cell help-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">📖</div>
+                    <h3 class="core-title">スクーミー情報誌</h3>
+                </div>
+                <p>スクーミーが発行している情報誌です。開発のヒントや、他の人の作品からインスピレーションを得ることができます。</p>
+                <div class="reference-section">
+                    <a href="https://schoomy-files.s3.ap-northeast-1.amazonaws.com/%E7%89%B9%E5%88%A5%E5%8F%B77%E6%9C%88%E5%88%8A%E8%A1%8C_%E3%81%99%E3%81%84%E3%81%8B%E3%81%B0%E3%83%9E%E3%83%B3%E6%83%85%E5%A0%B1%E2%85%A1.pdf"
+                        target="_blank" class="reference-link">PDFで情報誌を読む</a>
+                </div>
+            </div>
+            <div class="core-cell help-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">🤖</div>
+                    <h3 class="core-title">ChatGPT</h3>
+                </div>
+                <p>OpenAI が開発した対話型 AI です。プログラミングの質問や、エラーの解決方法を直接聞くことができます。</p>
+                <div class="reference-section">
+                    <a href="https://chat.openai.com/" target="_blank" class="reference-link">ChatGPT を開く</a>
+                </div>
+            </div>
+            <div class="core-cell help-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">✨</div>
+                    <h3 class="core-title">Google Gemini</h3>
+                </div>
+                <p>Google が開発した AI アシスタントです。プログラミング支援や、Unity 開発の相談に対応できます。</p>
+                <div class="reference-section">
+                    <a href="https://gemini.google.com/" target="_blank" class="reference-link">Gemini を開く</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" id="unity-tips">
+        <h2>Unity開発のヒント</h2>
+        <div class="core-grid">
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">🧩</div>
+                    <h3 class="core-title">Unityの基本構成</h3>
+                </div>
+                <p>Unityのすべてのモノは「ゲームオブジェクト」です。そして、その機能は「コンポーネント」が担います。</p>
+                <ul class="step-by-step">
+                    <li><b>ゲームオブジェクト:</b> シーンに配置するキャラクター、壁、ライトなどの「からっぽの箱」。</li>
+                    <li><b>コンポーネント:</b> 箱に入れる「機能」や「道具」。形を決める`Mesh Renderer`、物理演算の`Rigidbody`、自作の`C#スクリプト`などがあります。</li>
+                </ul>
+                <p class="math-subtitle">💡 Inspectorウィンドウでコンポーネントを追加・編集しよう。</p>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">⚙️</div>
+                    <h3 class="core-title">物理演算の基礎</h3>
+                </div>
+                <p>オブジェクトにリアルな物理挙動をさせるには、2つのコンポーネントが基本になります。</p>
+                <ul class="step-by-step">
+                    <li><b>Rigidbody:</b> オブジェクトに「質量」を与え、重力や外部からの力の影響を受けるようにする。</li>
+                    <li><b>Collider:</b> オブジェクトに「当たり判定」の形状を設定する。これがないと他のオブジェクトをすり抜けてしまう。</li>
+                </ul>
+                <p class="math-subtitle">💡 プレイヤー操作には`Rigidbody.AddForce()`が便利。</p>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">📜</div>
+                    <h3 class="core-title">スクリプトの初歩</h3>
+                </div>
+                <p>C#スクリプトはUnityの頭脳です。決まった「イベント関数」の中に行動を記述します。</p>
+                <ul class="step-by-step">
+                    <li><b>`Start()`:</b> ゲーム開始時に一度だけ呼ばれる。初期設定に使う。</li>
+                    <li><b>`Update()`:</b> 毎フレーム（1秒間に何十回も）呼ばれる。プレイヤーの入力受付や、常に監視したい処理に使う。</li>
+                </ul>
+                <p class="math-subtitle">💡 `Debug.Log("メッセージ");` でコンソールに情報を表示して、変数の値などを確認する癖をつけよう。</p>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">♻️</div>
+                    <h3 class="core-title">プレハブ (Prefab)</h3>
+                </div>
+                <p>「プレハブ」は、設定済みのゲームオブジェクトを保存しておける設計図のような機能です。</p>
+                <ul class="step-by-step">
+                    <li>敵キャラクターや、ステージに配置するコインなど、同じものを何個も使いたい時に便利。</li>
+                    <li>プレハブ本体を編集すれば、シーンに配置したすべてのオブジェクトに一括で変更が反映される。</li>
+                </ul>
+                <p class="math-subtitle">💡 ヒエラルキーからプロジェクトウィンドウにドラッグ＆ドロップするだけでプレハブが作れる。</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="https://learning.unity3d.jp/tag/beginners/" target="_blank" class="reference-link">Unity公式ブログ
+                初心者向け記事一覧</a>
+            <a href="https://learn.unity.com/course/unity-tutorials-for-beginners-jp" target="_blank"
+                class="reference-link">Unity公式ラーニング 初心者向けチュートリアル</a>
+        </div>
+    </section>
+
+    <!-- ★ここから追加★ -->
+    <section class="dual-core-section content-section" id="code">
+        <h2>コピペで使える！コードスニペット</h2>
+        <div class="core-grid">
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">動</div>
+                    <h3 class="core-title">プレイヤーを動かす</h3>
+                </div>
+                <p>キーボードの矢印キー（またはWASD）でプレイヤーを動かす基本的なスクリプトです。`Rigidbody`コンポーネントが必要です。</p>
+                <div class="code-snippet-wrapper">
+                    <button class="copy-btn" aria-label="Copy Code">Copy</button>
+                    <pre class="code-snippet"><code>using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    public float moveSpeed = 5.0f;
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent&lt;Rigidbody&gt;();
+    }
+
+    void FixedUpdate()
+    {
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+
+        rb.velocity = movement * moveSpeed;
+    }
+}</code></pre>
+                </div>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">追</div>
+                    <h3 class="core-title">敵の追尾</h3>
+                </div>
+                <p>指定したターゲット（プレイヤー）を追いかけるスクリプトです。Inspectorで`target`にプレイヤーオブジェクトを設定してください。</p>
+                <div class="code-snippet-wrapper">
+                    <button class="copy-btn" aria-label="Copy Code">Copy</button>
+                    <pre class="code-snippet"><code>using UnityEngine;
+
+public class EnemyChaser : MonoBehaviour
+{
+    public Transform target; // 追いかける対象
+    public float speed = 3.0f;
+
+    void Update()
+    {
+        if (target != null)
+        {
+            // ターゲットの方向を向く
+            transform.LookAt(target);
+
+            // 前に進む
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
+    }
+}</code></pre>
+                </div>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">🎲</div>
+                    <h3 class="core-title">確率でアイテムを出す</h3>
+                </div>
+                <p>設定した確率（`dropChance`）でアイテムをドロップ（生成）する関数です。敵を倒した時などに呼び出します。</p>
+                <div class="code-snippet-wrapper">
+                    <button class="copy-btn" aria-label="Copy Code">Copy</button>
+                    <pre class="code-snippet"><code>using UnityEngine;
+
+public class ItemDropper : MonoBehaviour
+{
+    public GameObject itemPrefab; // 生成するアイテムのプレハブ
+    [Range(0, 1)]
+    public float dropChance = 0.3f; // 30%
+
+    public void TryDropItem()
+    {
+        // 0.0から1.0の間のランダムな値を生成
+        float randomValue = Random.value;
+
+        if (randomValue &lt; dropChance)
+        {
+            // アイテムを生成する
+            Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        }
+    }
+}
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ★ここまで追加★ -->
+
+
+    <section class="dual-core-section content-section" id="themes">
+        <h2>数学B × ゲーム開発テーマ</h2>
+        <div class="core-grid">
+
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">①</div>
+                    <h3 class="core-title">数列 × レベルアップ</h3>
+                </div>
+                <p>経験値の増加パターンを数学で設計！等比数列の漸化式を使って、成長スピードを調整します。</p>
+                <p class="math-subtitle">💡 発展：AnimationCurveで感覚的に調整</p>
+                <p>コードで公比を調整するだけでなく、Unityの`AnimationCurve`を使えば、グラフを直接編集して「レベルが上がるほど、次のレベルまでが急に大変になる」といった経験値カーブを感覚的に作ることもできます。
+                </p>
+                <div class="reference-section">
+                    <a href="https://learning.unity3d.jp/3238/" target="_blank" class="reference-link">参考：Unityで学ぶ数学 -
+                        グラフと曲線</a>
+                </div>
+            </div>
+
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">②</div>
+                    <h3 class="core-title">確率 × ガチャ</h3>
+                </div>
+                <p>レアアイテムが出る確率を制御！乱数を使い、確率的な処理をゲームに導入します。</p>
+                <p class="math-subtitle">💡 発展：重み付き抽選（Loot Table）</p>
+                <p>「ノーマル70%、レア25%、激レア5%」のように、複数のアイテムに異なる確率を設定するにはどうすれば良いでしょう？全確率の合計値までの乱数を生成し、どの範囲に入ったかでアイテムを決める「重み付き抽選」が一般的な手法です。
+                </p>
+                <div class="reference-section">
+                    <a href="https://learning.unity3d.jp/3219/" target="_blank" class="reference-link">参考：Unityで学ぶ数学 -
+                        確率と乱数</a>
+                </div>
+            </div>
+
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">③</div>
+                    <h3 class="core-title">ベクトル × 敵の追尾</h3>
+                </div>
+                <p>敵をプレイヤーに向かって動かすロジックを設計！位置ベクトルや正規化を活用します。</p>
+                <p class="math-subtitle">💡 発展：ベクトルの応用</p>
+                <ul class="step-by-step">
+                    <li><b>差ベクトル:</b> `目標位置 - 現在位置` で「向かうべき方向と距離」がわかる。これが追尾の基本！</li>
+                    <li><b>正規化:</b> `.normalized` でベクトルの長さを「1」に揃えること。これにより、純粋な「方向」だけを取り出せる。</li>
+                    <li><b>内積:</b> `Vector3.Dot()` を使うと「敵がプレイヤーの前方・後方のどちらにいるか」を角度で判定できる。索敵範囲の実装に応用可能。</li>
+                </ul>
+                <div class="reference-section">
+                    <a href="https://youtu.be/aUrS2Wqo7-8?si=S_8KavdalBgzx1_o" target="_blank"
+                        class="reference-link">参考動画：Unity Physicsで使えるベクトル</a>
+                    <a href="https://learning.unity3d.jp/3120/" target="_blank" class="reference-link">参考記事：Unityで学ぶ数学 -
+                        ベクトル</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dual-core-section content-section" id="ip-law">
+        <h2>知的財産（IP）関連資料</h2>
+        <div class="core-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">📖</div>
+                    <h3 class="core-title">INPIT（知財総合支援窓口）資料</h3>
+                </div>
+                <p>ゲーム開発における創造活動と知的財産の関わりを学ぶための、INPIT提供の公式資料です。</p>
+                <div class="reference-section">
+                    <a href="https://www.inpit.go.jp/jinzai/educate/manual/souzou_chizai.pdf" target="_blank"
+                        class="reference-link"
+                        style="margin-bottom: 12px; display: block; text-align: center; padding: 15px;">知的創造活動と知的財産</a>
+                    <a href="https://www.inpit.go.jp/content/100870286.pdf" target="_blank" class="reference-link"
+                        style="margin-bottom: 12px; display: block; text-align: center; padding: 15px;">未来をつくるあなたへ</a>
+                    <a href="https://www.inpit.go.jp/content/100870288.pdf" target="_blank" class="reference-link"
+                        style="margin-bottom: 0; display: block; text-align: center; padding: 15px;">MIRAI─未来をつくる</a>
+                </div>
+            </div>
+
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">📜</div>
+                    <h3 class="core-title">著作権とライセンス</h3>
+                </div>
+                <p>自作ゲームを公開・配布する際に知っておくべき権利の基礎知識です。</p>
+                <ul class="step-by-step">
+                    <li><b>著作権:</b> 創作した時点で自動的に発生する権利。</li>
+                    <li><b>二次創作:</b> 既存のキャラクターなどを使用する際はガイドラインの確認が必須。</li>
+                    <li><b>ライセンス:</b> 素材（BGM、画像、プラグイン）の使用条件を正しく守りましょう。</li>
+                </ul>
+                <p class="math-subtitle">💡 第三者の権利を尊重しつつ、自分の作品を守る知識を身につけよう。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" id="overview">
+        <h2>プロジェクト概要</h2>
+        <div class="core-grid">
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">目的</div>
+                    <h3 class="core-title">目的と特徴</h3>
+                </div>
+                <p>聖学院の教育理念5つの柱に基づき、生徒主体の学び、実践的な技術教育、学外の経験を重視。大学生・企業と協働し、成果物制作を通じて自律と成長を促進します。</p>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">概要</div>
+                    <h3 class="core-title">実施概要</h3>
+                </div>
+                <p>対象は高２GIC。2025年10月～11月にかけて、全10コマの授業を実施。対面を基本とし、最終回には外部講評者を招いた成果発表会を行います。</p>
+            </div>
+            <div class="core-cell">
+                <div class="core-cell-header">
+                    <div class="core-icon">TEAM</div>
+                    <h3 class="core-title">チーム構成</h3>
+                </div>
+                <p>高校生3名（プログラマー、UI/UXデザイナー、ゲームプランナー）と、技術伴走を行う大学生1名でチームを編成。役割を分担し、協力して開発を進めます。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="schedule-section content-section" id="schedule">
+        <h2>授業スケジュール</h2>
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>回</th>
+                    <th>日程</th>
+                    <th>内容</th>
+                    <th>主な学び・活動</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>第1回</td>
+                    <td>10/3 (金) 13:30-15:20</td>
+                    <td>オリエンテーション／Unity基礎／知財講座・企画立案</td>
+                    <td>LOTTEキャラ紹介／Unity基本操作／著作権／ゲーム仕様策定</td>
+                </tr>
+                <tr>
+                    <td>第2回</td>
+                    <td>10/4 (土) 8:50-10:40</td>
+                    <td>大学生紹介／スクーミー体験／プロトタイプ制作⓪</td>
+                    <td>顔合わせ／目標設定／制作開始</td>
+                </tr>
+                <tr>
+                    <td>第3回</td>
+                    <td>10/24 (金) 13:30-15:20</td>
+                    <td>プロトタイプ制作①</td>
+                    <td>基礎実装・UI初期デザイン</td>
+                </tr>
+                <tr>
+                    <td>第4回</td>
+                    <td>10/25 (土) 8:50-10:40</td>
+                    <td>プロトタイプ制作②</td>
+                    <td>機能実装／ゲームバランス調整</td>
+                </tr>
+                <tr>
+                    <td>第5回</td>
+                    <td>11/7 (金) 13:30-15:20</td>
+                    <td>プロトタイプ制作③</td>
+                    <td>機能実装／ゲームバランス調整</td>
+                </tr>
+                <tr>
+                    <td>第6回</td>
+                    <td>11/8 (土) 8:50-10:40</td>
+                    <td>プロトタイプ制作④</td>
+                    <td>機能実装／ゲームバランス調整</td>
+                </tr>
+                <tr>
+                    <td>第7回</td>
+                    <td>(日程未定)</td>
+                    <td>成果発表会</td>
+                    <td>発表スライド制作／プレゼン／企業講評</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="plasma-section">
+        <div class="plasma-container">
+            <div class="plasma-beam"></div>
+            <div class="plasma-beam"></div>
+            <div class="plasma-beam"></div>
+            <div class="plasma-beam"></div>
+            <div class="plasma-beam"></div>
+            <div class="plasma-beam"></div>
+            <div class="plasma-core"></div>
+        </div>
+    </section>
+
+    <footer class="citadel-footer">
+        <div class="citadel-grid">
+            <div class="citadel-tower">
+                <h3 class="tower-title">数学B × UNITY</h3>
+                <p style="color: var(--platinum); margin-bottom: 20px;">
+                    聖学院高校 産学連携プロジェクト
+                </p>
+            </div>
+            <div class="citadel-tower">
+                <h3 class="tower-title">Links</h3>
+                <ul class="tower-links">
+                    <li><a href="#search" class="tower-link">Search</a></li>
+                    <li><a href="#gems" class="tower-link">Gems</a></li>
+                    <li><a href="#code-snippets" class="tower-link">Code</a></li>
+                    <li><a href="#themes" class="tower-link">Themes</a></li>
+                    <li><a href="#schedule" class="tower-link">Schedule</a></li>
+                    <li><a href="./updates/" class="tower-link">Updates</a></li>
+                    <li><a href="https://yamashu00-github-io.vercel.app/" class="tower-link">💬 相談</a></li>
+                </ul>
+            </div>
+            <div class="citadel-tower">
+                <h3 class="tower-title">協力機関</h3>
+                <ul class="tower-links">
+                    <li><a href="#" class="tower-link">聖学院高校</a></li>
+                    <li><a href="#" class="tower-link">スクーミー</a></li>
+                    <li><a href="#" class="tower-link">開志専門職大学</a></li>
+                    <li><a href="#" class="tower-link">LOTTE</a></li>
+                </ul>
+            </div>
+            <div class="citadel-tower">
+                <h3 class="tower-title">お問い合わせ</h3>
+                <ul class="tower-links">
+                    <li><a href="#" class="tower-link">山本周</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Resource Data Management
+        let allResources = [];
+        let currentFilters = {
+            search: '',
+            category: '',
+            level: '',
+            type: '',
+            sort: 'priority'
+        };
+
+        // Fetch resources data
+        async function loadResources() {
+            try {
+                const response = await fetch('./data/resources.json');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (!data || !data.resources) {
+                    throw new Error('Invalid data format');
+                }
+
+                allResources = data.resources;
+                renderGems();
+                filterAndDisplayResources();
+            } catch (error) {
+                console.error('Failed to load resources:', error);
+                document.getElementById('resultsCount').textContent = 'データの読み込みに失敗しました';
+                const gemGrid = document.getElementById('gemGrid');
+                if (gemGrid) {
+                    gemGrid.innerHTML = '<p style="color: var(--accent-gold); text-align: center; padding: 40px;">データの読み込みに失敗しました。ページを再読み込みしてください。</p>';
+                }
+            }
+        }
+
+        // Render Gem Cards
+        function renderGems() {
+            const gems = allResources.filter(r => r.type === 'gem-tool');
+            const gemGrid = document.getElementById('gemGrid');
+
+            const gemIcons = {
+                'gem-001': '🐛',
+                'gem-002': '📐',
+                'gem-003': '🎨',
+                'gem-004': '📅',
+                'gem-005': '⚙️',
+                'gem-006': '📊'
+            };
+
+            gemGrid.innerHTML = gems.map(gem => `
+                <div class="gem-card" data-persona="${gem.gemConfig?.targetUser || 'student'}">
+                    <div class="gem-header">
+                        <div class="gem-icon">${gemIcons[gem.id] || '🤖'}</div>
+                        <h3 class="gem-title">${gem.title}</h3>
+                    </div>
+                    <p class="gem-description">${gem.description}</p>
+                    <div class="gem-meta">
+                        <span class="gem-badge priority-${gem.priority.toLowerCase()}">${gem.priority}優先</span>
+                        <span class="gem-badge persona">${gem.gemConfig?.targetUser === 'teacher' ? '👨‍🏫 教員' : gem.gemConfig?.targetUser === 'both' ? '👨‍💻👨‍🏫 全員' : '👨‍💻 生徒'}</span>
+                    </div>
+                    <div class="gem-actions">
+                        <a href="${gem.url}" target="_blank" class="gem-btn gem-btn-primary">Gemを起動</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Persona Filter for Gems
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('persona-tab')) {
+                // Remove active class from all tabs
+                document.querySelectorAll('.persona-tab').forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+
+                const persona = e.target.dataset.persona;
+                const gemCards = document.querySelectorAll('.gem-card');
+
+                gemCards.forEach(card => {
+                    if (persona === 'all') {
+                        card.classList.remove('dimmed');
+                    } else {
+                        const cardPersona = card.dataset.persona;
+                        if (cardPersona === persona || cardPersona === 'both') {
+                            card.classList.remove('dimmed');
+                        } else {
+                            card.classList.add('dimmed');
+                        }
+                    }
+                });
+            }
+        });
+
+        // Filter and Display Resources
+        function filterAndDisplayResources() {
+            let filtered = [...allResources];
+
+            // Search filter
+            if (currentFilters.search) {
+                const searchTerm = currentFilters.search.toLowerCase();
+                filtered = filtered.filter(r =>
+                    r.title.toLowerCase().includes(searchTerm) ||
+                    r.description.toLowerCase().includes(searchTerm) ||
+                    r.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
+                    (r.code && r.code.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // Category filter
+            if (currentFilters.category) {
+                filtered = filtered.filter(r => r.category === currentFilters.category);
+            }
+
+            // Level filter
+            if (currentFilters.level) {
+                filtered = filtered.filter(r => r.level === currentFilters.level);
+            }
+
+            // Type filter
+            if (currentFilters.type) {
+                filtered = filtered.filter(r => r.type === currentFilters.type);
+            }
+
+            // Sort
+            filtered.sort((a, b) => {
+                if (currentFilters.sort === 'priority') {
+                    const priorityOrder = { 'A': 1, 'B': 2, 'C': 3 };
+                    return (priorityOrder[a.priority] || 4) - (priorityOrder[b.priority] || 4);
+                } else if (currentFilters.sort === 'updated') {
+                    return new Date(b.lastUpdated) - new Date(a.lastUpdated);
+                } else {
+                    return a.title.localeCompare(b.title, 'ja');
+                }
+            });
+
+            // Display results
+            displayResources(filtered);
+            updateActiveFilters();
+        }
+
+        // Display Resources
+        function displayResources(resources) {
+            const resourceGrid = document.getElementById('resourceGrid');
+            const resultsCount = document.getElementById('resultsCount');
+
+            resultsCount.textContent = `検索結果: ${resources.length}件`;
+
+            const typeLabels = {
+                'gem-tool': 'Gemツール',
+                'external-link': '外部リンク',
+                'code-snippet': 'コード例',
+                'theme': '学習テーマ',
+                'google-drive': 'Google Drive',
+                'documentation': 'ドキュメント'
+            };
+
+            // セクションマッピング
+            const sectionMapping = {
+                'schedule': 'schedule',
+                'code': 'code',
+                'theme': 'themes',
+                'gem': 'gems',
+                'help': 'help-links',
+                'tips': 'tips'
+            };
+
+            function getSectionAnchor(resource) {
+                // タグやカテゴリからセクションを判定
+                // 授業スケジュール関連
+                if (resource.id === 'doc-002' ||
+                    resource.title.includes('スケジュール') ||
+                    resource.title.includes('授業') ||
+                    resource.tags.includes('schedule') ||
+                    resource.id.includes('schedule')) return 'schedule';
+
+                // タイプ別マッピング
+                if (resource.type === 'code-snippet') return 'code';
+                if (resource.type === 'theme') return 'themes';
+                if (resource.type === 'gem-tool') return 'gems';
+                if (resource.tags.includes('help')) return 'help-links';
+                if (resource.tags.includes('tips')) return 'tips';
+
+                // ドキュメントタイプのフォールバック（授業スケジュールなど）
+                if (resource.type === 'documentation') return 'schedule';
+
+                return null;
+            }
+
+            resourceGrid.innerHTML = resources.map(resource => {
+                const section = getSectionAnchor(resource);
+                let actionButton = '';
+
+                if (resource.url) {
+                    // 外部URLがある場合
+                    actionButton = `<a href="${resource.url}" target="_blank" style="color: var(--accent-gold); text-decoration: none; margin-top: 10px; display: inline-block;">→ 開く</a>`;
+                } else if (section) {
+                    // ページ内セクションへのリンク
+                    actionButton = `<a href="#${section}" style="color: var(--accent-gold); text-decoration: none; margin-top: 10px; display: inline-block;">→ 詳細を見る</a>`;
+                }
+
+                return `
+                    <div class="resource-card">
+                        <span class="resource-type">${typeLabels[resource.type] || resource.type}</span>
+                        <h3 class="resource-title">${resource.title}</h3>
+                        <p class="resource-description">${resource.description}</p>
+                        <div class="resource-tags">
+                            ${resource.tags.slice(0, 5).map(tag => `<span class="resource-tag">${tag}</span>`).join('')}
+                        </div>
+                        ${actionButton}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Update Active Filters Display
+        function updateActiveFilters() {
+            const activeFiltersDiv = document.getElementById('activeFilters');
+            const filters = [];
+
+            if (currentFilters.search) filters.push({ label: `検索: "${currentFilters.search}"`, key: 'search' });
+            if (currentFilters.category) filters.push({ label: document.querySelector(`#categoryFilter option[value="${currentFilters.category}"]`).textContent, key: 'category' });
+            if (currentFilters.level) filters.push({ label: document.querySelector(`#levelFilter option[value="${currentFilters.level}"]`).textContent, key: 'level' });
+            if (currentFilters.type) filters.push({ label: document.querySelector(`#typeFilter option[value="${currentFilters.type}"]`).textContent, key: 'type' });
+
+            activeFiltersDiv.innerHTML = filters.map(f => `
+                <div class="filter-tag">
+                    ${f.label}
+                    <span class="filter-tag-close" onclick="removeFilter('${f.key}')">×</span>
+                </div>
+            `).join('');
+        }
+
+        // Remove Filter
+        function removeFilter(key) {
+            currentFilters[key] = '';
+            if (key === 'search') document.getElementById('searchInput').value = '';
+            if (key === 'category') document.getElementById('categoryFilter').value = '';
+            if (key === 'level') document.getElementById('levelFilter').value = '';
+            if (key === 'type') document.getElementById('typeFilter').value = '';
+            filterAndDisplayResources();
+        }
+
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentFilters.search = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        document.getElementById('categoryFilter').addEventListener('change', (e) => {
+            currentFilters.category = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        document.getElementById('levelFilter').addEventListener('change', (e) => {
+            currentFilters.level = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        document.getElementById('typeFilter').addEventListener('change', (e) => {
+            currentFilters.type = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        document.getElementById('sortFilter').addEventListener('change', (e) => {
+            currentFilters.sort = e.target.value;
+            filterAndDisplayResources();
+        });
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', loadResources);
+
+        // Dynamic plasma interaction
+        const plasmaBeams = document.querySelectorAll('.plasma-beam');
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            plasmaBeams.forEach((beam, index) => {
+                const speed = 1 + (index * 0.2);
+                const offset = (x - 0.5) * 100 * speed;
+                beam.style.transform = `translateX(${offset}px) scaleY(${1 + y})`;
+            });
+        });
+
+        // Core cell depth effect
+        const coreCells = document.querySelectorAll('.core-cell');
+        coreCells.forEach(cell => {
+            cell.addEventListener('mouseenter', () => {
+                coreCells.forEach(otherCell => {
+                    if (otherCell !== cell) {
+                        otherCell.style.opacity = '0.7';
+                        otherCell.style.filter = 'blur(1px)';
+                    }
+                });
+            });
+            cell.addEventListener('mouseleave', () => {
+                coreCells.forEach(otherCell => {
+                    otherCell.style.opacity = '1';
+                    otherCell.style.filter = 'none';
+                });
+            });
+        });
+
+        // Copy button functionality
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const codeSnippet = button.nextElementSibling;
+                const codeText = codeSnippet.textContent;
+
+                const textArea = document.createElement('textarea');
+                textArea.value = codeText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+
+</html>
